@@ -1,6 +1,7 @@
 import React from 'react';
 import './Header.css';
 
+
 const Header: React.FC = () => {
   return (
     <header className="header">
@@ -31,12 +32,9 @@ const Header: React.FC = () => {
             type="text" 
           />
         </div>
-
         <button className="login-button">Login</button>
-
-        </div>
-
-      </header>
+      </div>
+    </header>
   );
 };
 

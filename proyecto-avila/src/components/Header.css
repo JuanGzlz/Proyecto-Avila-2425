@@ -1,11 +1,18 @@
 .header {
+    height: 100px; /* Aumentar la altura del header */
+    width: 100%;
     background-color: #1d6363; 
     color: white; 
     padding: 1rem 0; 
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
 }
   
 
 .container {
+    height: 100px;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1.5rem;
@@ -107,3 +114,4 @@
 .login-button:hover {
     background-color: #f0f0f0; 
 }
+

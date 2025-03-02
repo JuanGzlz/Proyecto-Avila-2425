@@ -1,0 +1,181 @@
+/* HomePage.css */
+/* Estilos para la sección de la imagen con texto superpuesto */
+.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    text-align: center;
+    color: black;
+    
+}
+
+/* Estilos para la sección de texto y botones */
+.info-section {
+    background-color: #1d6363;
+    padding: 3rem 0; /* Padding vertical */
+    margin: 10px 0; /* Margen superior e inferior */
+    height: fit-content; /* Ajusta la altura al contenido */
+}
+
+.box-welcome {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    text-align: center;
+    color: black;
+    display: flex; /* Utiliza flexbox para alinear los elementos */
+    justify-content: space-between; /* Espacio entre los elementos */
+    align-items: center; /* Alinea los elementos horizontalmente */
+    gap: 1rem; /* Espacio entre los elementos */
+}
+
+
+.info-welcome{
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    text-align: left;
+    color: black;
+
+}
+
+.text-welcome{
+    font-size: 1rem;
+    font-weight: regular;
+    color: #000000;
+    width: 500px;
+}
+
+.info-container {
+    max-width: 1200px; /* Ancho máximo del contenido */
+    margin: 0 auto; /* Centrar el contenido */
+    text-align: center;
+    padding: 0 1rem; /* Padding horizontal */
+    background-color: #1d6363;
+    gap: 20px;   /* Espacio entre elementos */
+}
+
+.info-title-black {
+    font-size: 2rem; /* Tamaño del título */
+    font-weight: bold;
+    margin-bottom: 1.5rem; /* Margen inferior */
+}
+
+.info-title-white {
+    font-size: 2rem; /* Tamaño del título */
+    font-weight: bold;
+    margin-bottom: 1.5rem; /* Margen inferior */
+    color: white;
+}
+
+/* HomePage.css */
+
+/* Estilos para la sección de cuadros conectados */
+.box-info-cards {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-top: 2rem; /* Margen superior */
+    gap: 1rem; /* Espacio entre cuadros */
+}
+
+.info-card {
+    background-color: white; /* Fondo blanco */
+    border-radius: 1rem; /* Bordes redondeados */
+    padding: 1.5rem; /* Padding interno */
+    text-align: center;
+    width: 22%; /* Ancho de cada cuadro */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    position: relative;
+}
+
+.info-card::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -10%; /* Posición de la línea */
+    width: 20%; /* Longitud de la línea */
+    height: 2px; /* Grosor de la línea */
+    background-color: #1d6363; /* Color de la línea */
+    transform: translateY(-50%);
+}
+
+.info-card:first-child::before {
+    display: none; /* Ocultar la línea del primer cuadro */
+}
+
+.info-icon {
+    font-size: 2rem; /* Tamaño del ícono */
+    color: #1d6363; /* Color del ícono */
+    margin-bottom: 1rem; /* Margen inferior */
+}
+
+.info-card p {
+    color: #4a5568; /* Color del texto */
+    font-size: 1rem; /* Tamaño del texto */
+}
+
+.info-buttons {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0; /* Margen superior e inferior */
+    gap: 1rem; /* Espacio entre botones */
+}
+
+.info-button {
+    background-color: #ffffff; /* Color de fondo */
+    color: #1d6363; /* Color del texto */
+    padding: 0.75rem 1.5rem; /* Padding interno */
+    border: none;
+    border-radius: 0.375rem; /* Bordes redondeados */
+    font-size: 1rem; /* Tamaño del texto */
+    cursor: pointer;
+    transition: background-color 0.2s; /* Transición suave */
+}
+
+.info-button:hover {
+    background-color: #144848; /* Color al hacer hover */
+}
+
+/* Estilos para otras secciones (puedes agregar más según sea necesario) */
+.other-section {
+    background-color: #f7fafc; /* Color de fondo */
+    padding: 3rem 0; /* Padding vertical */
+}
+
+.other-container {
+    max-width: 1200px; /* Ancho máximo del contenido */
+    margin: 0 auto; /* Centrar el contenido */
+    padding: 0 1rem; /* Padding horizontal */
+}
+
+
+.hero-section {
+    position: relative; /* Contenedor relativo para que los elementos dentro puedan tener posicionamiento absoluto */
+    width: 100%;
+    height: fit-content; /* Asegura que ocupe toda la altura de la ventana */
+    margin: 0 auto;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta la imagen para que cubra el contenedor sin deformarse */
+}
+
+.hero-title {
+    position: absolute; /* Posiciona el texto sobre la imagen */
+    top: 50%; /* Centra verticalmente el texto */
+    left: 50%; /* Centra horizontalmente el texto */
+    transform: translate(-50%, -50%); /* Ajusta para que esté completamente centrado */
+    color: white;
+    background-color: rgba(80, 80, 80, 0.44); /* Fondo blanco para resaltar el texto */
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    width: 80%; /* Ajusta el tamaño del texto */
+    z-index: 2; /* Asegura que el texto esté por encima de la imagen */
+    border-radius: 20px; /* Bordes redondeados */
+}
+
+

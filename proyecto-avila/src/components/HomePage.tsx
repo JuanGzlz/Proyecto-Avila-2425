@@ -1,66 +1,68 @@
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import avilaImage from '../images/EL-AVILA-031.jpg';
+import './HomePage.css';
 
 const HomePage: React.FC = () => {
   return (
-    <div>
+    <div className='page-container'>
       <Header />
-      <section className="relative">
+      <section className="hero-section">
         <img
+          className='hero-image'
           alt="Vista del majestuoso Cerro El Ávila"
-          className="w-full h-64 object-cover"
-          height="400"
-          src=""
-          width="1200"
+          src={avilaImage}
         />
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <h1 className="text-white text-2xl md:text-4xl font-bold text-center">
-            Vive experiencias inigualables a través de visitas al majestuoso Cerro El Ávila
-          </h1>
-        </div>
+        <h2 className="hero-title">
+          Vive experiencias inigualables a través de visitas al majestuoso Cerro El Ávila
+        </h2>
       </section>
-      <section className="bg-white py-12">
-        <div className="container mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6">¡Conoce más sobre este patrimonio nacional!</h2>
-          <div className="flex flex-wrap justify-center">
-            <div className="w-full md:w-1/3 p-4">
-              <div className="bg-green-800 text-white p-6 rounded-lg">
-                <i className="fas fa-hiking text-4xl mb-4"></i>
-                <p>Regístrate y forma parte de los grupos en rutas.</p>
-              </div>
+      
+      <section className="info-section">
+        <div className="info-container">
+          <h2 className="info-title-white">¡Conoce más sobre este patrimonio nacional!</h2>
+
+          <div className="box-info-cards">
+            <div className="info-card">
+              <div className="info-icon">🚶‍♂️</div> {/* Ícono de muñeco */}
+              <p>Respira el aire fresco de la montaña.</p>
             </div>
-            <div className="w-full md:w-1/3 p-4">
-              <div className="bg-green-800 text-white p-6 rounded-lg">
-                <i className="fas fa-map-signs text-4xl mb-4"></i>
-                <p>Conoce más sobre las rutas disponibles. ¡Son para ti!</p>
-              </div>
+            <div className="info-card">
+              <div className="info-icon">🌄</div> {/* Ícono de montaña */}
+              <p>Disfruta de vistas que te dejarán sin aliento.</p>
             </div>
-            <div className="w-full md:w-1/3 p-4">
-              <div className="bg-green-800 text-white p-6 rounded-lg">
-                <i className="fas fa-mountain text-4xl mb-4"></i>
-                <p>¿Tienes experiencia? ¡Sé parte de los guías!</p>
-              </div>
+            <div className="info-card">
+              <div className="info-icon">🌿</div> {/* Ícono de naturaleza */}
+              <p>Cada sendero cuenta una historia.</p>
+            </div>
+            <div className="info-card">
+              <div className="info-icon">🕊️</div> {/* Ícono de paz */}
+              <p>Déjate sorprender por la biodiversidad y la paz.</p>
             </div>
           </div>
-          <div className="mt-6">
-            <button className="bg-green-800 text-white px-6 py-2 rounded-md mx-2">Ver más información</button>
-            <button className="bg-green-800 text-white px-6 py-2 rounded-md mx-2">Galería de fotos</button>
+
+
+          <div className="info-buttons">
+            <button className="info-button">Ver más información</button>
+            <button className="info-button">Galería de fotos</button>
           </div>
         </div>
       </section>
-      <section className="bg-gray-100 py-12">
-        <div className="container mx-auto flex flex-wrap items-center">
-          <div className="w-full md:w-1/2 p-4">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">Bienvenido a la experiencia definitiva...</h2>
-            <p className="text-gray-700 mb-4">
+
+      <section className="page-conteiner">
+
+        <div className="box-welcome">
+          <div className='info-welcome'>
+            <h2 className="info-title-black">Bienvenido a la experiencia definitiva...</h2>
+            <p className="text-welcome">
               Aquí, la naturaleza y la aventura se encuentran con la comodidad y la seguridad. Nuestras actividades están
               diseñadas para explorar los alrededores de Caracas y descubrir los tesoros naturales que este parque ofrece.
               Desde caminatas hasta paseos en teleférico, siempre encontrarás algo que hacer. ¡Te esperamos con los brazos
               abiertos, y estamos aquí para hacerte posible!
             </p>
           </div>
-          <div className="w-full md:w-1/2 p-4">
+          <div className="info-welcome">
             <img
               alt="Imagen de la experiencia"
               className="rounded-lg shadow-lg"
@@ -71,8 +73,8 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
-      <section className="bg-white py-12">
-        <div className="container mx-auto text-center">
+      <section className="page-conteiner">
+        <div className="">
           <h2 className="text-2xl md:text-3xl font-bold mb-6">¡Visita nuestras mejores actividades!</h2>
           <div className="flex flex-wrap justify-center">
             <div className="w-full md:w-1/3 p-4">
