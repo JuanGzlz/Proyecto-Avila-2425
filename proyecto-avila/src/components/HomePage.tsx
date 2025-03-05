@@ -6,6 +6,9 @@ import avilaImage2 from '../images/el avila 15.jpg';
 import avilaImage3 from '../images/el avila 16.jpg';
 import avilaImage4 from '../images/el avila 17.jpg';
 import avilaImage5 from '../images/el avila 18.jpg';
+import avilaImage6 from '../images/el avila 19.png';
+import avilaImage7 from '../images/el avila 20.png';
+import avilaImage8 from '../images/el avila 21.png';
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
@@ -91,59 +94,27 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-
-      <section className="bg-gray-100 py-12">
-        <div className="container mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-6">¿Tienes experiencia siendo guía? ¡Únete y sé uno!</h2>
-          <div className="flex flex-wrap justify-center">
-            <div className="w-full md:w-1/3 p-4">
-              <div className="relative">
-                <img
-                  alt="Tienes los equipos necesarios?"
-                  className="rounded-lg shadow-lg"
-                  height="200"
-                  src=""
-                  width="300"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                  <h3 className="text-white text-xl font-bold">¿Tienes los equipos necesarios?</h3>
-                </div>
-              </div>
-            </div>
-            <div className="w-full md:w-1/3 p-4">
-              <div className="relative">
-                <img
-                  alt="Conoces las rutas?"
-                  className="rounded-lg shadow-lg"
-                  height="200"
-                  src=""
-                  width="300"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                  <h3 className="text-white text-xl font-bold">¿Conoces las rutas?</h3>
-                </div>
-              </div>
-            </div>
-            <div className="w-full md:w-1/3 p-4">
-              <div className="relative">
-                <img
-                  alt="Sabes de auxilios médicos?"
-                  className="rounded-lg shadow-lg"
-                  height="200"
-                  src=""
-                  width="300"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                  <h3 className="text-white text-xl font-bold">¿Sabes de auxilios médicos?</h3>
-                </div>
-              </div>
-            </div>
+      <section className="page-conteiner">
+        <h2 className="info-title-white">¿Tienes experiencia siendo guía? ¡Únete y sé uno!</h2>
+        <div className="image-box">
+          <div className="image-container">
+            <img alt="Acampar" src={avilaImage7} />
+            <h3 className="image-text">¿Tienes los equipos necesarios?</h3>
           </div>
-          <div className="mt-6">
-            <button className="bg-green-800 text-white px-6 py-2 rounded-md">Enviar solicitud</button>
+          <div className="image-container">
+            <img alt="Subir Teleférico" src={avilaImage6} />
+            <h3 className="image-text">¿Conoces las rutas?</h3>
+          </div>
+          <div className="image-container">
+            <img alt="Sabas Nieves" src={avilaImage8} />
+            <h3 className="image-text">¿Sabes de auxilios médicos?</h3>
           </div>
         </div>
+        <div className="info-buttons">
+          <button className="verMas-button">Enviar solicitud</button>
+        </div>
       </section>
+
       <Footer />
     </div>
   );

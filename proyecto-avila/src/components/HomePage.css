@@ -200,17 +200,17 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     height: 250px;
     width: 300px;
+    filter: brightness(40%);
 }
 
 .image-text {
     position: absolute;
-    bottom: 125px; /* Ajusta la posición del texto */
+    bottom: 110px; /* Ajusta la posición del texto */
     left: 50%;
     transform: translateX(-50%);
     color: white;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
-    background: rgba(0, 0, 0, 0.6); /* Fondo oscuro para mejor legibilidad */
     padding: 5px 10px;
     border-radius: 10px;
 }
