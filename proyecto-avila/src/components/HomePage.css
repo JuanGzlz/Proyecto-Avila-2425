@@ -23,6 +23,7 @@
 .hero-title {
     position: absolute; /* Posiciona el texto sobre la imagen */
     top: 0; /* Ajusta la posición vertical a la parte superior */
+    margin-top: 10px;
     left: 70px; /* Ajusta la posición horizontal al borde izquierdo */
     transform: none; /* No se necesita ajustar para centrado */
     color: white;
@@ -106,6 +107,7 @@
   
 .info-buttons {
     margin-top: 30px;
+    margin-bottom: 30px;
     display: flex;
     justify-content: center;
 }

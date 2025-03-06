@@ -44,7 +44,6 @@ const HomePage: React.FC = () => {
             </div>
           </div>
 
-
           <div className="info-buttons">
             <button className="info-button">Ver más información</button>
             <button className="info-button">Galería de fotos</button>
