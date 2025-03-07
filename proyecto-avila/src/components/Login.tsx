@@ -8,7 +8,7 @@ const Login: React.FC = () => {
         <p className="text-center text-lg mb-4">¡Únete a nuestra familia!</p>
         <div className="flex justify-center mb-4">
           <div className="relative">
-            <img alt="name for profile picture" className="w-24 h-24 rounded-full border-2 border-gray-300" height="100" src="" width="100"/>
+            <img alt="name for profile picture" className="w-24 h-24 rounded-full border-2 border-gray-300" height="100" src="https://ichef.bbci.co.uk/ace/ws/640/cpsprodpb/15665/production/_107435678_perro1.jpg.webp" width="100"/>
             <div className="absolute inset-0 flex items-center justify-center">
               <i className="fas fa-camera text-gray-700"></i>
             </div>

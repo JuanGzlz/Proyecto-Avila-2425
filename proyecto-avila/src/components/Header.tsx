@@ -1,15 +1,25 @@
 import React from 'react';
 import './Header.css';
+import { useNavigate } from 'react-router-dom';
 
 
-const Header: React.FC = () => {
+const Header: React.FC = (
+
+) => {
+
+  const navigate = useNavigate();
+
+  const goToAbout = () => {
+    navigate('/login'); // Navega a la ruta "/about"
+  };
+
   return (
     <header className="header">
       <div className="container">
 
         <div className="logo-section">
           <div className="logo-oval">
-            <div className="logo-text">AVILA EXS</div>    
+            <div className="logo-text">AVILA EXS</div>
           </div>
         </div>
 
@@ -26,13 +36,15 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="search-section">
-          <input 
-            className="search-input" 
-            placeholder="Buscar..." 
-            type="text" 
+          <input
+            className="search-input"
+            placeholder="Buscar..."
+            type="text"
           />
         </div>
-        <button className="login-button">Login</button>
+        <button className="login-button"
+          onClick={goToAbout}
+        >Login</button>
       </div>
     </header>
   );
