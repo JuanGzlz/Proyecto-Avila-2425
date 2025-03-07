@@ -10,7 +10,7 @@ const Header: React.FC = (
   const navigate = useNavigate();
 
   const goToAbout = () => {
-    navigate('/login'); // Navega a la ruta "/about"
+    navigate('/login');
   };
 
   return (
