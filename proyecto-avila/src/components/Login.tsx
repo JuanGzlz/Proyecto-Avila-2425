@@ -1,6 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Login: React.FC = () => {
+const Login: React.FC = (
+
+) => {
+
+  const navigate = useNavigate();
+
+  const goToAbout = () => {
+    navigate('/register');
+  };
+
   return (
     <div className="w-full bg-gray-100 flex items-center justify-center min-h-screen">
       <div className="w-full bg-white rounded-lg shadow-lg p-8 border border-gray-400 text-black">
@@ -27,6 +37,9 @@ const Login: React.FC = () => {
             </button>
           </div>
         </form>
+        <p className="text-center mt-4">
+          ¿No tienes una cuenta? <button className="text-green-600 hover:underline" onClick={goToAbout}>Regístrate</button>
+        </p>
       </div>
     </div>
   );
