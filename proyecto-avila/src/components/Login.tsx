@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import GoogleAuth from './GoogleAuth';
 
 const Login: React.FC = (
 
@@ -43,6 +44,10 @@ const Login: React.FC = (
             </button>
           </div>
         </form>
+        <div className="App">
+          <GoogleAuth /> {/* Usa el componente de autenticación */}
+       </div>
+
         <p className="text-center mt-4">
           ¿No tienes una cuenta? <button className="text-green-600 hover:underline" onClick={goToAbout}>Regístrate</button>
         </p>
