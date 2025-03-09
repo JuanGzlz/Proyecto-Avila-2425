@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import GoogleAuth from './GoogleAuthRegister';
+import avilaImage11 from '../images/imagen foto perfil.png';
 
 const Register: React.FC = () => {
 
@@ -24,7 +25,7 @@ const Register: React.FC = () => {
         <p className="text-center text-lg mb-4">¡Únete a nuestra familia!</p>
         <div className="flex justify-center mb-4">
           <div className="relative">
-            <img alt="name for profile picture" className="w-24 h-24 rounded-full border-2 border-gray-300" height="100" src="" width="100"/>
+            <img alt="name for profile picture" className="w-24 h-24 rounded-full border-2 border-gray-300" height="100" src={avilaImage11} width="100"/>
             <div className="absolute inset-0 flex items-center justify-center">
               <i className="fas fa-camera text-gray-700"></i>
             </div>
@@ -61,7 +62,9 @@ const Register: React.FC = () => {
             </button>
           </div>
           <div className="flex justify-center mt-4">
-          <GoogleAuth onLoginSuccess={handleGoogleLoginSuccess} />
+            <div className="w-full">
+              <GoogleAuth onLoginSuccess={handleGoogleLoginSuccess} />
+            </div>
         </div>
         </form>
       </div>
