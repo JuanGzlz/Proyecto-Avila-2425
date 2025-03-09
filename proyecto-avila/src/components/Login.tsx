@@ -18,7 +18,7 @@ const Login: React.FC = (
       <div className="w-full bg-white rounded-lg shadow-lg p-8 border border-gray-400 text-black">
       <button 
           onClick={() => navigate(-1)} 
-          className="absolute left-4 top-4 text-white"
+          className="absolute left-4 top-4 text-gray-100 bg-gray-800 px-3 py-1 rounded-full hover:bg-gray-900"
         >
           ← Volver
         </button>
@@ -37,11 +37,11 @@ const Login: React.FC = (
             <input className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="Correo electrónico" type="email" placeholder="Correo electrónico"/>
           </div>
           <div className="mb-4">
-            <input className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="Contraseña" type="password" placeholder="contraseña"/>
+            <input className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="Contraseña" type="password" placeholder="Contraseña"/>
           </div>
           <div className="flex justify-center">
-            <button className="w-full bg-green-600 text-white py-2 rounded-full hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-700" type="submit">
-              Log in
+            <button className="w-full bg-gray-800 text-gray-100 py-2 rounded-full hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700" type="submit">
+              Log In
             </button>
           </div>
         </form>

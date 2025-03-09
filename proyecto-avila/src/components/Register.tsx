@@ -17,7 +17,7 @@ const Register: React.FC = () => {
       <div className="w-full bg-white rounded-lg shadow-lg p-8 border border-gray-400 text-black">
       <button 
           onClick={() => navigate(-1)} 
-          className="absolute left-4 top-4 bg-black text-white font-bold px-4 py-2 rounded-md hover:bg-gray-800"
+          className="absolute left-4 top-4 text-gray-100 bg-gray-800 px-3 py-1 rounded-full hover:bg-gray-900"
         >
           ← Volver
         </button>
@@ -57,7 +57,7 @@ const Register: React.FC = () => {
             <textarea className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700" name="Habla sobre tus habilidades, experiencias y el por qué deberías ser un guía aquí..." placeholder="Habla sobre tus habilidades, experiencias y el por qué deberías ser un guía aquí..."></textarea>
           </div>
           <div className="flex justify-center">
-            <button className="w-full bg-green-600 text-white py-2 rounded-full hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-700" type="submit">
+            <button className="w-full bg-gray-800 text-gray-100 py-2 rounded-full hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700" type="submit">
               Registrarse
             </button>
           </div>
