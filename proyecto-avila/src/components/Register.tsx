@@ -1,9 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import GoogleAuth from './GoogleAuthRegister';
 
 const Register: React.FC = () => {
 
   const navigate = useNavigate();
+
+  const handleGoogleLoginSuccess = (response: any) => {
+    console.log('Login Success:', response);
+    navigate("/");
+  };
 
   return (
     <div className="w-full bg-gray-100 flex items-center justify-center min-h-screen">
@@ -54,6 +60,9 @@ const Register: React.FC = () => {
               Registrarse
             </button>
           </div>
+          <div className="flex justify-center mt-4">
+          <GoogleAuth onLoginSuccess={handleGoogleLoginSuccess} />
+        </div>
         </form>
       </div>
     </div>

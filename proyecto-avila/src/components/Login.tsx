@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import GoogleAuth from './GoogleAuth';
+import GoogleAuth from './GoogleAuthLogin';
 
 const Login: React.FC = (
 
