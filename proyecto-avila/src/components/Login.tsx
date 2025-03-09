@@ -13,9 +13,13 @@ const Login: React.FC = (
 
   return (
     <div className="w-full bg-gray-100 flex-col items-center justify-center min-h-screen">
-      
-      
       <div className="w-full bg-white rounded-lg shadow-lg p-8 border border-gray-400 text-black">
+      <button 
+          onClick={() => navigate(-1)} 
+          className="absolute left-4 top-4 bg-gray-100 text-white font-bold px-4 py-2 rounded-md hover:bg-gray-800"
+        >
+          ← Volver
+        </button>
         <h1 className="text-center text-2xl font-bold mb-2">AVILA EXS</h1>
         <p className="text-center text-lg mb-4">¡Únete a nuestra familia!</p>
         <div className="flex justify-center mb-4">
@@ -43,7 +47,6 @@ const Login: React.FC = (
           ¿No tienes una cuenta? <button className="text-green-600 hover:underline" onClick={goToAbout}>Regístrate</button>
         </p>
       </div>
-      <div className ="w-full bg-gray-100items-start"><button className = "w-full bg-green-600 text-white py-2 rounded-full hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-700">Retroceder</button></div>
     </div>
   );
 } 
