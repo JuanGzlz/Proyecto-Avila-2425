@@ -2,6 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import GoogleAuth from './GoogleAuthRegister';
 import avilaImage11 from '../images/imagen foto perfil.png';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { app } from '../credentials';
+import { useState } from 'react';
+
+const auth = getAuth(app);
 
 const Register: React.FC = () => {
 
@@ -11,6 +16,18 @@ const Register: React.FC = () => {
     console.log('Login Success:', response);
     navigate("/");
   };
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const nombreRegistrado= await createUserWithEmailAndPassword(auth, email, password)
+
+    console.log(nombreRegistrado);
+
+  }
 
   return (
     <div className="w-full bg-gray-100 flex items-center justify-center min-h-screen">
@@ -31,9 +48,9 @@ const Register: React.FC = () => {
             </div>
           </div>
         </div>
-        <form className="space-y-4">
+        <form onSubmit={handleRegister} className="space-y-4">
           <div className="mb-4">
-            <input className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="Nombre" type="text" placeholder="Nombre"/>
+            <input value={name} onChange={(e)=> setName(e.target.value)} className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="name" type="text" placeholder="Nombre"/>
           </div>
           <div className="mb-4">
             <input className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="Apellido" type="text" placeholder="Apellido"/>
@@ -42,13 +59,13 @@ const Register: React.FC = () => {
             <input className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="Edad" type="text" placeholder="Edad"/>
           </div>
           <div className="mb-4">
-            <input className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="Correo electrónico" type="email" placeholder="Correo electrónico"/>
+            <input value={email} onChange={(e)=> setEmail(e.target.value)} className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="email" type="email" placeholder="Correo electrónico"/>
           </div>
           <div className="mb-4">
             <input className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="Número telefónico" type="tel" placeholder="Número telefónico"/>
           </div>
           <div className="mb-4">
-            <input className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="Nueva contraseña" type="password" placeholder="Nueva contraseña"/>
+            <input value={password} onChange={(e)=> setPassword(e.target.value)} className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="password" type="password" placeholder="Nueva contraseña"/>
           </div>
           <div className="mb-4">
             <input className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="Confirmar contraseña" type="password" placeholder="Confirmar contraseña"/>
