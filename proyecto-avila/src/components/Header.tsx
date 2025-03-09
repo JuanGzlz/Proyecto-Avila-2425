@@ -44,7 +44,7 @@ const Header: React.FC = (
         </div>
         <button className="login-button"
           onClick={goToAbout}
-        >Login</button>
+        >Log In</button>
       </div>
     </header>
   );
