@@ -75,6 +75,7 @@ const VentanaActividades: React.FC = () => {
 
     const navigate = useNavigate();
 
+
     return (
         <div className='page-container'>
             <HeaderVentanas />
@@ -101,7 +102,7 @@ const VentanaActividades: React.FC = () => {
             {actividades.map((excursion, index) => (
                 <div key={index} className="excursion-card">
                     <div className="images-grid">
-                        {/*excursion.imagenes.slice(0, 3).map((img, i) => (
+                        {/*excursion.imagen.slice(0, 3).map((img, i) => (
                             <img key={i} src={img} alt="Excursion" className="excursion-img" />
                         ))*/}
                         <img src={avilaImage8} alt="" className="excursion-img"/>
