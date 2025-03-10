@@ -1,6 +1,10 @@
 import React from 'react';
 import "./Footer.css"; 
 import avilaLogo from '../images/logo.jpeg'; 
+import facebookLogo from '../images/facebook.jpg'; 
+import instagramLogo from '../images/instagram.jpg'; 
+import youtubeLogo from '../images/youtube.jpg'; 
+
 
 const Footer: React.FC = () => {
   return (
@@ -19,15 +23,15 @@ const Footer: React.FC = () => {
 
           <div className="social-section">
             <div className="social-item">
-              <img src="instagram-icon.png" alt="Instagram" className="social-icon" />
+              <img src={instagramLogo} alt="Instagram" className="social-icon" />
               <p>@avilaexcursionsunimet</p>
             </div>
             <div className="social-item">
-              <img src="facebook-icon.png" alt="Facebook" className="social-icon" />
+              <img src={facebookLogo} alt="Facebook" className="social-icon" />
               <p>@AvilaExsUnimet</p>
             </div>
             <div className="social-item">
-              <img src="twitter-icon.png" alt="Twitter" className="social-icon" />
+              <img src={youtubeLogo} alt="YouTube" className="social-icon" />
               <p>@AvilaExsUnimet</p>
             </div>
           </div>

@@ -81,9 +81,9 @@ const VentanaActividades: React.FC = () => {
                 <h2 className="info-title-white">¡Descubre todas las excursiones que tenemos disponibles!</h2>
             </section>
             
-            <div className="info-buttons">
+            <div className="info-buttons2">
                 <input
-                    className="search-input"
+                    className="search-input2"
                     placeholder="Buscar..."
                     type="text"
                 />
