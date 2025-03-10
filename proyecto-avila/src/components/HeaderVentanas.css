@@ -1,0 +1,87 @@
+.header2 {
+    height: 100px; /* Aumentar la altura del header */
+    width: 100%;
+    background-color: white; 
+    color: white; 
+    padding: 1rem 0; 
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+  
+
+
+.container2 {
+    height: 100px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+}
+  
+  
+
+.logo-oval2 {
+    background-color: #1d6363; 
+    border-radius: 2rem; 
+    padding: 0.5rem 1rem; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+  
+  
+.logo-text2 {
+    font-family: 'KyivType Sans', sans-serif; 
+    font-size: 1.25rem; 
+    font-weight: bold; 
+    color: white;
+    margin-left: 0.5rem; 
+}
+  
+  
+.nav2 {
+    display: flex;
+    align-items: center;
+    background-color: rgba(81, 81, 81, 0.44);    
+    border-radius: 2rem; 
+    padding: 0.5rem 1rem; 
+}
+   
+
+.nav-link2 {
+    color: black; 
+    text-decoration: none; 
+    margin: 0 0.5rem; 
+    font-weight: 500; 
+    padding: 0.5rem 1rem; 
+    border-radius: 2rem; 
+}
+
+.nav-link2.active {
+    background-color: #1d6363; 
+    color: white; 
+}
+
+.nav-link2:hover {
+    background-color: white; 
+    color: black; /* Color del texto al hacer hover */
+}
+
+.login-button2 {
+    background-color: #1d6363; 
+    color: white; 
+    padding: 0.5rem 1rem; 
+    border: none; 
+    border-radius: 2rem; 
+    cursor: pointer; 
+    font-weight: 500; 
+}
+
+.login-button2:hover {
+    background-color: #515151; 
+    color: black;
+}
