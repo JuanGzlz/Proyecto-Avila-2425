@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Register from './components/Register';
 import Login from './components/Login';
+import VentanaActividades from './components/VentanaActividades';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/ventana-actividades" element={<VentanaActividades />} />
         </Routes>
       </div>
     </BrowserRouter>
