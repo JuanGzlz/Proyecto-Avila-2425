@@ -12,6 +12,10 @@ const Register: React.FC = () => {
 
   const navigate = useNavigate();
 
+  const goToAbout = () => {
+    navigate('/login');
+  };
+
   const handleGoogleLoginSuccess = (response: any) => {
     console.log('Login Success:', response);
     navigate("/");
@@ -23,9 +27,22 @@ const Register: React.FC = () => {
   
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    const nombreRegistrado= await createUserWithEmailAndPassword(auth, email, password)
+    try {
 
-    console.log(nombreRegistrado);
+      const nombreRegistrado= await createUserWithEmailAndPassword(auth, email, password)
+
+      console.log(nombreRegistrado.user.email)
+
+      setName("")
+      setEmail("")
+      setPassword("")
+      navigate("/")
+
+    } catch (error) {
+
+      console.log(error)
+    
+    }
 
   }
 
@@ -78,12 +95,15 @@ const Register: React.FC = () => {
               Registrarse
             </button>
           </div>
-          <div className="flex justify-center mt-4">
+        </form>
+        <div className="flex justify-center mt-4">
             <div className="w-full">
               <GoogleAuth onLoginSuccess={handleGoogleLoginSuccess} />
             </div>
         </div>
-        </form>
+        <p className="text-center mt-4">
+          ¿Ya tienes cuenta? <span className="text-green-600 hover:underline" onClick={goToAbout}>Log In</span>
+        </p>
       </div>
     </div>
   );

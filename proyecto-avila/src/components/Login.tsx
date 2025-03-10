@@ -2,6 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import GoogleAuth from './GoogleAuthLogin';
 import avilaImage10 from '../images/imagen foto perfil.png';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { app } from '../credentials';
+import { useState } from 'react';
+
+const auth = getAuth(app);
 
 const Login: React.FC = (
 
@@ -12,6 +17,27 @@ const Login: React.FC = (
   const goToAbout = () => {
     navigate('/register');
   };
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+
+      const user = await signInWithEmailAndPassword(auth, email, password)
+
+      console.log(user.user.uid)
+      console.log(user.user.email)
+      navigate("/")
+
+    } catch (error) {
+
+      console.log(error)
+    
+    }
+
+  }
 
   return (
     <div className="w-full bg-gray-100 flex-col items-center justify-center min-h-screen">
@@ -32,12 +58,12 @@ const Login: React.FC = (
             </div>
           </div>
         </div>
-        <form className="space-y-4">
+        <form onSubmit={handleLogin} className="space-y-4">
           <div className="mb-4">
-            <input className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="Correo electrónico" type="email" placeholder="Correo electrónico"/>
+            <input value={email} onChange={(e)=> setEmail(e.target.value)} className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="email" type="email" placeholder="Correo electrónico"/>
           </div>
           <div className="mb-4">
-            <input className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="Contraseña" type="password" placeholder="Contraseña"/>
+            <input value={password} onChange={(e)=> setPassword(e.target.value)} className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="password" type="password" placeholder="Contraseña"/>
           </div>
           <div className="flex justify-center">
             <button className="w-full bg-gray-800 text-gray-100 py-2 rounded-full hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700" type="submit">
