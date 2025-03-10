@@ -1,39 +1,50 @@
 import React from 'react';
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode'; // Importación corregida
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { app } from '../credentials'; 
 
-const clientId = '530496276357-1h00pg7c533c6khrt85av8tvk4h3jk9m.apps.googleusercontent.com'; // Reemplaza con tu Client ID de Google
+const db = getFirestore(app);
 
-interface DecodedToken {
-  name: string;
-  email: string;
-  // Agrega otras propiedades que esperes del token
+interface GoogleAuthLoginProps {
+  onSuccess: () => void;
 }
 
-const GoogleAuth: React.FC = () => {
-  const onSuccess = (credentialResponse: any) => {
-    const decoded: DecodedToken = jwtDecode(credentialResponse.credential); // Usa jwtDecode
-    console.log('Login Success:', decoded);
-    console.log('Success:');
+const GoogleAuthLogin: React.FC<GoogleAuthLoginProps> = ({ onSuccess }) => {
+  const handleGoogleLogin = async () => {
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
 
-    // Aquí puedes manejar la respuesta, como enviar el token a tu backend
-    // Por ejemplo, puedes guardar la información del usuario en el estado o en un contexto
-  };
+      // Guarda los datos del usuario en Firestore
+      await setDoc(doc(db, 'users', user.uid), {
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+      });
 
-  const onError = () => {
-    console.log('Login Failed');
-    console.log('no entro');
-    // Aquí puedes manejar el error, como mostrar un mensaje al usuario
+      console.log('Usuario autenticado y datos guardados en Firestore:', user.uid);
+      onSuccess(); // Llamar a la función de éxito
+
+    } catch (error) {
+      console.error('Error durante la autenticación:', error);
+    }
   };
 
   return (
-    <GoogleOAuthProvider clientId={clientId}>
-      <GoogleLogin
-        onSuccess={onSuccess}
-        onError={onError}
-      />
-    </GoogleOAuthProvider>
+    <button 
+      onClick={handleGoogleLogin} 
+      className="w-full text-gray-100 !bg-red-500 px-3 py-1 rounded-full hover:!bg-red-600"
+    >
+      Iniciar sesión con Google
+    </button>
   );
 };
 
-export default GoogleAuth;
+export default GoogleAuthLogin;
+
+
+

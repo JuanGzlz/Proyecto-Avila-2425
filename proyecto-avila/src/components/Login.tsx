@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import GoogleAuth from './GoogleAuthLogin';
+import GoogleAuthLogin from './GoogleAuthLogin'; 
 import avilaImage10 from '../images/imagen foto perfil.png';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { app } from '../credentials';
@@ -8,36 +8,28 @@ import { useState } from 'react';
 
 const auth = getAuth(app);
 
-const Login: React.FC = (
-
-) => {
+const Login: React.FC = () => {
 
   const navigate = useNavigate();
 
   const goToAbout = () => {
-    navigate('/register');
+    navigate('/');
   };
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-
-      const user = await signInWithEmailAndPassword(auth, email, password)
-
-      console.log(user.user.uid)
-      console.log(user.user.email)
-      navigate("/")
-
+      const user = await signInWithEmailAndPassword(auth, email, password);
+      console.log(user.user.uid);
+      console.log(user.user.email);
+      navigate("/");
     } catch (error) {
-
-      console.log(error)
-    
+      console.log(error);
     }
-
-  }
+  };
 
   return (
     <div className="w-full bg-gray-100 flex-col items-center justify-center min-h-screen">
@@ -60,10 +52,10 @@ const handleLogin = async (e: React.FormEvent) => {
         </div>
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="mb-4">
-            <input value={email} onChange={(e)=> setEmail(e.target.value)} className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="email" type="email" placeholder="Correo electrónico"/>
+            <input value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="email" type="email" placeholder="Correo electrónico"/>
           </div>
           <div className="mb-4">
-            <input value={password} onChange={(e)=> setPassword(e.target.value)} className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="password" type="password" placeholder="Contraseña"/>
+            <input value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="password" type="password" placeholder="Contraseña"/>
           </div>
           <div className="flex justify-center">
             <button className="w-full text-gray-100 !bg-gray-800 px-3 py-1 rounded-full hover:!bg-gray-900" type="submit">
@@ -73,7 +65,7 @@ const handleLogin = async (e: React.FormEvent) => {
         </form>
         <div className="flex justify-center mt-4 mb-4">
           <div className="w-full">
-            <GoogleAuth />
+            <GoogleAuthLogin onSuccess={() => navigate("/")} />
           </div>
         </div>
         <p className="text-center mt-4">
@@ -82,6 +74,6 @@ const handleLogin = async (e: React.FormEvent) => {
       </div>
     </div>
   );
-} 
+};
 
 export default Login;
