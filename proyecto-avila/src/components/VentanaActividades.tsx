@@ -1,12 +1,12 @@
 import HeaderVentanas from './HeaderVentanas';
 import './VentanaActividades.css';
-
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../credentials";
-
+import { app } from '../credentials';
+import { getFirestore } from 'firebase/firestore';
 import avilaImage8 from '../images/el avila 21.png';
 
+const db = getFirestore(app);
 type Actividad = {
     id: string;
     Guia: string;

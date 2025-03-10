@@ -22,7 +22,7 @@ const HomePage: React.FC = () => {
           src={avilaImage}
         />
         <h2 className="hero-title">
-          Vive experiencias inigualables a través de visitas al majestuoso Cerro El Ávila!
+          ¡Vive experiencias inigualables a través de visitas al majestuoso Cerro El Ávila!
         </h2>
       </section>
       
