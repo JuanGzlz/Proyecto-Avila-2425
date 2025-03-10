@@ -27,9 +27,9 @@ const Header: React.FC = (
           <a className="nav-link" href="#">
             Principal
           </a>
-          <a className="nav-link" href="#">
+          <button className="nav-link !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-4 py-2 rounded transition" onClick = {() => navigate('/ventana-actividades')}>
             Actividades
-          </a>
+          </button>
           <a className="nav-link" href="#">
             Usuario
           </a>
