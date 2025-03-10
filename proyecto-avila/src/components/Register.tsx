@@ -5,7 +5,9 @@ import avilaImage11 from '../images/imagen foto perfil.png';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { app } from '../credentials';
 import { useState } from 'react';
+import { getFirestore, setDoc, doc } from 'firebase/firestore';
 
+const db = getFirestore(app);
 const auth = getAuth(app);
 
 const Register: React.FC = () => {
@@ -33,6 +35,12 @@ const Register: React.FC = () => {
 
       console.log(nombreRegistrado.user.email)
 
+      await setDoc( doc(db, 'users', nombreRegistrado.user.uid), {
+        nombre: name,
+        email: email,
+        uid: nombreRegistrado.user.uid,
+        fechaCreacion: new Date()
+      });
       setName("")
       setEmail("")
       setPassword("")
