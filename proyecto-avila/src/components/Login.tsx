@@ -13,7 +13,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const goToAbout = () => {
-    navigate('/');
+    navigate('/register');
   };
 
   const [email, setEmail] = useState('');
