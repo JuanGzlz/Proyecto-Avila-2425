@@ -57,11 +57,10 @@ const Register: React.FC = () => {
   return (
     <div className="w-full bg-gray-100 flex items-center justify-center min-h-screen">
       <div className="w-7/10 m-auto bg-white rounded-lg shadow-lg p-8 border border-gray-400 text-black">
-      <button 
+        <button 
           onClick={() => navigate(-1)} 
-          className="absolute left-4 top-4 text-gray-100 bg-gray-800 px-3 py-1 rounded-full hover:bg-gray-900"
-        >
-          ← Volver
+          className="absolute left-4 top-4 text-gray-100 !bg-gray-800 px-3 py-1 rounded-full hover:!bg-gray-900">
+            ← Volver
         </button>
         <h1 className="text-center text-2xl font-bold mb-2">AVILA EXS</h1>
         <p className="text-center text-lg mb-4">¡Únete a nuestra familia!</p>
@@ -99,7 +98,7 @@ const Register: React.FC = () => {
             <textarea className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700" name="Habla sobre tus habilidades, experiencias y el por qué deberías ser un guía aquí..." placeholder="Habla sobre tus habilidades, experiencias y el por qué deberías ser un guía aquí..."></textarea>
           </div>
           <div className="flex justify-center">
-            <button className="w-full bg-gray-800 text-gray-100 py-2 rounded-full hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700" type="submit">
+            <button className="w-full !bg-gray-800 text-gray-100 py-2 rounded-full hover:!bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700" type="submit">
               Registrarse
             </button>
           </div>
