@@ -5,6 +5,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { app } from '../credentials';
 import { getFirestore } from 'firebase/firestore';
 import avilaImage8 from '../images/el avila 21.png';
+import { useNavigate } from 'react-router-dom';
 
 const db = getFirestore(app);
 type Actividad = {
@@ -72,11 +73,19 @@ const VentanaActividades: React.FC = () => {
         fetchData();
     }, []);
 
+    const navigate = useNavigate();
 
     return (
         <div className='page-container'>
             <HeaderVentanas />
             
+            <button 
+                onClick={() => navigate(-1)} 
+                className="absolute left-4 top-4 text-gray-100 !bg-gray-800 px-3 py-1 rounded-full hover:!bg-gray-900"
+                >
+                ← Volver
+            </button>
+
             <section>
                 <h2 className="info-title-white">¡Descubre todas las excursiones que tenemos disponibles!</h2>
             </section>
