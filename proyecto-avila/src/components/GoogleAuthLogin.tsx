@@ -14,7 +14,7 @@ const GoogleAuth: React.FC = () => {
   const onSuccess = (credentialResponse: any) => {
     const decoded: DecodedToken = jwtDecode(credentialResponse.credential); // Usa jwtDecode
     console.log('Login Success:', decoded);
-    console.log('fabiana Success:');
+    console.log('Success:');
 
     // Aquí puedes manejar la respuesta, como enviar el token a tu backend
     // Por ejemplo, puedes guardar la información del usuario en el estado o en un contexto

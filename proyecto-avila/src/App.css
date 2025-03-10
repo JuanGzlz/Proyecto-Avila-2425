@@ -5,8 +5,11 @@
   background-color: white;
   text-align: center;
   color: black; /* Added this line to set text color to black */
-  display: flex;
   justify-content: center;
   align-items: center;
+  display: flex;
 }
 
+.App {
+  width: 100%;
+}

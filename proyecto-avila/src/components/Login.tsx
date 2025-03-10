@@ -1,6 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import GoogleAuth from './GoogleAuth';
+import GoogleAuth from './GoogleAuthLogin';
+import avilaImage10 from '../images/imagen foto perfil.png';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { app } from '../credentials';
+import { useState } from 'react';
+
+const auth = getAuth(app);
 
 const Login: React.FC = (
 
@@ -12,12 +18,33 @@ const Login: React.FC = (
     navigate('/register');
   };
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+
+      const user = await signInWithEmailAndPassword(auth, email, password)
+
+      console.log(user.user.uid)
+      console.log(user.user.email)
+      navigate("/")
+
+    } catch (error) {
+
+      console.log(error)
+    
+    }
+
+  }
+
   return (
     <div className="w-full bg-gray-100 flex-col items-center justify-center min-h-screen">
-      <div className="w-full bg-white rounded-lg shadow-lg p-8 border border-gray-400 text-black">
-      <button 
+      <div className="w-7/10 m-auto bg-white rounded-lg shadow-lg p-8 border border-gray-400 text-black">
+        <button 
           onClick={() => navigate(-1)} 
-          className="absolute left-4 top-4 bg-gray-100 text-white font-bold px-4 py-2 rounded-md hover:bg-gray-800"
+          className="absolute left-4 top-4 text-gray-100 !bg-gray-800 px-3 py-1 rounded-full hover:!bg-gray-900"
         >
           ← Volver
         </button>
@@ -25,31 +52,32 @@ const Login: React.FC = (
         <p className="text-center text-lg mb-4">¡Únete a nuestra familia!</p>
         <div className="flex justify-center mb-4">
           <div className="relative">
-            <img alt="name for profile picture" className="w-24 h-24 rounded-full border-2 border-gray-300" height="100" src="" width="100"/>
+            <img alt="name for profile picture" className="w-24 h-24 rounded-full border-2 border-gray-300" height="100" src={avilaImage10} width="100"/>
             <div className="absolute inset-0 flex items-center justify-center">
               <i className="fas fa-camera text-gray-700"></i>
             </div>
           </div>
         </div>
-        <form className="space-y-4">
+        <form onSubmit={handleLogin} className="space-y-4">
           <div className="mb-4">
-            <input className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="Correo electrónico" type="email" placeholder="Correo electrónico"/>
+            <input value={email} onChange={(e)=> setEmail(e.target.value)} className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="email" type="email" placeholder="Correo electrónico"/>
           </div>
           <div className="mb-4">
-            <input className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="Contraseña" type="password" placeholder="contraseña"/>
+            <input value={password} onChange={(e)=> setPassword(e.target.value)} className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="password" type="password" placeholder="Contraseña"/>
           </div>
           <div className="flex justify-center">
-            <button className="w-full bg-green-600 text-white py-2 rounded-full hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-700" type="submit">
-              Log in
+            <button className="w-full text-gray-100 !bg-gray-800 px-3 py-1 rounded-full hover:!bg-gray-900" type="submit">
+              Log In
             </button>
           </div>
         </form>
-        <div className="App">
-          <GoogleAuth /> {/* Usa el componente de autenticación */}
-       </div>
-
+        <div className="flex justify-center mt-4 mb-4">
+          <div className="w-full">
+            <GoogleAuth />
+          </div>
+        </div>
         <p className="text-center mt-4">
-          ¿No tienes una cuenta? <button className="text-green-600 hover:underline" onClick={goToAbout}>Regístrate</button>
+          ¿No tienes una cuenta? <span className="text-green-600 hover:underline" onClick={goToAbout}>Regístrate</span>
         </p>
       </div>
     </div>
