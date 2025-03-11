@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+#root {
+  width: 100%;
+  background-color: white;
+  text-align: center;
+  color: black; /* Added this line to set text color to black */
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.App {
+  width: 100%;
+}
