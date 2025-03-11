@@ -25,22 +25,35 @@ const Register: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [age, setAge] = useState<string>(''); // Estado para la edad
-  const [passwordError, setPasswordError] = useState<string | null>(null); // Estado para el mensaje de error de la contraseña
-  const [ageError, setAgeError] = useState<string | null>(null); // Estado para el mensaje de error de la edad
+  const [confirmPassword, setConfirmPassword] = useState(''); //Estado para confirmar contraseña
+  const [age, setAge] = useState<string>(''); //Estado para la edad
+  const [passwordError, setPasswordError] = useState<string | null>(null); //Estado para el mensaje de error de la contraseña
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null); //Estado para el mensaje de error de confirmación de contraseña
+  const [ageError, setAgeError] = useState<string | null>(null); //Estado para el mensaje de error de la edad
 
-  // Función para validar la contraseña
-  const validatePassword = (password: string): boolean => {
+  //Función para validar la contraseña
+  const validarPassword = (password: string): boolean => {
     if (password.length < 6) {
       setPasswordError("La contraseña debe tener al menos 6 caracteres.");
       return false;
     } else {
-      setPasswordError(null); // Limpiar el mensaje de error si la contraseña es válida
+      setPasswordError(null); //Limpiar el mensaje de error si la contraseña es válida
       return true;
     }
   };
 
-  // Función para validar la edad
+  //Función para validar la confirmación de contraseña
+  const validarConfirmarPassword = (confirmPassword: string): boolean => {
+    if (confirmPassword !== password) {
+      setConfirmPasswordError("Las contraseñas no coinciden.");
+      return false;
+    } else {
+      setConfirmPasswordError(null); //Limpiar el mensaje de error si las contraseñas coinciden
+      return true;
+    }
+  };
+
+  //Función para validar la edad
   const validarEdad = (age: string): boolean => {
     const ageNumber = parseInt(age, 10);
     if (isNaN(ageNumber)) {
@@ -50,7 +63,7 @@ const Register: React.FC = () => {
       setAgeError("La edad ingresada debe ser mayor que 18 y menor a 100.");
       return false;
     } else {
-      setAgeError(null); // Limpiar el mensaje de error si la edad es válida
+      setAgeError(null); //Limpiar el mensaje de error si la edad es válida
       return true;
     }
   };
@@ -58,14 +71,19 @@ const Register: React.FC = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validar la contraseña antes de continuar
-    if (!validatePassword(password)) {
-      return; // Detener el proceso si la contraseña no es válida
+    //Validar la contraseña antes de continuar
+    if (!validarPassword(password)) {
+      return; //Detener el proceso si la contraseña no es válida
     }
 
-    // Validar la edad antes de continuar
+    //Validar la confirmación de contraseña antes de continuar
+    if (!validarConfirmarPassword(confirmPassword)) {
+      return; //Detener el proceso si las contraseñas no coinciden
+    }
+
+    //Validar la edad antes de continuar
     if (!validarEdad(age)) {
-      return; // Detener el proceso si la edad no es válida
+      return; //Detener el proceso si la edad no es válida
     }
 
     try {
@@ -75,7 +93,7 @@ const Register: React.FC = () => {
       await setDoc(doc(db, 'users', nombreRegistrado.user.uid), {
         nombre: name,
         email: email,
-        edad: parseInt(age, 10), // Guardar la edad como número
+        edad: parseInt(age, 10), //Guardar la edad como número
         uid: nombreRegistrado.user.uid,
         fechaCreacion: new Date(),
       });
@@ -83,6 +101,7 @@ const Register: React.FC = () => {
       setName("");
       setEmail("");
       setPassword("");
+      setConfirmPassword("");
       setAge("");
       navigate("/");
     } catch (error) {
@@ -139,7 +158,7 @@ const Register: React.FC = () => {
               value={age}
               onChange={(e) => {
                 setAge(e.target.value);
-                validarEdad(e.target.value); //Buscamos validar la edad ingresada
+                validarEdad(e.target.value); 
               }}
               className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700"
               name="Edad"
@@ -173,7 +192,7 @@ const Register: React.FC = () => {
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                validatePassword(e.target.value); // Validar la contraseña en tiempo real
+                validarPassword(e.target.value); // Validar la contraseña en tiempo real
               }}
               className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700"
               name="password"
@@ -186,11 +205,19 @@ const Register: React.FC = () => {
           </div>
           <div className="mb-4">
             <input
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+                validarConfirmarPassword(e.target.value); 
+              }}
               className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700"
               name="Confirmar contraseña"
               type="password"
               placeholder="Confirmar contraseña"
             />
+            {confirmPasswordError && (
+              <p className="text-red-500 text-sm mt-1">{confirmPasswordError}</p>
+            )}
           </div>
           <div className="mb-4">
             <textarea
