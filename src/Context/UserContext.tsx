@@ -1,54 +1,79 @@
-import { createContext, useEffect } from 'react';	
-import { useState } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { app } from '../credentials';
+import { createContext, useEffect, useState, ReactNode } from 'react';	
+import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { getFirestore, getDoc, doc } from 'firebase/firestore';
+import { app } from '../credentials';
 
-const UserContext = createContext(null);
+// 📌 1. Define la interfaz para el perfil del usuario
+interface UserProfile {
+  nombre?: string;
+  email?: string;
+  uid?: string;
+  // Agrega más propiedades según los datos de Firestore
+}
+
+// 📌 2. Define la estructura del contexto
+interface UserContextType {
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  profile: UserProfile | null;
+  setProfile: React.Dispatch<React.SetStateAction<UserProfile | null>>;
+  logged: boolean;
+}
+
+// 📌 3. Crear el contexto con el tipo correcto
+export const UserContext = createContext<UserContextType | null>(null);
 
 const auth = getAuth(app);
-
 const db = getFirestore(app);
 
-const UserProvider = ({children}) => {
+// 📌 4. Define el tipo de `children`
+interface UserProviderProps {
+  children: ReactNode;
+}
 
-    const [user, setUser] = useState('');
-    const [profile, setProfile] = useState({});
-    const [logged, setLogged] = useState(false);
+const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [logged, setLogged] = useState(false);
 
-    useEffect(() => {
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (userConnected) => {
-        if (userConnected) {
-            const userDocRef = doc(db, 'users', userConnected.uid);
-            try {
-                const docSnap = await getDoc(userDocRef);
+      if (userConnected) {
+        setUser(userConnected);
 
-                if (docSnap.exists()) {
-                    console.log('No such document')
-                    setProfile({});
-                }
-                setProfile(docSnap.data());
-                console.log(docSnap.data());
-                setLogged(true);
+        const userDocRef = doc(db, 'users', userConnected.uid);
+        try {
+          const docSnap = await getDoc(userDocRef);
 
-            } catch (error) {
-                console.log(error);
-                setProfile({});
-            }
-        } else {
-            setProfile({});
-            setLogged(false);
+          if (!docSnap.exists()) {
+            console.log('No such document');
+            setProfile(null);
+          } else {
+            setProfile(docSnap.data() as UserProfile); // 📌 5. Tipamos correctamente `docSnap.data()`
+            console.log(docSnap.data());
+          }
+
+          setLogged(true);
+        } catch (error) {
+          console.log(error);
+          setProfile(null);
         }
+      } else {
+        setUser(null);
+        setProfile(null);
+        setLogged(false);
+      }
     });
 
     return () => unsubscribe();
-    }, []);
+  }, []);
 
-    useEffect(() => {
-        console.log('UserChange' + user);
-    }, [user]);
+  return (
+    <UserContext.Provider value={{ user, setUser, profile, setProfile, logged }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
 
-    return (<UserContext value={{user, setUser, profile, setProfile, logged}}>{children}</UserContext>)
-}
+export { UserProvider };
 
-export { UserContext, UserProvider };
