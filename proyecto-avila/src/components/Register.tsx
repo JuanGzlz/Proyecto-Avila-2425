@@ -25,7 +25,9 @@ const Register: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordError, setPasswordError] = useState<string | null>(null); // Estado para el mensaje de error
+  const [age, setAge] = useState<string>(''); // Estado para la edad
+  const [passwordError, setPasswordError] = useState<string | null>(null); // Estado para el mensaje de error de la contraseña
+  const [ageError, setAgeError] = useState<string | null>(null); // Estado para el mensaje de error de la edad
 
   // Función para validar la contraseña
   const validatePassword = (password: string): boolean => {
@@ -38,12 +40,32 @@ const Register: React.FC = () => {
     }
   };
 
+  // Función para validar la edad
+  const validarEdad = (age: string): boolean => {
+    const ageNumber = parseInt(age, 10);
+    if (isNaN(ageNumber)) {
+      setAgeError("La edad debe ser un número válido!.");
+      return false;
+    } else if (ageNumber < 18 || ageNumber > 100) {
+      setAgeError("La edad ingresada debe ser mayor que 18 y menor a 100.");
+      return false;
+    } else {
+      setAgeError(null); // Limpiar el mensaje de error si la edad es válida
+      return true;
+    }
+  };
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Validar la contraseña antes de continuar
     if (!validatePassword(password)) {
       return; // Detener el proceso si la contraseña no es válida
+    }
+
+    // Validar la edad antes de continuar
+    if (!validarEdad(age)) {
+      return; // Detener el proceso si la edad no es válida
     }
 
     try {
@@ -53,6 +75,7 @@ const Register: React.FC = () => {
       await setDoc(doc(db, 'users', nombreRegistrado.user.uid), {
         nombre: name,
         email: email,
+        edad: parseInt(age, 10), // Guardar la edad como número
         uid: nombreRegistrado.user.uid,
         fechaCreacion: new Date(),
       });
@@ -60,6 +83,7 @@ const Register: React.FC = () => {
       setName("");
       setEmail("");
       setPassword("");
+      setAge("");
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -112,11 +136,19 @@ const Register: React.FC = () => {
           </div>
           <div className="mb-4">
             <input
+              value={age}
+              onChange={(e) => {
+                setAge(e.target.value);
+                validarEdad(e.target.value); //Buscamos validar la edad ingresada
+              }}
               className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700"
               name="Edad"
               type="text"
               placeholder="Edad"
             />
+            {ageError && (
+              <p className="text-red-500 text-sm mt-1">{ageError}</p>
+            )}
           </div>
           <div className="mb-4">
             <input
