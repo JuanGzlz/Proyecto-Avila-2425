@@ -20,7 +20,7 @@ const Header: React.FC = () => {
 
   const { logged, profile } = profileContext;
 
-  console.log(profile, logged);
+  // console.log(profile, logged);
 
   const handleLogout = async () => {
     await signOut(auth);

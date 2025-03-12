@@ -15,7 +15,7 @@ const HeaderVentanas: React.FC = () => {
   
   const { logged, profile } = profileContext;
   
-  console.log(profile, logged);
+  // console.log(profile, logged);
   
   const handleGoBack = () => {
     const auth = getAuth(app);
