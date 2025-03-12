@@ -6,6 +6,7 @@ import Login from './components/Login';
 import VentanaActividades from './components/VentanaActividades';
 import Perfil from './components/Perfil';
 import CrearActividad from './components/CrearActividad';
+import DatosSobreActividad from './components/DatosSobreActividad';
 import Admin from './components/Admin';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/crear-actividad" element={<CrearActividad />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/datos-sobre-actividad" element={<DatosSobreActividad />} />
           
         </Routes>
       </div>
