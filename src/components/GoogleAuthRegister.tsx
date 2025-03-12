@@ -74,5 +74,4 @@ const GoogleAuthRegister: React.FC<GoogleAuthRegisterProps> = ({ onLoginSuccess 
   );
 };
 
-
 export default GoogleAuthRegister;
