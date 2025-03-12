@@ -39,7 +39,7 @@ const ProfileEdit: React.FC = () => {
           </div>
 
           <button className="mt-6 w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800">
-            Guía / Usuario / Administrador
+            Guardar Datos
           </button>
         </div>
 

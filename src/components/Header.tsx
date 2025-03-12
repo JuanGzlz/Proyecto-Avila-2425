@@ -53,9 +53,7 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="search-section">
-          <strong>
             <input className="search-input" placeholder="Buscar..." type="text" />
-          </strong>
         </div>
 
         {logged ? (
@@ -72,7 +70,7 @@ const Header: React.FC = () => {
         ) : (
           <>
             <button className="login-button" onClick={goToAbout}>
-              <strong>Log In</strong>
+              Log In
             </button>
           </>
         )}
