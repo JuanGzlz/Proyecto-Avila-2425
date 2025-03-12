@@ -109,11 +109,24 @@ const Register: React.FC = () => {
     }
   };
 
+  const handleGoBack = () => {
+    const auth = getAuth(app);
+    const user = auth.currentUser;
+  
+    if (user) {
+      // Si el usuario está autenticado, redirige al homepage
+      navigate("/");
+    } else {
+      // Si el usuario no está autenticado, redirige a la página anterior
+      navigate(-1);
+    }
+  };
+
   return (
     <div className="w-full bg-gray-100 flex items-center justify-center min-h-screen">
       <div className="w-7/10 m-auto bg-white rounded-lg shadow-lg p-8 border border-gray-400 text-black">
         <button
-          onClick={() => navigate(-1)}
+          onClick={handleGoBack}
           className="absolute left-4 top-4 text-gray-100 !bg-gray-800 px-3 py-1 rounded-full hover:!bg-gray-900"
         >
           ← Volver

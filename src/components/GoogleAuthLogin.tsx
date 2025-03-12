@@ -1,5 +1,5 @@
 import React from "react";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { app } from "../credentials";
 
@@ -33,9 +33,12 @@ const GoogleAuthLogin: React.FC<GoogleAuthLoginProps> = ({ onSuccess }) => {
         onSuccess(); // Llamar a la función de éxito (redirigir, cambiar estado, etc.)
       } else {
         alert("Este correo no está registrado. Por favor, regístrate primero.");
+        await signOut(auth); // Cerrar sesión si el usuario no está registrado
       }
     } catch (error) {
       console.error("Error durante la autenticación:", error);
+      await signOut(auth);
+      
     }
   };
 
