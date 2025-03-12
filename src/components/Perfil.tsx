@@ -7,14 +7,14 @@ const ProfileEdit: React.FC = () => {
       <HeaderVentanas />
 
       {/* Contenedor con borde negro */}
-      <div className="w-full max-w-5xl bg-white border-2 border-black rounded-lg shadow-lg p-8 mt-10 flex flex-col md:flex-row gap-6">
+      <div className="w-full max-w-5xl bg-white border-1 border-black rounded-lg shadow-lg p-8 mt-10 flex flex-col md:flex-row gap-6">
         
         {/* Sección Izquierda - Foto de Perfil */}
         <div className="w-full md:w-1/3 flex flex-col items-center p-4 border-r">
-          <div className="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
+          <div className="w-50 h-50 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
             <img src="/default-profile.png" alt="Foto de perfil" className="w-full h-full object-cover"/>
           </div>
-          <button className="mt-3 text-sm text-blue-600 hover:underline">Editar foto</button>
+          <span className="mt-3 text-sm text-blue-600 hover:underline">Editar foto</span>
           <textarea
             className="w-full mt-3 p-2 border rounded-lg text-center resize-none"
             placeholder="Pequeña descripción..."
