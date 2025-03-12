@@ -1,4 +1,4 @@
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import { app } from "../credentials";
 
@@ -59,6 +59,7 @@ const GoogleAuthRegister: React.FC<GoogleAuthRegisterProps> = ({ onLoginSuccess 
     } catch (error) {
       console.error("Error durante el registro:", error);
       alert("Hubo un error al registrarte. Intenta de nuevo.");
+      await signOut(auth);
     }
   };
 
