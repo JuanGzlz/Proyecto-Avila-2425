@@ -5,6 +5,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import VentanaActividades from './components/VentanaActividades';
 import Perfil from './components/Perfil';
+import CrearActividad from './components/CrearActividad';
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/ventana-actividades" element={<VentanaActividades />} />
           <Route path="/perfil" element={<Perfil />} />
+          <Route path="/crear-actividad" element={<CrearActividad />} />
+          
         </Routes>
       </div>
     </BrowserRouter>
