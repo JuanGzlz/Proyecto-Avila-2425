@@ -60,7 +60,8 @@ const Header: React.FC = () => {
 
         {logged ? (
           <>
-            <button className="login-button flex items-center gap-2 p-2 bg-green-600 text-white rounded-full hover:bg-green-700">
+            <button className="login-button flex items-center gap-2 p-2 bg-green-600 text-white rounded-full hover:bg-green-700"
+              onClick={() => navigate('/perfil')} >
               <img src={avilaImage11} alt="Perfil" className="w-6 h-6 rounded-full" />
               <strong>{profile?.nombre}</strong>
             </button>

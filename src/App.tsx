@@ -4,6 +4,7 @@ import './App.css';
 import Register from './components/Register';
 import Login from './components/Login';
 import VentanaActividades from './components/VentanaActividades';
+import Perfil from './components/Perfil';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/ventana-actividades" element={<VentanaActividades />} />
+          <Route path="/perfil" element={<Perfil />} />
         </Routes>
       </div>
     </BrowserRouter>
