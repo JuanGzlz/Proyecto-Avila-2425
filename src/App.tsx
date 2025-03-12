@@ -6,6 +6,7 @@ import Login from './components/Login';
 import VentanaActividades from './components/VentanaActividades';
 import Perfil from './components/Perfil';
 import CrearActividad from './components/CrearActividad';
+import Admin from './components/Admin';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/ventana-actividades" element={<VentanaActividades />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/crear-actividad" element={<CrearActividad />} />
+          <Route path="/admin" element={<Admin />} />
           
         </Routes>
       </div>

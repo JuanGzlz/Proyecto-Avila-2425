@@ -36,7 +36,7 @@ const Header: React.FC = () => {
     <header className="header">
       <div className="container">
             <button className="login-button flex items-center gap-2 p-2 bg-green-600 text-white rounded-full hover:bg-green-700" >
-              <img src={avilaImage12} alt="Perfil" className="w-8 h-8 rounded-full object-cover" />
+              <img src={avilaImage12} alt="Perfil" className="w-6 h-8" />
               <strong className="text-2xl"> AVILA EXS </strong>
             </button>
 
