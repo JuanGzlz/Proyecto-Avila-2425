@@ -1,21 +1,23 @@
 
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { db } from "../credentials";
+import { app } from "../credentials";
+
+const db = getFirestore(app);
 
 const getUserData = async () => {
   const auth = getAuth();
-  const user = auth.currentUser; 
+  const user = auth.currentUser;
 
   if (user) {
     const userDocRef = doc(db, "users", user.uid);
-    const userDoc = await getDoc(userDocRef); 
+    const userDoc = await getDoc(userDocRef);
     console.log(userDoc.data());
 
-    
+
 
     if (userDoc.exists()) {
-      return userDoc.data(); 
+      return userDoc.data();
     } else {
       console.log("No se encontró el documento del usuario.");
       return null;
