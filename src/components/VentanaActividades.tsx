@@ -10,15 +10,21 @@ import avilaImage8 from '../images/el avila 21.png';
 const db = getFirestore(app);
 type Actividad = {
     id: string;
-    Guia: string;
+    nombre: string;
+    diaSemana: string;
+    guia: string;
+    puntoEncuentro: string;
     horaInicio: string;
     horaFinal: string;
-    Fecha: string;
+    fecha: string;
     personasInscritas: number;
-    limitesPersonas: number;
+    cantMaxPersonas: number;
     campamento: string;
-    Costo: string;
+    costo: string;
     imagen: string[]; // Opcional, si quieres incluir imágenes
+    dificultad: number;
+    distancia: string;
+    duracion: string;
   };
 
 const VentanaActividades: React.FC = () => {
@@ -95,6 +101,7 @@ const VentanaActividades: React.FC = () => {
             {actividades.map((excursion, index) => (
                 <div key={index} className="excursion-card">
                     <div className="images-grid">
+                        
                         {/*excursion.imagen.slice(0, 3).map((img, i) => (
                             <img key={i} src={img} alt="Excursion" className="excursion-img" />
                         ))*/}
@@ -102,14 +109,18 @@ const VentanaActividades: React.FC = () => {
                         <div className="ver-mas">Ver más...</div>
                     </div>
                     <div className="excursion-info">
-                        <p><strong>Guía:</strong> {excursion.Guia}</p>
-                        <p><strong>Hora Inicio:</strong> {excursion.horaInicio}</p>
-                        <p><strong>Hora Final:</strong> {excursion.horaFinal}</p>
-                        <p><strong>Fecha:</strong> {excursion.Fecha}</p>
-                        <p><strong>Personas inscritas:</strong> {excursion.personasInscritas}</p>
-                        <p><strong>Límite de personas:</strong> {excursion.limitesPersonas}</p>
-                        <p><strong>Campamento:</strong> {excursion.campamento}</p>
-                        <p><strong>Costo de la actividad:</strong> {excursion.Costo}</p>
+                    <p><strong>Nombre:</strong> {excursion.nombre}</p>
+                    <p><strong>Guía:</strong> {excursion.guia}</p>
+                    <p><strong>Fecha:</strong> {excursion.fecha}</p>
+                    <p><strong>Día:</strong> {excursion.diaSemana}</p>
+                    <p><strong>Hora Inicio:</strong> {excursion.horaInicio}</p>
+                    <p><strong>Hora Final:</strong> {excursion.horaFinal}</p>
+                    <p><strong>Personas Máx:</strong> {excursion.cantMaxPersonas}</p>
+                    <p><strong>Costo:</strong> ${excursion.costo}</p>
+                    <p><strong>Punto de Encuentro:</strong> {excursion.puntoEncuentro}</p>
+                    <p><strong>Dificultad:</strong> {excursion.dificultad}</p>
+                    <p><strong>Distancia:</strong> {excursion.distancia} km</p>
+                    <p><strong>Duración:</strong> {excursion.duracion}</p>
                             <button className="anotarse">Anotarse</button>
                             <button className="detalles">Ver más detalles</button>
                         
