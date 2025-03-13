@@ -21,7 +21,8 @@ interface UserContextType {
 }
 
 // 📌 3. Crear el contexto con el tipo correcto
-export const UserContext = createContext<UserContextType | null>(null);
+const UserContext = createContext<UserContextType | null>(null);
+export { UserContext };
 
 const auth = getAuth(app);
 const db = getFirestore(app);
