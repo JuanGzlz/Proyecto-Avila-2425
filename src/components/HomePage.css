@@ -8,6 +8,12 @@
     
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+.font-pacifico {
+  font-family: 'Pacifico', cursive;
+}
+
 .hero-section {
     position: relative; /* Contenedor relativo para que los elementos dentro puedan tener posicionamiento absoluto */
     width: 100%;
@@ -23,8 +29,8 @@
 .hero-title {
     position: absolute; /* Posiciona el texto sobre la imagen */
     top: 0; /* Ajusta la posición vertical a la parte superior */
-    margin-top: 10px;
-    left: 70px; /* Ajusta la posición horizontal al borde izquierdo */
+    margin-top: 50px;
+    left: 60px; /* Ajusta la posición horizontal al borde izquierdo */
     transform: none; /* No se necesita ajustar para centrado */
     color: white;
     background-color: rgba(80, 80, 80, 0.44); /* Fondo blanco para resaltar el texto */
@@ -68,7 +74,7 @@
     display: flex;
     justify-content: center; /* Centra los recuadros horizontalmente */
     align-items: center;
-    gap: 50px; /* Espacio entre recuadros */
+    gap: 125px; /* Espacio entre recuadros */
     position: relative;
     width: 100%; /* Asegúrate de que ocupe todo el ancho disponible */
     overflow: visible; /* Asegúrate de que no haya overflow */
@@ -78,8 +84,8 @@
     background-color: white;
     border-radius: 25px;
     padding: 10px;
-    width: 220px; /* Aumenta el ancho del recuadro */
-    height: 100px; /* Fija la altura del recuadro */
+    width: 400px; /* Aumenta el ancho del recuadro */
+    height: 140px; /* Fija la altura del recuadro */
     text-align: center;
     justify-content: center; /* Centra el contenido horizontalmente */
     align-items: center; /* Centra el contenido verticalmente */
@@ -95,7 +101,7 @@
   
 .info-card:not(:last-child)::after {
     content: "";
-    width: 50px; /* Reduce el ancho de la línea */
+    width: 125px; /* Reduce el ancho de la línea */
     height: 5px; /* Reduce la altura de la línea */
     background-color: white;
     position: absolute;

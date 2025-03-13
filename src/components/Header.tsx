@@ -33,7 +33,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="header">
+    <header className="header !shadow-md">
       <div className="container">
             <button className="login-button flex items-center gap-2 p-2 bg-green-600 text-white rounded-full hover:bg-green-700" >
               <img src={avilaImage12} alt="Perfil" className="w-6 h-8" />
@@ -58,14 +58,17 @@ const Header: React.FC = () => {
 
         {logged ? (
           <>
-            <button className="login-button flex items-center gap-2 p-2 bg-green-600 text-white rounded-full hover:bg-green-700"
-              onClick={() => navigate('/perfil')} >
-              <img src={avilaImage11} alt="Perfil" className="w-6 h-6 rounded-full" />
-              {profile?.nombre}
-            </button>
-            <button className="login-button" onClick={handleLogout}>
-              Log Out
-            </button>
+            <div className="flex gap-4">
+              <button className="login-button flex items-center gap-2 p-2 bg-green-600 text-white rounded-full hover:bg-green-700"
+                onClick={() => navigate('/perfil')} >
+                <img src={avilaImage11} alt="Perfil" className="w-6 h-6 rounded-full" />
+                {profile?.nombre}
+              </button>
+
+              <button className="login-button" onClick={handleLogout}>
+                Log Out
+              </button>
+            </div>
           </>
         ) : (
           <>

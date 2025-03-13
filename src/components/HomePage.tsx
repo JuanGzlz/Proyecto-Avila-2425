@@ -22,7 +22,7 @@ const HomePage: React.FC = () => {
           src={avilaImage}
         />
         <h2 className="hero-title">
-          ¡Vive experiencias inigualables a través de visitas al majestuoso Cerro El Ávila!
+          ¡Vive experiencias inigualables a través de visitas al majestuoso <p className = "text-4xl font-bold text-white" style={{ fontFamily: "'Brush Script MT', cursive" }}> Cerro El Ávila! </p>
         </h2>
       </section>
       
@@ -34,13 +34,22 @@ const HomePage: React.FC = () => {
         <div className="info-container">
           <div className="box-info-cards">
             <div className="info-card">
-              <p>Respira el aire fresco de la montaña y disfruta de vistas que te dejarán sin aliento.</p>
+              <div className="flex flex-col items-center">
+                <span className="text-4xl">🏔️</span>
+                <p className="mt-2 max-w-xs">Respira aire fresco de la montaña y disfruta vistas que te ayudan a relajarte.</p>
+              </div>
             </div>
             <div className="info-card">
-              <p>Cada sendero cuenta una historia. ¿Listo para explorar?</p>
+              <div className="flex flex-col items-center">
+                <span className="text-4xl">🥾</span>
+                <p className="mt-2 max-w-xs">Cada sendero cuenta una historia única. ¿Listo para explorar?</p>
+              </div>
             </div>
             <div className="info-card">
-              <p>Déjate sorprender por la biodiversidad y la paz que El Ávila puede ofrecerte.</p>
+              <div className="flex flex-col items-center">
+                <span className="text-4xl">🌄</span>
+                <p className="mt-2 max-w-xs">Déjate sorprender por la biodiversidad y las vistas que El Ávila puede ofrecer.</p>
+              </div>
             </div>
           </div>
 

@@ -55,7 +55,7 @@ const ProfileEdit: React.FC = () => {
       <div className="w-full max-w-5xl bg-white border border-black rounded-lg shadow-lg p-4 md:p-8 mt-10 flex flex-col md:flex-row gap-6">
         {/* Sección Izquierda - Foto de Perfil */}
         <div className="w-full md:w-1/3 flex flex-col items-center p-4 border-r">
-          <div className="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
+          <div className="w-54 h-54 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
             <img
               src={userData.profileImage || "/default-profile.png"}
               alt="Foto de perfil"
@@ -79,24 +79,13 @@ const ProfileEdit: React.FC = () => {
           <h2 className="text-2xl font-bold text-gray-700 mb-6 text-center">
             Edición de perfil de usuario
           </h2>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              type="text"
-              name="nombre"
-              placeholder="Nombre"
-              value={userData.nombre}
-              onChange={handleInputChange}
-              className="p-3 border rounded-lg"
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Correo electrónico"
-              value={userData.email}
-              onChange={handleInputChange}
-              className="p-3 border rounded-lg"
-            />
+            <p
+              className="p-3 border rounded-lg !bg-gray-300 !bg-opacity-50 text-left"> {userData.nombre}
+            </p>
+            <p
+              className="p-3 border rounded-lg !bg-gray-300 !bg-opacity-50 text-left"> {userData.email}
+            </p>
             <input
               type="text"
               name="apellido"
