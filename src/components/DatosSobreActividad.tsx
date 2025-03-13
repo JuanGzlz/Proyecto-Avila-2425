@@ -1,106 +1,136 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { app } from "../credentials";
 import HeaderVentanas from "./HeaderVentanas";
-import { useNavigate } from "react-router-dom"; 
-import { useState } from "react";
+
+const db = getFirestore(app);
 
 const DatosSobreActividad: React.FC = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const [limitePersonas, setLimitePersonas] = useState("");
-    const [horaInicio, setHoraInicio] = useState("");
-    const [guia, setGuia] = useState("");
-    const [puntoEncuentro, setPuntoEncuentro] = useState("");
-    const [dificultad, setDificultad] = useState("");
-    const [nombreRuta, setNombreRuta] = useState("");
-    const [datosExtra, setDatosExtra] = useState("");
-    const [distanciaRuta, setDistanciaRuta] = useState("");
+  const [actividad, setActividad] = useState({
+    limitePersonas: "",
+    hora: "",
+    guia: "",
+    puntoEncuentro: "",
+    dificultad: "",
+    nombreRuta: "",
+    datosExtra: "",
+    distanciaRuta: "",
+  });
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setActividad({
+      ...actividad,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-        const actividadData = {
-            limitePersonas,
-            horaInicio,
-            guia,
-            puntoEncuentro,
-            dificultad,
-            nombreRuta,
-            datosExtra,
-            distanciaRuta,
-          };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-        console.log(actividadData);
+    // Validar que los campos no excedan los 250 caracteres
+    for (const key in actividad) {
+      if (actividad[key as keyof typeof actividad].length > 250) {
+        alert("Cada campo debe tener un máximo de 250 caracteres.");
+        return;
+      }
+    }
 
-        navigate("/admin", {state : actividadData});
+    try {
+      console.log("Enviando datos a Firestore...");
 
-        }
+      const docRef = await addDoc(collection(db, "datosactividades"), actividad);
 
+      console.log("Actividad guardada con ID:", docRef.id);
 
+      alert("Actividad creada exitosamente");
+      navigate("/admin");
+    } catch (error) {
+      console.error("Error al guardar la actividad en Firestore:", error);
+    }
+  };
 
   return (
     <div>
-    <HeaderVentanas/>
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 pt-10 p-px">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl h-full">
-        <h2 className="text-center text-xl font-semibold mb-6">Datos sobre la actividad</h2>
-        <form className="grid grid-cols-2 gap-4" onSubmit = {handleSubmit}>
-
-          <input 
-          className="border p-2 rounded-3xl min-h-24" 
-          placeholder="Limite de personas" 
-          value ={limitePersonas}
-          onChange={(e) => setLimitePersonas(e.target.value)}
-          />
+      <HeaderVentanas />
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 pt-10 p-px">
+        <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl h-full">
+          <h2 className="text-center text-xl font-semibold mb-6">Datos sobre la actividad</h2>
+          <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
             <input
+              name="limitePersonas"
               className="border p-2 rounded-3xl min-h-24"
-              placeholder="Hora de inicio, hora final, tiempo de duración"
-              value={horaInicio}
-              onChange={(e) => setHoraInicio(e.target.value)}
+              placeholder="Limite de personas"
+              value={actividad.limitePersonas}
+              onChange={handleChange}
+              maxLength={250}
             />
             <input
+              name="hora"
               className="border p-2 rounded-3xl min-h-24"
-              placeholder="Datos sobre el guía"
-              value={guia}
-              onChange={(e) => setGuia(e.target.value)}
+              placeholder="Hora"
+              value={actividad.hora}
+              onChange={handleChange}
+              maxLength={250}
             />
             <input
+              name="guia"
               className="border p-2 rounded-3xl min-h-24"
-              placeholder="Punto de encuentro, traslado"
-              value={puntoEncuentro}
-              onChange={(e) => setPuntoEncuentro(e.target.value)}
+              placeholder="Guía"
+              value={actividad.guia}
+              onChange={handleChange}
+              maxLength={250}
             />
             <input
+              name="puntoEncuentro"
               className="border p-2 rounded-3xl min-h-24"
-              placeholder="Dificultad de la actividad"
-              value={dificultad}
-              onChange={(e) => setDificultad(e.target.value)}
+              placeholder="Punto de encuentro"
+              value={actividad.puntoEncuentro}
+              onChange={handleChange}
+              maxLength={250}
             />
             <input
+              name="dificultad"
               className="border p-2 rounded-3xl min-h-24"
-              placeholder="Nombre de la ruta o vía para llegar al destino"
-              value={nombreRuta}
-              onChange={(e) => setNombreRuta(e.target.value)}
+              placeholder="Dificultad"
+              value={actividad.dificultad}
+              onChange={handleChange}
+              maxLength={250}
             />
             <input
+              name="nombreRuta"
               className="border p-2 rounded-3xl min-h-24"
-              placeholder="Datos extra para el excursionista"
-              value={datosExtra}
-              onChange={(e) => setDatosExtra(e.target.value)}
+              placeholder="Nombre de la ruta"
+              value={actividad.nombreRuta}
+              onChange={handleChange}
+              maxLength={250}
             />
             <input
+              name="datosExtra"
               className="border p-2 rounded-3xl min-h-24"
-              placeholder="Distancia de ruta a realizar"
-              value={distanciaRuta}
-              onChange={(e) => setDistanciaRuta(e.target.value)}
+              placeholder="Datos extra"
+              value={actividad.datosExtra}
+              onChange={handleChange}
+              maxLength={250}
             />
-        </form>
-    <button className="mt-6 w-full !bg-[#1d6363] text-white py-2 rounded-full text-lg">Crear actividad</button>
-        
+            <input
+              name="distanciaRuta"
+              className="border p-2 rounded-3xl min-h-24"
+              placeholder="Distancia de la ruta"
+              value={actividad.distanciaRuta}
+              onChange={handleChange}
+              maxLength={250}
+            />
+            <button type="submit" className="mt-6 w-full !bg-[#1d6363] text-white py-2 rounded-full text-lg col-span-2">
+              Crear actividad
+            </button>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-
   );
-}
+};
 
 export default DatosSobreActividad;
