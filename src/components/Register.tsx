@@ -23,6 +23,7 @@ const Register: React.FC = () => {
   };
 
   const [name, setName] = useState('');
+  const [lastname, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState(''); //Estado para confirmar contraseña
@@ -92,6 +93,7 @@ const Register: React.FC = () => {
 
       await setDoc(doc(db, 'users', nombreRegistrado.user.uid), {
         nombre: name,
+        apellido: lastname,
         email: email,
         edad: parseInt(age, 10), //Guardar la edad como número
         uid: nombreRegistrado.user.uid,
@@ -160,6 +162,8 @@ const Register: React.FC = () => {
           </div>
           <div className="mb-4">
             <input
+              value={lastname}
+              onChange={(e) => setLastName(e.target.value)}
               className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700"
               name="Apellido"
               type="text"

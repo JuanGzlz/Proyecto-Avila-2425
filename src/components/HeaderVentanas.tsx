@@ -46,15 +46,16 @@ const HeaderVentanas: React.FC = () => {
 
         {/* Navegación */}
         <nav className="flex space-x-4 bg-gray-300 bg-opacity-50 rounded-full px-4 py-2">
-          <a href="#" className="px-4 py-2 rounded-full hover:!bg-[#1d6363] hover:text-black">Principal</a>
-          <a href="#" className="px-4 py-2 rounded-full hover:!bg-[#1d6363] hover:text-black">Actividades</a>
-          <a href="#" className="px-4 py-2 rounded-full hover:!bg-[#1d6363] hover:text-black">Reservas</a>
+          <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/')}>Principal</button>
+          <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/')}>Actividades</button>
+          <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/')}>Reservas</button>
+          <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/')}>Foro</button>
         </nav>
 
         {/* Botón Perfil */}
         <button className="login-button flex items-center gap-2 px-4 py-2 !bg-[#1d6363] !text-white rounded-full transition-all duration-200 transform hover:scale-105 hover:!bg-[#174f4f]">
           <img src={avilaImage15} alt="Perfil" className="w-6 h-6 rounded-full" />
-          <strong>{profile?.nombre}</strong>
+          {profile?.nombre}
         </button>
       </div>
     </header>
