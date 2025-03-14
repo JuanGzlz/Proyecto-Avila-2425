@@ -10,6 +10,9 @@ import DatosSobreActividad from './components/DatosSobreActividad';
 import Admin from './components/Admin';
 import DetallesExcursionSeleccionada from './components/DetallesExcursionSeleccionada';
 import FiltroBusqueda from './components/FiltroBusqueda';
+import ForoDetallado from './components/ForoDetallado';
+import Foro from './components/Foro';
+import CrearForo from './components/CrearForo';
 
 function App() {
   return (
@@ -27,6 +30,10 @@ function App() {
           <Route path="/datos-sobre-actividad" element={<DatosSobreActividad />} />
           <Route path="/detalles-excursion-seleccionada/:id" element={<DetallesExcursionSeleccionada />} />
           <Route path="/filtro-busqueda" element={<FiltroBusqueda />} />
+          <Route path="/foro" element={<Foro />} />
+          <Route path="/foro/:id" element={<ForoDetallado />} />
+          <Route path="/crear-foro" element={<CrearForo />} />
+
           
         </Routes>
       </div>
