@@ -9,6 +9,7 @@ import CrearActividad from './components/CrearActividad';
 import DatosSobreActividad from './components/DatosSobreActividad';
 import Admin from './components/Admin';
 import DetallesExcursionSeleccionada from './components/DetallesExcursionSeleccionada';
+import FiltroBusqueda from './components/FiltroBusqueda';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/datos-sobre-actividad" element={<DatosSobreActividad />} />
           <Route path="/detalles-excursion-seleccionada" element={<DetallesExcursionSeleccionada/>} />
+          <Route path="/filtro-busqueda" element={<FiltroBusqueda />} />
           
         </Routes>
       </div>
