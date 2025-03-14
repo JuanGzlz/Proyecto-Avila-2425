@@ -43,13 +43,32 @@ const Header: React.FC = () => {
         <nav className="nav">
           <a className="nav-link" href="#">
             Principal
-          </a>
-          <button className="nav-link !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-4 py-2 rounded transition" onClick={() => navigate('/ventana-actividades')}>
-            Actividades
-          </button>
-          <a className="nav-link" href="#">
-            Reservas
-          </a>
+          </a>   
+          {logged ? (
+          <>
+            <button className="nav-link !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-4 py-2 rounded transition" onClick={() => navigate('/ventana-actividades')}>
+              Actividades
+            </button>
+            <button className="nav-link !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-4 py-2 rounded transition" onClick={goToAbout}>
+              Reservas
+            </button>
+            <button className="nav-link !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-4 py-2 rounded transition" onClick={goToAbout}>
+              Foro
+            </button>
+          </>
+        ) : (
+          <>
+            <button className="nav-link !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-4 py-2 rounded transition" onClick={goToAbout}>
+              Actividades
+            </button>
+            <button className="nav-link !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-4 py-2 rounded transition" onClick={goToAbout}>
+              Reservas
+            </button>
+            <button className="nav-link !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-4 py-2 rounded transition" onClick={goToAbout}>
+              Foro
+            </button>
+          </>
+        )}
         </nav>
 
         <div className="search-section">

@@ -24,7 +24,7 @@ function App() {
           <Route path="/crear-actividad" element={<CrearActividad />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/datos-sobre-actividad" element={<DatosSobreActividad />} />
-          <Route path="/detalles-excursion-seleccionada" element={<DetallesExcursionSeleccionada/>} />
+          <Route path="/detalles-excursion-seleccionada/:id" element={<DetallesExcursionSeleccionada />} />
           
         </Routes>
       </div>

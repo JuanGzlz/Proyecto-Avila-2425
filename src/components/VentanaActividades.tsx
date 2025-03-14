@@ -5,7 +5,8 @@ import { collection, getDocs } from "firebase/firestore";
 import { app } from '../credentials';
 import { getFirestore } from 'firebase/firestore';
 import avilaImage8 from '../images/el avila 21.png';
-/* import { useNavigate } from 'react-router-dom'; */
+import { useNavigate } from 'react-router-dom'; 
+
 
 const db = getFirestore(app);
 type Actividad = {
@@ -24,10 +25,11 @@ type Actividad = {
     imagen: string[]; // Opcional, si quieres incluir imágenes
     dificultad: number;
     distancia: string;
-    duracion: string;
+    duracion: string
   };
 
 const VentanaActividades: React.FC = () => {
+    const navigate = useNavigate();
     /*const excursiones = [
         {
             guia: "Enrique León",
@@ -79,8 +81,6 @@ const VentanaActividades: React.FC = () => {
         fetchData();
     }, []);
 
-    /* const navigate = useNavigate(); */
-
 
     return (
         <div className='page-container min-h-screen'>
@@ -122,8 +122,7 @@ const VentanaActividades: React.FC = () => {
                     <p><strong>Distancia:</strong> {excursion.distancia} km</p>
                     <p><strong>Duración:</strong> {excursion.duracion}</p>
                             <button className="anotarse">Anotarse</button>
-                            <button className="detalles">Ver más detalles</button>
-                        
+                            <button className="detalles" onClick={() => navigate(`/detalles-excursion-seleccionada/${excursion.id}`)} >Ver más detalles</button>
                     </div>
                 </div>
             ))}
