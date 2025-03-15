@@ -13,6 +13,7 @@ import FiltroBusqueda from './components/FiltroBusqueda';
 import ForoDetallado from './components/ForoDetallado';
 import Foro from './components/Foro';
 import CrearForo from './components/CrearForo';
+import Fauna from './components/Fauna';
 
 function App() {
   return (
@@ -33,6 +34,8 @@ function App() {
           <Route path="/foro" element={<Foro />} />
           <Route path="/foro/:id" element={<ForoDetallado />} />
           <Route path="/crear-foro" element={<CrearForo />} />
+          <Route path="/fauna" element={<Fauna />} />
+
 
           
         </Routes>
