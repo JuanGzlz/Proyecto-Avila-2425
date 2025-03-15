@@ -18,6 +18,7 @@ const DatosSobreActividad: React.FC = () => {
     nombreRuta: "",
     datosExtra: "",
     distanciaRuta: "",
+    usuariosRegistrados: [],
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +42,7 @@ const DatosSobreActividad: React.FC = () => {
     try {
       console.log("Enviando datos a Firestore...");
 
-      const docRef = await addDoc(collection(db, "datosactividades"), actividad);
+      const docRef = await addDoc(collection(db, "actividades"), actividad);
 
       console.log("Actividad guardada con ID:", docRef.id);
 
