@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import HeaderVentanas from "./HeaderVentanas";
 import { getUserData } from "../Context/getUserData";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getFirestore, doc, updateDoc } from "firebase/firestore";
+import { app } from "../credentials";
+
+const storage = getStorage(app);
+const db = getFirestore(app);
+const DEFAULT_IMAGE = "/default-profile.png";
 
 interface UserData {
   nombre: string;

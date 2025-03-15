@@ -47,9 +47,9 @@ const HeaderVentanas: React.FC = () => {
         {/* Navegación */}
         <nav className="flex space-x-4 bg-gray-300 bg-opacity-50 rounded-full px-4 py-2">
           <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/')}>Principal</button>
-          <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/')}>Actividades</button>
+          <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/ventana-actividades')}>Actividades</button>
           <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/')}>Reservas</button>
-          <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/')}>Foro</button>
+          <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/foro')}>Foro</button>
         </nav>
 
         {/* Botón Perfil */}
