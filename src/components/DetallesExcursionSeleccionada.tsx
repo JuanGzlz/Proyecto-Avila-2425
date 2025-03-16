@@ -36,12 +36,7 @@ const ExcursionDetails: React.FC = () => {
   const [newComment, setNewComment] = useState("");
   const [userVotes, setUserVotes] = useState<{ [commentId: string]: "up" | "down" | null }>({}); // Nuevo estado para los votos
   const profileContext = useContext(UserContext);
-
-  if (!profileContext) {
-    return <div>Cargando...</div>;
-  }
-
-  const { logged, profile } = profileContext;
+  const { logged, profile } = profileContext || {};
 
   useEffect(() => {
     const fetchExcursion = async () => {
@@ -76,6 +71,10 @@ const ExcursionDetails: React.FC = () => {
 
     fetchComments();
   }, [id]);
+
+  if (!profileContext) {
+    return <div>Cargando...</div>;
+  }
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
