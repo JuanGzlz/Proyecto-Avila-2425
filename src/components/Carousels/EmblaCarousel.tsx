@@ -65,7 +65,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
   }, [emblaApi])
 
   return (
-    <div className="embla">
+    <div className="embla pb-8">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {slides.map((image, index) => (
@@ -92,7 +92,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
           />
         </div>
 
-        <button className="embla__play" onClick={toggleAutoplay} type="button">
+        <button className="embla__play !bg-white rounded-full !shadow-md transition-all border border-black hover:!bg-gray-300" onClick={toggleAutoplay} type="button">
           {!isPlaying ? 'Start' : 'Stop'}
         </button>
       </div>

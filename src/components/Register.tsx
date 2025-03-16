@@ -129,7 +129,7 @@ const Register: React.FC = () => {
       <div className="w-7/10 m-auto bg-white rounded-lg shadow-lg p-8 border border-gray-400 text-black">
         <button
           onClick={handleGoBack}
-          className="absolute left-4 top-4 text-gray-100 !bg-gray-800 px-4 py-2 rounded-full hover:!bg-gray-900"
+          className="absolute left-4 top-4 text-gray-100 font-semibold !bg-gray-800 px-4 py-2 rounded-full hover:!bg-gray-900"
         >
           ← Volver
         </button>
@@ -245,7 +245,7 @@ const Register: React.FC = () => {
           </div>
           <div className="flex justify-center">
             <button
-              className="w-full !bg-gray-800 text-gray-100 py-2 rounded-full hover:!bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700"
+              className="w-full !bg-gray-800 font-semibold text-gray-100 py-2 rounded-full hover:!bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700"
               type="submit"
             >
               Registrarse

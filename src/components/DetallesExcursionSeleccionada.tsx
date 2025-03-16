@@ -192,12 +192,12 @@ const ExcursionDetails: React.FC = () => {
         )}
 
         <div className="max-w-7xl mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6">
-          <h2 className="text-3xl font-bold text-gray-800 border-b pb-3">Comentarios</h2>
+          <h2 className="text-3xl font-bold text-gray-800 border-b pb-3">Comentarios y Reseñas</h2>
           {comments.map((c) => (
             <div key={c.id} className="border-b py-4 flex justify-between items-start">
               <div>
-                <h3 className="font-semibold text-gray-800">{c.usuario}</h3>
-                <p className="text-gray-600">{c.contenido}</p>
+                <h3 className="font-semibold text-gray-800 text-left">{c.usuario}</h3>
+                <p className="text-gray-600 text-left">{c.contenido}</p>
               </div>
               <div className="flex space-x-2">
                 <ThumbsUp

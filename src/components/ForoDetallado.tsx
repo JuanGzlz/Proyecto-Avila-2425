@@ -164,8 +164,8 @@ const ForoDetallado: React.FC = () => {
             {comments.map((c) => (
             <div key={c.id} className="border-b py-4 flex justify-between items-start">
                 <div>
-                <h3 className="font-semibold text-gray-800">{c.usuario}</h3>
-                <p className="text-gray-600">{c.contenido}</p>
+                <h3 className="font-semibold text-gray-800 text-left">{c.usuario}</h3>
+                <p className="text-gray-600 text-left">{c.contenido}</p>
                 </div>
                 <div className="flex space-x-2">
                 <ThumbsUp

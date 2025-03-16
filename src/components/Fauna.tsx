@@ -3,6 +3,8 @@ import EmblaCarousel from './Carousels/EmblaCarousel';
 import { EmblaOptionsType } from 'embla-carousel';
 import './Carousels/embla.css';
 import './Carousels/base.css';
+import Header from './Header';
+import Footer from './Footer';
 
 import fauna1 from '../images/arañamona.jpg';
 import fauna2 from '../images/cerdito.jpg';
@@ -37,39 +39,35 @@ const SLIDES_MONTAÑA = [montaña1, montaña2, montaña3, montaña4, montaña5, 
 const Fauna: React.FC = () => {
     return (
         <div className="fauna-container">
-            <header className="header">
-                <div className="logo">AVILA EXS</div>
-                <nav>
-                    <button className="nav-button">Principal</button>
-                    <button className="nav-button">Más Actividades</button>
-                    <button className="nav-button">Usuario</button>
-                    <button className="login-button">Log In</button>
-                </nav>
-            </header>
+            <Header />
             
-            <section className="intro">
-                <h1>Descubre El Ávila:</h1>
-                <p>¡Aventura, naturaleza y adrenalina en un solo lugar!</p>
+            <section className="intro font-bold pt-8 pb-10">
+                <h1 >Descubre El Ávila:</h1>
+                <p className = "text-3xl pt-3 font-bold text-black" style={{ fontFamily: "'Lucida Handwriting', cursive" }}
+                > ¡🌿Aventura, naturaleza y adrenalina en un solo lugar🌿! </p>
             </section>
 
-            <section className="carousel-section">
-                <h2>Descubre la maravillosa fauna...</h2>
+            <section className="carousel-section bg-[#1d6363]">
+                <p className = "pl-10 pt-5 pb-6 text-4xl text-left font-bold text-white" style={{ fontFamily: "'Brush Script MT', cursive" }}> Explora la maravillosa fauna... </p>
                 <EmblaCarousel slides={SLIDES_FAUNA} options={OPTIONS} />
             </section>
 
             <section className="carousel-section">
-                <h2>Enamórate de la hermosa flora...</h2>
+                <p className = "pl-10 pt-5 pb-6 text-4xl text-left font-bold text-black" style={{ fontFamily: "'Brush Script MT', cursive" }}> Enamórate de la hermosa flora... </p>
                 <EmblaCarousel slides={SLIDES_FLORA} options={OPTIONS} />
             </section>
 
-            <section className="carousel-section">
-                <h2>Descubre los lugares emblemáticos de la montaña...</h2>
+            <section className="carousel-section bg-[#1d6363]">
+                <p className = "pl-10 pt-5 pb-6 text-4xl text-left font-bold text-white" style={{ fontFamily: "'Brush Script MT', cursive" }}> Descubre los lugares emblemáticos de la montaña... </p>
                 <EmblaCarousel slides={SLIDES_MONTAÑA} options={OPTIONS} />
             </section>
 
-            <footer className="footer">
-                ¡Reserva tu aventura con nosotros y vive El Ávila de manera segura y emocionante!
-            </footer>
+            <section className="carousel-section bg-white pt-10 pb-10">
+                <p className = "text-3xl pt-3 font-bold text-black" style={{ fontFamily: "'Lucida Handwriting', cursive" }}
+                > ¡🌿Reserva tu aventura con nosotros y vive el Ávila de manera segura y emocionante🌿! </p>
+            </section>
+
+            <Footer />
         </div>
     );
 };

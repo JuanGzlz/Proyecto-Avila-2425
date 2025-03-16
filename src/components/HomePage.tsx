@@ -9,9 +9,12 @@ import avilaImage5 from '../images/el avila 18.jpg';
 import avilaImage6 from '../images/el avila 19.png';
 import avilaImage7 from '../images/el avila 20.png';
 import avilaImage8 from '../images/el avila 21.png';
+import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 
 const HomePage: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className='page-container'>
       <Header />
@@ -55,7 +58,7 @@ const HomePage: React.FC = () => {
 
           <div className="info-buttons">
             <button className="info-button">Ver más información</button>
-            <button className="info-button">Galería de fotos</button>
+            <button className="info-button" onClick={() => navigate('/fauna')}>Galería de fotos</button>
           </div>
         </div>
       </section>
