@@ -31,6 +31,7 @@ type Comentario = {
 };
 
 const ExcursionDetails: React.FC = () => {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [excursion, setExcursion] = useState<Excursion | null>(null);
   const [comments, setComments] = useState<Comentario[]>([]);
@@ -154,7 +155,6 @@ const ExcursionDetails: React.FC = () => {
       console.error("Error al votar:", error);
     }
   };
-  const navigate = useNavigate();
   
 
   return (

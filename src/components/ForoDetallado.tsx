@@ -31,11 +31,7 @@ const ForoDetallado: React.FC = () => {
     const profileContext = useContext(UserContext);
     const { id } = useParams<{ id: string }>(); 
 
-    if (!profileContext) {
-        return <div>Cargando...</div>;
-    }
-
-    const { logged, profile } = profileContext;
+    const { logged, profile } = profileContext || {};
 
     useEffect(() => {
         const fetchPrompt = async () => {
@@ -67,6 +63,10 @@ const ForoDetallado: React.FC = () => {
             fetchPrompt();
             fetchComments();
     }, [id]);
+
+    if (!profileContext) {
+        return <div>Cargando...</div>;
+    }
 
     const handleCommentSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
