@@ -8,6 +8,7 @@ import { getFirestore } from 'firebase/firestore';
 import avilaImage8 from '../images/el avila 21.png';
 import { useNavigate } from 'react-router-dom';
 import VentanaPago from './VentanaPago'; 
+import { FaFilter } from 'react-icons/fa'; 
 
 const db = getFirestore(app);
 
@@ -73,12 +74,18 @@ const VentanaActividades: React.FC = () => {
       </motion.section>
 
       <motion.div
-        className="info-buttons2"
+        className="info-buttons2 flex-row items-center justify-center gap-2"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.2 }}
       >
-        <input className="search-input2" placeholder="Buscar..." type="text" />
+        <input className="relative w-full max-w-3xl mt-6 p-4 pl-12 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-#1d6363" placeholder="Buscar..." type="text" />
+        <button
+          className="filter-button flex items-center cursor-pointer h-full p-4"
+          onClick={() => navigate('/filtro-busqueda')}
+        >
+          <FaFilter className="mr-2 text-xl" />
+        </button>
       </motion.div>
 
       {actividades.map((excursion, index) => (
