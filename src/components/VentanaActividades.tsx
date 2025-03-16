@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import HeaderVentanas from './HeaderVentanas';
 import './VentanaActividades.css';
 import { collection, getDocs } from 'firebase/firestore';
@@ -32,9 +33,8 @@ type Actividad = {
 const VentanaActividades: React.FC = () => {
   const navigate = useNavigate();
   const [actividades, setActividades] = useState<Actividad[]>([]);
-  const [selectedActividad, setSelectedActividad] = useState<Actividad | null>(null); // Estado para la actividad seleccionada
+  const [selectedActividad, setSelectedActividad] = useState<Actividad | null>(null);
 
-  // Obtener las actividades desde Firebase
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -52,84 +52,92 @@ const VentanaActividades: React.FC = () => {
     fetchData();
   }, []);
 
-  //Manejar el clic en "Anotarse"
   const handleAnotarse = (excursion: Actividad) => {
-    setSelectedActividad(excursion); // Establece la actividad seleccionada
+    setSelectedActividad(excursion);
   };
 
   const handleCloseVentanaPago = () => {
-    setSelectedActividad(null); // Cierra la ventana de pago
+    setSelectedActividad(null);
   };
 
   return (
     <div className="page-container min-h-screen">
       <HeaderVentanas />
 
-      <section>
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+      >
         <h2 className="info-title-white">¡Descubre todas las excursiones que tenemos disponibles!</h2>
-      </section>
+      </motion.section>
 
-      <div className="info-buttons2">
+      <motion.div
+        className="info-buttons2"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.2 }}
+      >
         <input className="search-input2" placeholder="Buscar..." type="text" />
-      </div>
+      </motion.div>
 
       {actividades.map((excursion, index) => (
-        <div key={index} className="excursion-card">
-          <div className="images-grid">
-            <img src={avilaImage8} alt="" className="excursion-img" />
+        <motion.div
+          key={index}
+          className="excursion-card"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: index * 0.2 }}
+        >
+          <motion.div 
+            className="images-grid" 
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            whileHover={{ scale: 1.05, rotate: 2 }}
+            transition={{ duration: 0.8, delay: index * 0.2 }}
+          >
+            <motion.img 
+              src={avilaImage8} 
+              alt="" 
+              className="excursion-img" 
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              whileHover={{ scale: 1.05, rotate: 2 }}
+              transition={{ duration: 0.8, delay: index * 0.2 }}
+            />
             <div className="ver-mas">Ver más...</div>
-          </div>
+          </motion.div>
           <div className="excursion-info">
-            <p>
-              <strong>Nombre:</strong> {excursion.nombre}
-            </p>
-            <p>
-              <strong>Guía:</strong> {excursion.guia}
-            </p>
-            <p>
-              <strong>Fecha:</strong> {excursion.fecha}
-            </p>
-            <p>
-              <strong>Día:</strong> {excursion.diaSemana}
-            </p>
-            <p>
-              <strong>Hora Inicio:</strong> {excursion.horaInicio}
-            </p>
-            <p>
-              <strong>Hora Final:</strong> {excursion.horaFinal}
-            </p>
-            <p>
-              <strong>Personas Máx:</strong> {excursion.cantMaxPersonas}
-            </p>
-            <p>
-              <strong>Costo:</strong> ${excursion.costo}
-            </p>
-            <p>
-              <strong>Punto de Encuentro:</strong> {excursion.puntoEncuentro}
-            </p>
-            <p>
-              <strong>Dificultad:</strong> {excursion.dificultad}
-            </p>
-            <p>
-              <strong>Distancia:</strong> {excursion.distancia} km
-            </p>
-            <p>
-              <strong>Duración:</strong> {excursion.duracion}
-            </p>
-            <button className="anotarse" onClick={() => handleAnotarse(excursion)}>
+            <p><strong>Nombre:</strong> {excursion.nombre}</p>
+            <p><strong>Guía:</strong> {excursion.guia}</p>
+            <p><strong>Fecha:</strong> {excursion.fecha}</p>
+            <p><strong>Día:</strong> {excursion.diaSemana}</p>
+            <p><strong>Hora Inicio:</strong> {excursion.horaInicio}</p>
+            <p><strong>Hora Final:</strong> {excursion.horaFinal}</p>
+            <p><strong>Personas Máx:</strong> {excursion.cantMaxPersonas}</p>
+            <p><strong>Costo:</strong> ${excursion.costo}</p>
+            <p><strong>Punto de Encuentro:</strong> {excursion.puntoEncuentro}</p>
+            <p><strong>Dificultad:</strong> {excursion.dificultad}</p>
+            <p><strong>Distancia:</strong> {excursion.distancia} km</p>
+            <p><strong>Duración:</strong> {excursion.duracion}</p>
+            <motion.button
+              className="anotarse"
+              onClick={() => handleAnotarse(excursion)}
+              whileHover={{ scale: 1.05 }}
+            >
               Anotarse
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               className="detalles"
               onClick={() => navigate(`/detalles-excursion-seleccionada/${excursion.id}`)}
+              whileHover={{ scale: 1.05 }}
             >
               Ver más detalles
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
       ))}
 
-      {/* Mostrar VentanaPago si hay una actividad seleccionada */}
       {selectedActividad && (
         <VentanaPago actividad={selectedActividad} onClose={handleCloseVentanaPago} />
       )}
