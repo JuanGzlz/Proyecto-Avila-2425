@@ -23,9 +23,15 @@ const Login: React.FC = () => {
     e.preventDefault();
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
+      if (email === "admin123@correo.unimet.edu.ve" && password === "123admin" || email === "admin1234@correo.unimet.edu.ve" && password === "1234admin") {
+        // Redirigir a la página de administración si es el administrador
+        navigate("/admin");
+      } else {
+        // Redirigir a la página principal para otros usuarios
+        navigate("/");
+      }
       console.log(user.user.uid);
       console.log(user.user.email);
-      navigate("/");
     } catch (error) {
       console.log(error);
     }
