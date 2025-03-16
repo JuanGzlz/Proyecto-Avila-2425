@@ -42,14 +42,13 @@ const HomePage: React.FC = () => {
           </p>
         </motion.h2>
       </motion.section>
-      
       <motion.section 
         className="info-section"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-        <h2 className="info-title-black">¡Conoce más sobre este patrimonio nacional!</h2>
+      <h2 className = "text-4xl pt-3 font-bold text-white pt-5 pb-10" style={{ fontFamily: "'Lucida Handwriting', cursive" }}>¡Conoce más sobre este patrimonio nacional!</h2>
         <div className="box-info-cards">
           <motion.div className="info-card" whileHover={{ scale: 1.05 }}>
             <div className="flex flex-col items-center">
@@ -71,10 +70,10 @@ const HomePage: React.FC = () => {
           </motion.div>
         </div>
         <div className="info-buttons">
-          <motion.button className="info-button" whileHover={{ scale: 1.1 }}>
+          <motion.button className="info-button font-semibold" whileHover={{ scale: 1.1 }}>
             Ver más información
           </motion.button>
-          <motion.button className="info-button" whileHover={{ scale: 1.1 }} onClick={() => navigate('/fauna')}>
+          <motion.button className="info-button font-semibold" whileHover={{ scale: 1.1 }} onClick={() => navigate('/fauna')}>
             Galería de fotos
           </motion.button>
         </div>
