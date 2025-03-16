@@ -28,7 +28,7 @@ function App() {
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/crear-actividad" element={<CrearActividad />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="/datos-sobre-actividad" element={<DatosSobreActividad />} />
+          <Route path="/datos-sobre-actividad/:id" element={<DatosSobreActividad />} />
           <Route path="/detalles-excursion-seleccionada/:id" element={<DetallesExcursionSeleccionada />} />
           <Route path="/filtro-busqueda" element={<FiltroBusqueda />} />
           <Route path="/foro" element={<Foro />} />
