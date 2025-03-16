@@ -3,6 +3,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { app } from "../credentials";
 import HeaderVentanas from "./HeaderVentanas";
+import Calendario from "./Calendario/Calendario";
 
 const db = getFirestore(app);
 const storage = getStorage(app);
@@ -12,7 +13,6 @@ const CrearActividad: React.FC = () => {
     nombre: "",
     guia: "",
     fecha: "",
-    diaSemana: "",
     horaInicio: "",
     horaFinal: "",
     cantMaxPersonas: "",
@@ -23,10 +23,12 @@ const CrearActividad: React.FC = () => {
     duracion: "",
     imagenPrincipal: "", // URL de la imagen principal
     imagenesAdicionales: [], // Array de URLs de imágenes adicionales
+    tipo: "",
   });
 
   const [imagenPrincipal, setImagenPrincipal] = useState<File | null>(null);
   const [imagenesAdicionales, setImagenesAdicionales] = useState<File[]>([]);
+  const [fechaSeleccionada, setFechaSeleccionada] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setActividad({
@@ -83,6 +85,7 @@ const CrearActividad: React.FC = () => {
       // Guardar en Firestore
       const actividadData = {
         ...actividad,
+        fecha: fechaSeleccionada || "",
         imagenPrincipal: imageUrl,
         imagenesAdicionales: additionalImageUrls,
       };
@@ -96,7 +99,6 @@ const CrearActividad: React.FC = () => {
         nombre: "",
         guia: "",
         fecha: "",
-        diaSemana: "",
         horaInicio: "",
         horaFinal: "",
         cantMaxPersonas: "",
@@ -107,6 +109,7 @@ const CrearActividad: React.FC = () => {
         duracion: "",
         imagenPrincipal: "",
         imagenesAdicionales: [],
+        tipo: "",
       });
 
       setImagenPrincipal(null);
@@ -120,14 +123,22 @@ const CrearActividad: React.FC = () => {
   return (
     <div>
       <HeaderVentanas />
-      <div className="flex items-center justify-center min-h-screen bg-gray-100 pt-10">
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 pt-10 pb-10">
         <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg">
           <h2 className="text-center text-xl font-semibold mb-6">Crear actividad</h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
             <input name="nombre" value={actividad.nombre} onChange={handleChange} className="border p-2 rounded-full" placeholder="Nombre de la actividad" required />
-            <input name="fecha" type="date" value={actividad.fecha} onChange={handleChange} className="border p-2 rounded-full" required />
             <input name="guia" value={actividad.guia} onChange={handleChange} className="border p-2 rounded-full" placeholder="Guía" required />
-            <input name="diaSemana" value={actividad.diaSemana} onChange={handleChange} className="border p-2 rounded-full" placeholder="Día de la semana" required />
+            <label className="col-span-2 text-gray-700 font-semibold">Fecha:</label>
+            <div className="col-span-2 flex justify-center">
+              <Calendario 
+                onSelectDate={(dates: string[]) => {
+                  console.log("Fechas seleccionadas:", dates);
+                  setFechaSeleccionada(dates.length > 0 ? dates[0] : ""); // Tomamos la primera fecha si hay alguna
+                }} 
+                markedDates={[]} 
+              />
+            </div>
             <input name="horaInicio" type="time" value={actividad.horaInicio} onChange={handleChange} className="border p-2 rounded-full" required />
             <input name="cantMaxPersonas" type="number" value={actividad.cantMaxPersonas} onChange={handleChange} className="border p-2 rounded-full" placeholder="Cant Max Personas" required />
             <input name="horaFinal" type="time" value={actividad.horaFinal} onChange={handleChange} className="border p-2 rounded-full" required />
@@ -136,7 +147,20 @@ const CrearActividad: React.FC = () => {
             <input name="dificultad" type="number" min="1" max="10" value={actividad.dificultad} onChange={handleChange} className="border p-2 rounded-full" placeholder="Dificultad" required />
             <input name="distancia" type="number" value={actividad.distancia} onChange={handleChange} className="border p-2 rounded-full" placeholder="Distancia" required />
             <input name="duracion" type="time" value={actividad.duracion} onChange={handleChange} className="border p-2 rounded-full" placeholder="Duración" required />
-
+            <label className="col-span-2 text-gray-700 font-semibold">Tipo de actividad:</label>
+              <select
+                name="tipo"
+                value={actividad.tipo}
+                onChange={(e) => setActividad({ ...actividad, tipo: e.target.value })}
+                className="border p-2 rounded-full col-span-2"
+                required
+              >
+                <option value="">Selecciona un tipo</option>
+                <option value="acampar">Acampar</option>
+                <option value="excursion">Excursión de un día</option>
+                <option value="carrera">Carrera de montaña</option>
+                <option value="ciclismo">Ciclismo</option>
+              </select>
             {/* Imagen principal */}
             <label className="col-span-2 text-gray-700 font-semibold">Imagen Principal:</label>
             <input type="file" onChange={handleImageChange} className="border p-2 rounded-full col-span-2" />
@@ -154,7 +178,7 @@ const CrearActividad: React.FC = () => {
               ))}
             </div>
 
-            <button type="submit" className="col-span-2 bg-green-500 text-white py-2 rounded-full text-lg">
+            <button type="submit" className="col-span-2 font-bold gap-2 !px-6 !py-3 !bg-[#1d6363] !text-white rounded-full transition-all duration-200 transform hover:scale-105 hover:!bg-[#174f4f]">
               Crear Actividad
             </button>
           </form>
