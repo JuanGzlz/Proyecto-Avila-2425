@@ -3,6 +3,7 @@ import { FaSearch, FaStar, FaCalendarAlt, FaCog, FaMapMarkerAlt, FaExchangeAlt, 
 import { collection, getDocs, getFirestore, query } from "firebase/firestore";
 import { app } from "../credentials";
 import HeaderVentanas from "./HeaderVentanas";
+import { useNavigate } from "react-router-dom"; // Importamos useNavigate para la redirección
 
 // Definimos el tipo de actividad fuera del componente
 type Activity = {
@@ -23,6 +24,7 @@ const FiltroBusqueda: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   
   const db = getFirestore(app);
+  const navigate = useNavigate(); // Hook para navegación
 
   const filters = [
     { key: "recomendados", icon: <FaStar />, label: "Recomendados" },
@@ -89,6 +91,11 @@ const FiltroBusqueda: React.FC = () => {
   // Manejador de cambio de filtro
   const handleFilterChange = (filterKey: string) => {
     setSelectedFilter(prevFilter => prevFilter === filterKey ? null : filterKey);
+  };
+
+  // Función para manejar el clic en una actividad y navegar a los detalles
+  const handleActivityClick = (activityId: string) => {
+    navigate(`/detalles-excursion-seleccionada/${activityId}`);
   };
 
   // Función para renderizar la información específica según el filtro seleccionado
@@ -222,7 +229,8 @@ const FiltroBusqueda: React.FC = () => {
             {filteredActivities.map((activity, index) => (
               <li 
                 key={`activity-${activity.id || index}-${index}`} 
-                className="py-3 hover:bg-gray-50 px-2 transition-colors"
+                className="py-3 hover:bg-gray-50 px-2 transition-colors cursor-pointer"
+                onClick={() => handleActivityClick(activity.id)}
               >
                 {renderActivityInfo(activity)}
               </li>
