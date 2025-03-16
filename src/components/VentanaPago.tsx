@@ -1,58 +1,110 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import PayPalPayment from './PagoPayPal'; // Importa el componente de PayPal
+import React, { useEffect, useState, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { doc, getDoc, updateDoc, arrayUnion, getFirestore } from "firebase/firestore";
+import { app } from "../credentials";
+import PayPalPayment from "./PagoPayPal";
+import { UserContext } from "../Context/UserContext";
+import HeaderVentanas from "./HeaderVentanas";
 
-type VentanaPagoProps = {
-  actividad: {
-    id: string;
-    nombre: string;
-    costo: string;
-    guia: string;
-    fecha: string;
-    diaSemana: string;
-    horaInicio: string;
-    horaFinal: string;
-    cantMaxPersonas: number;
-    puntoEncuentro: string;
-    dificultad: number;
-    distancia: string;
-    duracion: string;
-  };
-  onClose: () => void;
+const db = getFirestore(app);
+
+type Excursion = {
+  id: string;
+  nombre: string;
+  guia: string;
+  costo: string;
 };
 
-const VentanaPago: React.FC<VentanaPagoProps> = ({ actividad, onClose }) => {
-    const navigate = useNavigate();
+const VentanaPago: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const [excursion, setExcursion] = useState<Excursion | null>(null);
+  const profileContext = useContext(UserContext);
+  const { logged, profile } = profileContext || {};
+  const navigate = useNavigate();
 
-    const handlePaymentSuccess = () => {
-      onClose(); // Cierra la ventana de pago
-      navigate('/pago-exitoso'); // Redirige al usuario a una página de confirmación
+  useEffect(() => {
+    const fetchExcursion = async () => {
+      if (!id) return;
+      try {
+        const docRef = doc(db, "actividades", id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setExcursion({ id: docSnap.id, ...docSnap.data() } as Excursion);
+        } else {
+          console.error("No se encontró la excursión");
+        }
+      } catch (error) {
+        console.error("Error al obtener la excursión:", error);
+      }
     };
 
+    fetchExcursion();
+  }, [id]);
+
+  const handlePaymentSuccess = async () => {
+    if (!id || !profile?.uid) return;
+  
+    try {
+      const excursionRef = doc(db, "actividades", id);
+      const excursionSnap = await getDoc(excursionRef);
+  
+      if (!excursionSnap.exists()) {
+        console.error("La excursión no existe");
+        return;
+      }
+  
+      const excursionData = excursionSnap.data();
+      const usuariosRegistrados = excursionData?.usuariosRegistrados || [];
+  
+      // Verificar si el usuario ya está registrado
+      if (usuariosRegistrados.includes(profile.nombre)) {
+        alert("Ya estás registrado en esta excursión.");
+        return;
+      }
+  
+      // Agregar el usuario a la lista de registrados
+      await updateDoc(excursionRef, {
+        usuariosRegistrados: arrayUnion(profile.nombre), // Agrega el usuario a la lista
+      });
+  
+      alert("Pago exitoso. Has sido registrado en la excursión.");
+
+      const userRef = doc(db, "users", profile.uid); // Usar el uid del usuario
+      await updateDoc(userRef, {
+        actividadesReservadas: arrayUnion(id), // Agrega el ID de la excursión a la lista de actividades
+      });
+
+    alert("Pago exitoso. Has sido registrado en la excursión.");
+
+      navigate(`/excursion/${id}`); // Redirige a la página de detalles de la excursión
+    } catch (error) {
+      console.error("Error al registrar usuario en la excursión:", error);
+    }
+  };
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3">
-        <button 
-          onClick={onClose} 
-          className="absolute right-4 top-4 text-gray-700 hover:text-gray-900"
-        >
-          &times;
-        </button>
-        <h1 className="text-2xl font-bold mb-4 text-center">Procesar Pago</h1>
-        <div className="payment-info mb-4">
-          <h2 className="text-xl font-semibold">{actividad.nombre}</h2>
-          <p><strong>Guía:</strong> {actividad.guia}</p>
-          <p><strong>Fecha:</strong> {actividad.fecha}</p>
-          <p><strong>Día:</strong> {actividad.diaSemana}</p>
-          <p><strong>Hora Inicio:</strong> {actividad.horaInicio}</p>
-          <p><strong>Hora Final:</strong> {actividad.horaFinal}</p>
-          <p><strong>Costo:</strong> ${actividad.costo}</p>
-          <p><strong>Punto de Encuentro:</strong> {actividad.puntoEncuentro}</p>
-          <p><strong>Dificultad:</strong> {actividad.dificultad}</p>
-          <p><strong>Distancia:</strong> {actividad.distancia} km</p>
-          <p><strong>Duración:</strong> {actividad.duracion}</p>
+    <div>
+      <HeaderVentanas />
+      <div className="min-h-screen bg-white flex flex-col items-center p-6">
+        <div className="bg-teal-900 p-6 rounded-lg shadow-lg text-center w-96">
+          {excursion ? (
+            <>
+              <h1 className="text-2xl font-bold text-white">{excursion.nombre}</h1>
+              <p className="text-white">Guía: {excursion.guia}</p>
+              <p className="text-white">Costo: ${excursion.costo}</p>
+            </>
+          ) : (
+            <p>Cargando detalles...</p>
+          )}
         </div>
-        <PayPalPayment onPaymentSuccess={handlePaymentSuccess} />
+
+        <div className="mt-6 bg-white">
+          {logged ? (
+            <PayPalPayment onPaymentSuccess={handlePaymentSuccess} />
+          ) : (
+            <p className="text-white">Debes iniciar sesión para pagar.</p>
+          )}
+        </div>
       </div>
     </div>
   );

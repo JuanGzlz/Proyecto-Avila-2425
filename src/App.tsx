@@ -14,6 +14,7 @@ import ForoDetallado from './components/ForoDetallado';
 import Foro from './components/Foro';
 import CrearForo from './components/CrearForo';
 import Fauna from './components/Fauna';
+import VentanaPago from './components/VentanaPago';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/foro/:id" element={<ForoDetallado />} />
           <Route path="/crear-foro" element={<CrearForo />} />
           <Route path="/fauna" element={<Fauna />} />
+          <Route path="/ventana-pago/:id" element={<VentanaPago />} />
 
 
           

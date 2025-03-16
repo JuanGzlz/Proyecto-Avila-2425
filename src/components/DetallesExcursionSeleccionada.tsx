@@ -5,6 +5,7 @@ import { app } from "../credentials";
 import HeaderVentanas from "./HeaderVentanas";
 import { ThumbsUp, ThumbsDown } from "lucide-react";
 import { UserContext } from "../Context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const db = getFirestore(app);
 
@@ -36,12 +37,7 @@ const ExcursionDetails: React.FC = () => {
   const [newComment, setNewComment] = useState("");
   const [userVotes, setUserVotes] = useState<{ [commentId: string]: "up" | "down" | null }>({}); // Nuevo estado para los votos
   const profileContext = useContext(UserContext);
-
-  if (!profileContext) {
-    return <div>Cargando...</div>;
-  }
-
-  const { logged, profile } = profileContext;
+  const { logged, profile } = profileContext || {};
 
   useEffect(() => {
     const fetchExcursion = async () => {
@@ -76,6 +72,10 @@ const ExcursionDetails: React.FC = () => {
 
     fetchComments();
   }, [id]);
+
+  if (!profileContext) {
+    return <div>Cargando...</div>;
+  }
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -154,6 +154,8 @@ const ExcursionDetails: React.FC = () => {
       console.error("Error al votar:", error);
     }
   };
+  const navigate = useNavigate();
+  
 
   return (
     <div>
@@ -172,6 +174,12 @@ const ExcursionDetails: React.FC = () => {
         ) : (
           <p className="text-white">Cargando detalles...</p>
         )}
+
+        <button
+           // Volver a la página anterior
+          className="bg-white text-teal-900 px-4 py-2 rounded-lg mt-4 hover:bg-gray-200"
+          onClick={() => navigate(`/ventana-pago/${id}`)} 
+          >Paga</button>
 
         {logged && (
           <div className="max-w-7xl mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6">

@@ -57,9 +57,6 @@ const VentanaActividades: React.FC = () => {
     setSelectedActividad(excursion);
   };
 
-  const handleCloseVentanaPago = () => {
-    setSelectedActividad(null);
-  };
 
   return (
     <div className="page-container min-h-screen">
@@ -146,7 +143,7 @@ const VentanaActividades: React.FC = () => {
       ))}
 
       {selectedActividad && (
-        <VentanaPago actividad={selectedActividad} onClose={handleCloseVentanaPago} />
+        <VentanaPago />
       )}
     </div>
   );
