@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { app } from "../credentials";
 import HeaderVentanas from "./HeaderVentanas";
 import Calendario from "./Calendario/Calendario";
@@ -13,7 +13,6 @@ const CrearActividad: React.FC = () => {
   const [actividad, setActividad] = useState({
     nombre: "",
     guia: "",
-    fecha: "",
     horaInicio: "",
     horaFinal: "",
     cantMaxPersonas: "",
@@ -71,7 +70,10 @@ const CrearActividad: React.FC = () => {
   
       // Subir la imagen principal si existe
       if (imagenPrincipal) {
-        const storageRef = ref(storage, `actividades/principal_${imagenPrincipal.name}`);
+        const storageRef = ref(
+          storage,
+          `actividades/principal_${imagenPrincipal.name}`
+        );
         await uploadBytes(storageRef, imagenPrincipal);
         imageUrl = await getDownloadURL(storageRef);
       }
@@ -87,12 +89,23 @@ const CrearActividad: React.FC = () => {
       // Guardar en Firestore
       const actividadData = {
         ...actividad,
-        fecha: fechaSeleccionada || "",
         imagenPrincipal: imageUrl,
         imagenesAdicionales: additionalImageUrls,
+        capacidadMaxima: parseInt(actividad.cantMaxPersonas, 10), // Añadir capacidadMaxima
       };
   
       const docRef = await addDoc(collection(db, "actividades"), actividadData);
+  
+      // Crear subcolección "disponibilidad"
+      const disponibilidadRef = doc(
+        collection(db, "actividades", docRef.id, "disponibilidad"),
+        fechaSeleccionada
+      );
+  
+      await setDoc(disponibilidadRef, {
+        personasReservadas: 0,
+        usuariosReservados: [], // Inicializar el array de usuariosReservados
+      });
   
       console.log("Actividad guardada con ID:", docRef.id);
       alert("Actividad creada exitosamente");
@@ -101,7 +114,6 @@ const CrearActividad: React.FC = () => {
       setActividad({
         nombre: "",
         guia: "",
-        fecha: "",
         horaInicio: "",
         horaFinal: "",
         cantMaxPersonas: "",
@@ -119,7 +131,6 @@ const CrearActividad: React.FC = () => {
   
       // Navegar a la siguiente ventana usando el ID de la actividad recién creada
       navigate(`/datos-sobre-actividad/${docRef.id}`);
-  
     } catch (error) {
       console.error("Error al subir imágenes o guardar datos:", error);
     }

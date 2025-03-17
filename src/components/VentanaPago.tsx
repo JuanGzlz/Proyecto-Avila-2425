@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { doc, getDoc, updateDoc, arrayUnion, getFirestore } from "firebase/firestore";
+import { doc, getDoc, arrayUnion, getFirestore, runTransaction } from "firebase/firestore";
 import { app } from "../credentials";
 import PayPalPayment from "./PagoPayPal";
 import { UserContext } from "../Context/UserContext";
 import HeaderVentanas from "./HeaderVentanas";
+import Calendario from "./Calendario/Calendario";
 
 const db = getFirestore(app);
 
@@ -21,6 +22,7 @@ const VentanaPago: React.FC = () => {
   const profileContext = useContext(UserContext);
   const { logged, profile } = profileContext || {};
   const navigate = useNavigate();
+  const [fechaSeleccionada, setFechaSeleccionada] = useState<string>(""); // Estado para la fecha seleccionada
 
   useEffect(() => {
     const fetchExcursion = async () => {
@@ -42,43 +44,63 @@ const VentanaPago: React.FC = () => {
   }, [id]);
 
   const handlePaymentSuccess = async () => {
-    if (!id || !profile?.uid) return;
-  
+    if (!id || !profile?.uid || !fechaSeleccionada) return;
+
     try {
-      const excursionRef = doc(db, "actividades", id);
-      const excursionSnap = await getDoc(excursionRef);
-  
-      if (!excursionSnap.exists()) {
-        console.error("La excursión no existe");
-        return;
-      }
-  
-      const excursionData = excursionSnap.data();
-      const usuariosRegistrados = excursionData?.usuariosRegistrados || [];
-  
-      // Verificar si el usuario ya está registrado
-      if (usuariosRegistrados.includes(profile.nombre)) {
-        alert("Ya estás registrado en esta excursión.");
-        return;
-      }
-  
-      // Agregar el usuario a la lista de registrados
-      await updateDoc(excursionRef, {
-        usuariosRegistrados: arrayUnion(profile.nombre), // Agrega el usuario a la lista
+      const actividadRef = doc(db, "actividades", id);
+      const disponibilidadRef = doc(
+        actividadRef,
+        "disponibilidad",
+        fechaSeleccionada
+      );
+      const usuarioRef = doc(db, "users", profile.uid);
+
+      await runTransaction(db, async (transaction) => {
+        const disponibilidadDoc = await transaction.get(disponibilidadRef);
+        const actividadDoc = await transaction.get(actividadRef);
+
+        if (!actividadDoc.exists()) {
+          throw new Error("La actividad no existe.");
+        }
+
+        const capacidadMaxima = actividadDoc.data().capacidadMaxima;
+
+        if (!disponibilidadDoc.exists()) {
+          transaction.set(disponibilidadRef, {
+            personasReservadas: 1,
+            usuariosReservados: [profile.uid],
+          });
+        } else {
+          const personasReservadas = disponibilidadDoc.data().personasReservadas;
+          const usuariosReservados = disponibilidadDoc.data().usuariosReservados || [];
+
+          if (personasReservadas >= capacidadMaxima) {
+            throw new Error("La actividad está llena.");
+          }
+
+          if (usuariosReservados.includes(profile.uid)) {
+            throw new Error("Ya estás registrado en esta actividad para esta fecha.");
+          }
+
+          transaction.update(disponibilidadRef, {
+            personasReservadas: personasReservadas + 1,
+            usuariosReservados: arrayUnion(profile.uid),
+          });
+        }
+
+        transaction.update(usuarioRef, {
+          actividadesReservadas: arrayUnion({
+            idActividad: id,
+            fecha: fechaSeleccionada,
+          }),
+        });
       });
-  
-      alert("Pago exitoso. Has sido registrado en la excursión.");
 
-      const userRef = doc(db, "users", profile.uid); // Usar el uid del usuario
-      await updateDoc(userRef, {
-        actividadesReservadas: arrayUnion(id), // Agrega el ID de la excursión a la lista de actividades
-      });
-
-    alert("Pago exitoso. Has sido registrado en la excursión.");
-
-      navigate(`/excursion/${id}`); // Redirige a la página de detalles de la excursión
+      alert("Pago exitoso. Has sido registrado en la actividad.");
+      navigate(`/excursion/${id}`);
     } catch (error) {
-      console.error("Error al registrar usuario en la excursión:", error);
+      console.error("Error al registrar usuario en la actividad:", error);
+      alert("error"); // Mostrar el mensaje de error al usuario
     }
   };
 
@@ -96,6 +118,15 @@ const VentanaPago: React.FC = () => {
           ) : (
             <p>Cargando detalles...</p>
           )}
+        </div>
+
+        <div className="col-span-2 flex justify-center">
+          <Calendario
+            onSelectDate={(dates: string[]) => {
+              setFechaSeleccionada(dates.length > 0 ? dates[0] : "");
+            }}
+            markedDates={[]}
+          />
         </div>
 
         <div className="mt-6 bg-white">
