@@ -20,14 +20,14 @@ const CrearActividad: React.FC = () => {
     puntoEncuentro: "",
     dificultad: "",
     distancia: "",
-    imagenPrincipal: "", // URL de la imagen principal
-    imagenesAdicionales: [], // Array de URLs de imágenes adicionales
+    imagenPrincipal: "",
+    imagenesAdicionales: [],
     tipo: "",
   });
 
   const [imagenPrincipal, setImagenPrincipal] = useState<File | null>(null);
   const [imagenesAdicionales, setImagenesAdicionales] = useState<File[]>([]);
-  const [fechaSeleccionada, setFechaSeleccionada] = useState<string>("");
+  const [fechasDisponibles, setFechasDisponibles] = useState<string[]>([]); // Estado para múltiples fechas
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setActividad({
@@ -36,14 +36,12 @@ const CrearActividad: React.FC = () => {
     });
   };
 
-  // Manejar imagen principal
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setImagenPrincipal(e.target.files[0]);
     }
   };
 
-  // Manejar imágenes adicionales
   const handleMultipleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
@@ -51,24 +49,25 @@ const CrearActividad: React.FC = () => {
     }
   };
 
-  // Eliminar una imagen adicional antes de subirla
   const removeAdditionalImage = (index: number) => {
     setImagenesAdicionales((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleFechasDisponiblesChange = (dates: string[]) => {
+    setFechasDisponibles(dates);
+  };
+
   const navigate = useNavigate();
 
-  // Subir imágenes y guardar en Firestore
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     try {
       console.log("Subiendo imágenes y guardando datos...");
-  
+
       let imageUrl = "";
       const additionalImageUrls: string[] = [];
-  
-      // Subir la imagen principal si existe
+
       if (imagenPrincipal) {
         const storageRef = ref(
           storage,
@@ -77,40 +76,36 @@ const CrearActividad: React.FC = () => {
         await uploadBytes(storageRef, imagenPrincipal);
         imageUrl = await getDownloadURL(storageRef);
       }
-  
-      // Subir imágenes adicionales si existen
+
       for (const image of imagenesAdicionales) {
         const storageRef = ref(storage, `actividades/adicional_${image.name}`);
         await uploadBytes(storageRef, image);
         const downloadUrl = await getDownloadURL(storageRef);
         additionalImageUrls.push(downloadUrl);
       }
-  
-      // Guardar en Firestore
+
       const actividadData = {
         ...actividad,
         imagenPrincipal: imageUrl,
         imagenesAdicionales: additionalImageUrls,
-        capacidadMaxima: parseInt(actividad.cantMaxPersonas, 10), // Añadir capacidadMaxima
+        capacidadMaxima: parseInt(actividad.cantMaxPersonas, 10),
+        fechasDisponibles: fechasDisponibles, // Guardar las fechas disponibles
       };
-  
+
       const docRef = await addDoc(collection(db, "actividades"), actividadData);
-  
-      // Crear subcolección "disponibilidad"
-      const disponibilidadRef = doc(
-        collection(db, "actividades", docRef.id, "disponibilidad"),
-        fechaSeleccionada
-      );
-  
-      await setDoc(disponibilidadRef, {
-        personasReservadas: 0,
-        usuariosReservados: [], // Inicializar el array de usuariosReservados
-      });
-  
+
+      // Crear subcolecciones "disponibilidad" para cada fecha
+      for (const fecha of fechasDisponibles) {
+        const disponibilidadRef = doc(
+          collection(db, "actividades", docRef.id, "disponibilidad"),
+          fecha
+        );
+        await setDoc(disponibilidadRef, { personasReservadas: 0, usuariosReservados: [] });
+      }
+
       console.log("Actividad guardada con ID:", docRef.id);
       alert("Actividad creada exitosamente");
-  
-      // Limpiar el formulario
+
       setActividad({
         nombre: "",
         guia: "",
@@ -125,11 +120,11 @@ const CrearActividad: React.FC = () => {
         imagenesAdicionales: [],
         tipo: "",
       });
-  
+
       setImagenPrincipal(null);
       setImagenesAdicionales([]);
-  
-      // Navegar a la siguiente ventana usando el ID de la actividad recién creada
+      setFechasDisponibles([]); // Limpiar las fechas disponibles
+
       navigate(`/datos-sobre-actividad/${docRef.id}`);
     } catch (error) {
       console.error("Error al subir imágenes o guardar datos:", error);
@@ -145,38 +140,36 @@ const CrearActividad: React.FC = () => {
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input name="nombre" value={actividad.nombre} onChange={handleChange} className="border p-2 rounded-full w-full" placeholder="Nombre de la actividad" required />
             <label className="text-gray-700 font-semibold">Guia</label>
-              <select
-                name="guia"
-                value={actividad.guia}
-                onChange={(e) => setActividad({ ...actividad, guia: e.target.value })}
-                className="border p-2 rounded-full"
-                required
-              >
-                <option value="">Selecciona un guia</option>
-                <option value="alta">Alta</option>
-                <option value="media">Media</option>
-                <option value="baja">Baja</option>
-              </select>
-            <label className="col-span-2 text-gray-700 font-semibold">Fecha:</label>
+            <select
+              name="guia"
+              value={actividad.guia}
+              onChange={(e) => setActividad({ ...actividad, guia: e.target.value })}
+              className="border p-2 rounded-full"
+              required
+            >
+              <option value="">Selecciona un guia</option>
+              <option value="alta">Alta</option>
+              <option value="media">Media</option>
+              <option value="baja">Baja</option>
+            </select>
+            <label className="col-span-2 text-gray-700 font-semibold">Fechas Disponibles:</label>
             <div className="col-span-2 flex justify-center">
-              <Calendario 
-                onSelectDate={(dates: string[]) => {
-                  console.log("Fechas seleccionadas:", dates);
-                  setFechaSeleccionada(dates.length > 0 ? dates[0] : ""); // Tomamos la primera fecha si hay alguna
-                }} 
-                markedDates={[]} 
+              <Calendario
+                onSelectDate={handleFechasDisponiblesChange}
+                markedDates={fechasDisponibles}
+                multipleDates={true} // Permitir selección múltiple
               />
             </div>
             <label className="col-span-2 text-gray-700 font-semibold">Ingresa la hora de inicio:</label>
-              <input name="horaInicio" type="time" value={actividad.horaInicio} onChange={handleChange} className="border p-2 rounded-full" required />
+            <input name="horaInicio" type="time" value={actividad.horaInicio} onChange={handleChange} className="border p-2 rounded-full" required />
             <label className="col-span-2 text-gray-700 font-semibold">Ingresa la hora de finalización:</label>
-              <input name="horaFinal" type="time" value={actividad.horaFinal} onChange={handleChange} className="border p-2 rounded-full" required />
+            <input name="horaFinal" type="time" value={actividad.horaFinal} onChange={handleChange} className="border p-2 rounded-full" required />
             <label className="text-gray-700 font-semibold">Ingresa la cantidad máxima de participantes</label>
-              <input name="cantMaxPersonas" type="number" value={actividad.cantMaxPersonas} onChange={handleChange} className="border p-2 rounded-full" placeholder="Cant Max Personas" required />
+            <input name="cantMaxPersonas" type="number" value={actividad.cantMaxPersonas} onChange={handleChange} className="border p-2 rounded-full" placeholder="Cant Max Personas" required />
             <label className="text-gray-700 font-semibold">Ingresa el costo de la actividad</label>
-              <input name="costo" type="number" value={actividad.costo} onChange={handleChange} className="border p-2 rounded-full" placeholder="Costo" required />
+            <input name="costo" type="number" value={actividad.costo} onChange={handleChange} className="border p-2 rounded-full" placeholder="Costo" required />
             <label className="text-gray-700 font-semibold">Ingresa la dirección del punto de encuentro</label>
-              <input name="puntoEncuentro" value={actividad.puntoEncuentro} onChange={handleChange} className="border p-2 rounded-full" placeholder="Punto de encuentro" required />
+            <input name="puntoEncuentro" value={actividad.puntoEncuentro} onChange={handleChange} className="border p-2 rounded-full" placeholder="Punto de encuentro" required />
             <label className="text-gray-700 font-semibold">Dificultad</label>
               <select
                 name="dificultad"

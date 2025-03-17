@@ -39,11 +39,12 @@ const ExcursionDetails: React.FC = () => {
   const [excursion, setExcursion] = useState<Excursion | null>(null);
   const [comments, setComments] = useState<Comentario[]>([]);
   const [newComment, setNewComment] = useState("");
-  const [userVotes, setUserVotes] = useState<{ [commentId: string]: "up" | "down" | null }>({}); // Nuevo estado para los votos
+  const [userVotes, setUserVotes] = useState<{ [commentId: string]: "up" | "down" | null }>({});
   const profileContext = useContext(UserContext);
   const { logged, profile } = profileContext || {};
   const [newRating, setNewRating] = useState<number>(0);
   const [averageRating, setAverageRating] = useState<number>(0);
+  const [userRegistered, setUserRegistered] = useState(false);
 
   useEffect(() => {
     const fetchExcursion = async () => {
@@ -84,17 +85,16 @@ const ExcursionDetails: React.FC = () => {
   useEffect(() => {
     const updateExcursionRating = async () => {
       if (!id) return;
-  
-      let calculatedRating = 3; // Valor predeterminado si no hay comentarios
+
+      let calculatedRating = 3;
       if (comments.length > 0) {
         const validRatings = comments.map((c) => c.rating ?? 3);
         const sum = validRatings.reduce((acc, rating) => acc + rating, 0);
         calculatedRating = sum / validRatings.length;
       }
-  
+
       setAverageRating(calculatedRating);
-  
-      // Guardar la puntuación en Firestore
+
       try {
         const excursionRef = doc(db, "actividades", id);
         await updateDoc(excursionRef, { puntuacion: calculatedRating });
@@ -102,9 +102,34 @@ const ExcursionDetails: React.FC = () => {
         console.error("Error al actualizar la puntuación:", error);
       }
     };
-  
+
     updateExcursionRating();
   }, [comments, id]);
+
+  useEffect(() => {
+    const checkUserRegistration = async () => {
+      if (!id || !profile?.uid) return;
+
+      try {
+        const disponibilidadCollection = collection(db, "actividades", id, "disponibilidad");
+        const disponibilidadSnapshot = await getDocs(disponibilidadCollection);
+
+        let registered = false;
+        for (const docSnap of disponibilidadSnapshot.docs) {
+          const usuariosReservados = docSnap.data().usuariosReservados || [];
+          if (usuariosReservados.includes(profile.uid)) {
+            registered = true;
+            break;
+          }
+        }
+        setUserRegistered(registered);
+      } catch (error) {
+        console.error("Error al verificar el registro del usuario:", error);
+      }
+    };
+
+    checkUserRegistration();
+  }, [id, profile?.uid]);
 
   if (!profileContext) {
     return <div>Cargando...</div>;
@@ -147,31 +172,27 @@ const ExcursionDetails: React.FC = () => {
       const commentData = commentSnap.data() as Comentario;
       const userVote = commentData.votos?.[profile.nombre];
 
-      if (userVote === type) return; // Evita duplicar votos
+      if (userVote === type) return;
 
       const updateData: any = {};
 
       if (userVote) {
-        // Si ya votó antes, quitar el voto anterior
         if (userVote === "up") updateData.thumbsUp = commentData.thumbsUp - 1;
         if (userVote === "down") updateData.thumbsDown = commentData.thumbsDown - 1;
-        updateData[`votos.${String(profile.nombre)}`] = deleteField(); // Elimina el voto anterior
+        updateData[`votos.${String(profile.nombre)}`] = deleteField();
       }
 
-      // Agregar el nuevo voto
       if (type === "up") updateData.thumbsUp = (updateData.thumbsUp || commentData.thumbsUp) + 1;
       if (type === "down") updateData.thumbsDown = (updateData.thumbsDown || commentData.thumbsDown) + 1;
       updateData[`votos.${String(profile.nombre)}`] = type;
 
       await updateDoc(commentRef, updateData);
 
-      // Actualizamos el estado de votos
       setUserVotes((prevVotes) => ({
         ...prevVotes,
-        [commentId]: type, // Guardamos el voto del usuario para este comentario
+        [commentId]: type,
       }));
 
-      // Refrescar comentarios después de la votación
       setComments((prev) =>
         prev.map((c) =>
           c.id === commentId
@@ -195,25 +216,22 @@ const ExcursionDetails: React.FC = () => {
       <HeaderVentanas />
       <div className="min-h-screen bg-teal-900 flex-col justify-center items-center p-4 ">
         {excursion ? (
-          <div className="bg-white p-6 rounded-2xl shadow-lg mt-6 flex max-w-7xl mx-auto">
+        <div className="bg-white p-6 rounded-2xl shadow-lg mt-6 flex max-w-7xl mx-auto">
           {/* Sección Izquierda - Información de la Excursión */}
           <div className="w-2/3 pr-6">
             <h1 className="text-3xl font-bold text-teal-900 text-center mb-4 pb-6">{excursion.nombre}</h1>
-      
             <div className="divide-y divide-gray-300">
-              {/* Dificultad y Duración */}
               <div className="grid grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaMountain className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Dificultad: </span>  {excursion.dificultad}
+                  <span className="font-semibold">Dificultad: </span> {excursion.dificultad}
                 </div>
                 <div className="flex items-center">
                   <FaClock className="text-teal-900 text-xl mr-2" />
                   <span className="font-semibold">Duración: </span> {excursion.duracion}
                 </div>
               </div>
-      
-              {/* Distancia y Costo */}
+
               <div className="grid grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaMapMarkerAlt className="text-teal-900 text-xl mr-2" />
@@ -224,8 +242,7 @@ const ExcursionDetails: React.FC = () => {
                   <span className="font-semibold">Costo: </span> ${excursion.costo}
                 </div>
               </div>
-      
-              {/* Guía y Fecha */}
+
               <div className="grid grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaUser className="text-teal-900 text-xl mr-2" />
@@ -237,35 +254,36 @@ const ExcursionDetails: React.FC = () => {
                 </div>
               </div>
             </div>
-      
-            <p className="text-lg text-center mt-4 font-semibold text-yellow-500">
-              Puntuación Promedio: {averageRating.toFixed(1)} ★
-            </p>
-          </div>
-      
-          {/* Sección Derecha - Imagen */}
-          <div className="w-1/3 flex justify-center items-center">
-            <img
-              src="https://via.placeholder.com/300"
-              alt="Excursión"
-              className="rounded-xl shadow-md object-cover w-full h-48"
-            />
-          </div>
-        </div>
-        ) : (
-          <p className="text-white">Cargando detalles...</p>
-        )}
 
-        <button
-           // Volver a la página anterior
-          className="bg-white text-teal-900 px-4 py-2 rounded-lg mt-4 hover:bg-gray-200 font-semibold"
-          onClick={() => navigate(`/ventana-pago/${id}`)} 
-          >¡Pagar!</button>
+              <p className="text-lg text-center mt-4 font-semibold text-yellow-500">
+                Puntuación Promedio: {averageRating.toFixed(1)} ★
+              </p>
+            </div>
 
-        {logged && (
-          <div className="max-w-7xl mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6">
-            <h2 className="text-2xl font-bold text-gray-800">Agregar Comentario</h2>
-            <form onSubmit={handleCommentSubmit} className="mt-4 space-y-4">
+            <div className="w-1/3 flex justify-center items-center">
+              <img
+                src="https://via.placeholder.com/300"
+                alt="Excursión"
+                className="rounded-xl shadow-md object-cover w-full h-48"
+              />
+            </div>
+
+            </div>
+            ) : (
+            <p className="text-white">Cargando detalles...</p>
+            )}
+
+            <button
+            className="bg-white text-teal-900 px-4 py-2 rounded-lg mt-4 hover:bg-gray-200 font-semibold"
+            onClick={() => navigate(`/ventana-pago/${id}`)}
+            >
+            ¡Pagar!
+            </button>
+
+            {logged && userRegistered ? (
+            <div className="max-w-7xl mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6">
+              <h2 className="text-2xl font-bold text-gray-800">Agregar Comentario</h2>
+              <form onSubmit={handleCommentSubmit} className="mt-4 space-y-4">
               <textarea
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
@@ -274,7 +292,6 @@ const ExcursionDetails: React.FC = () => {
                 required
               />
 
-               {/* Selector de estrellas */}
               <div className="flex space-x-1">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
@@ -290,40 +307,43 @@ const ExcursionDetails: React.FC = () => {
               <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                 Comentar
               </button>
-            </form>
-          </div>
-        )}
+              </form>
+              </div>
+              ) : logged && !userRegistered ? (
+              <p className="max-w-7xl mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6 text-center">
+              Debes estar registrado en esta actividad para dejar un comentario.
+              </p>
+              ) : null}
 
-        <div className="max-w-7xl mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6">
-          <h2 className="text-3xl font-bold text-gray-800 border-b pb-3">Comentarios y Reseñas</h2>
-          {comments.map((c) => (
-            <div key={c.id} className="border-b py-4 flex justify-between items-start">
-              <div>
-                <h3 className="font-semibold text-gray-800 text-left">{c.usuario}</h3>
-                <p className="text-gray-600 text-left">{c.contenido}</p>
-                {/* Mostrar estrellas de la calificación */}
-                <div className="text-yellow-400 text-xl text-left">
-                  {"★".repeat(c.rating ?? 3)}{"☆".repeat(5 - (c.rating ?? 3))}
+              <div className="max-w-7xl mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6">
+                <h2 className="text-3xl font-bold text-gray-800 border-b pb-3">Comentarios y Reseñas</h2>
+                {comments.map((c) => (
+                  <div key={c.id} className="border-b py-4 flex justify-between items-start">
+                    <div>
+                      <h3 className="font-semibold text-gray-800 text-left">{c.usuario}</h3>
+                      <p className="text-gray-600 text-left">{c.contenido}</p>
+                      <div className="text-yellow-400 text-xl text-left">
+                        {"★".repeat(c.rating ?? 3)}{"☆".repeat(5 - (c.rating ?? 3))}
+                      </div>
+                    </div>
+                    <div className="flex space-x-2">
+                      <ThumbsUp
+                        className={`cursor-pointer ${userVotes[c.id] === "up" ? "text-green-500" : "text-gray-500"}`}
+                        onClick={() => handleVote(c.id, "up")}
+                      />
+                      {c.thumbsUp}
+                      <ThumbsDown
+                        className={`cursor-pointer ${userVotes[c.id] === "down" ? "text-red-500" : "text-gray-500"}`}
+                        onClick={() => handleVote(c.id, "down")}
+                      />
+                      {c.thumbsDown}
+                  </div>
                 </div>
-              </div>
-              <div className="flex space-x-2">
-                <ThumbsUp
-                  className={`cursor-pointer ${userVotes[c.id] === "up" ? "text-green-500" : "text-gray-500"}`}
-                  onClick={() => handleVote(c.id, "up")}
-                />
-                {c.thumbsUp}
-                <ThumbsDown
-                  className={`cursor-pointer ${userVotes[c.id] === "down" ? "text-red-500" : "text-gray-500"}`}
-                  onClick={() => handleVote(c.id, "down")}
-                />
-                {c.thumbsDown}
-              </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
-      </div>
-    </div>
-  );
+      );
 };
 
 export default ExcursionDetails;

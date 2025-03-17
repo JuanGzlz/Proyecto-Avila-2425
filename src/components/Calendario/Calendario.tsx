@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './Calendario.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
-// Definir los meses y días de la semana
 const meses: string[] = [
   'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
   'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
@@ -10,30 +9,27 @@ const meses: string[] = [
 
 const diasSemana: string[] = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'];
 
-// Definir tipos para las props
 interface CalendarioProps {
   onSelectDate: (selectedDates: string[]) => void;
   markedDates: string[];
+  multipleDates?: boolean;
 }
 
-// Función para obtener la cantidad de días de un mes
 const obtenerDiasDelMes = (anio: number, mes: number): number => {
   return new Date(anio, mes + 1, 0).getDate();
 };
 
-// Función para obtener el día de inicio del mes (Lunes = 0, Domingo = 6)
 const obtenerDiaDeInicio = (anio: number, mes: number): number => {
   const dia: number = new Date(anio, mes, 1).getDay();
   return dia === 0 ? 6 : dia - 1;
 };
 
-const Calendario: React.FC<CalendarioProps> = ({ onSelectDate, markedDates }) => {
+const Calendario: React.FC<CalendarioProps> = ({ onSelectDate, markedDates, multipleDates = false }) => {
   const fechaActual: Date = new Date();
   const [mesActual, setMesActual] = useState<number>(fechaActual.getMonth());
   const [anioActual, setAnioActual] = useState<number>(fechaActual.getFullYear());
   const [fechasSeleccionadas, setFechasSeleccionadas] = useState<string[]>([]);
 
-  // Cambiar mes
   const cambiarMes = (direccion: number) => {
     let nuevoMes = mesActual + direccion;
     let nuevoAnio = anioActual;
@@ -50,31 +46,36 @@ const Calendario: React.FC<CalendarioProps> = ({ onSelectDate, markedDates }) =>
     setAnioActual(nuevoAnio);
   };
 
-  // Seleccionar o deseleccionar día
   const toggleDiaSeleccionado = (dia: number) => {
-    const fechaSeleccionada: string = new Date(anioActual, mesActual, dia)
-      .toISOString()
-      .split("T")[0]; // 'YYYY-MM-DD'
+    const fechaString = new Date(anioActual, mesActual, dia).toISOString().split("T")[0];
+
+    if (!markedDates.includes(fechaString)) {
+      return; // No permitir la selección de fechas no disponibles
+    }
+
+    if (!multipleDates) {
+        setFechasSeleccionadas([fechaString]);
+        onSelectDate([fechaString]);
+        return;
+    }
 
     let nuevasFechasSeleccionadas = [...fechasSeleccionadas];
 
-    if (nuevasFechasSeleccionadas.includes(fechaSeleccionada)) {
-      nuevasFechasSeleccionadas = nuevasFechasSeleccionadas.filter(fecha => fecha !== fechaSeleccionada);
+    if (nuevasFechasSeleccionadas.includes(fechaString)) {
+      nuevasFechasSeleccionadas = nuevasFechasSeleccionadas.filter(fecha => fecha !== fechaString);
     } else {
-      nuevasFechasSeleccionadas.push(fechaSeleccionada);
+      nuevasFechasSeleccionadas.push(fechaString);
     }
 
     setFechasSeleccionadas(nuevasFechasSeleccionadas);
     onSelectDate(nuevasFechasSeleccionadas);
   };
 
-  // Verificar si un día está marcado
   const esDiaMarcado = (dia: number): boolean => {
     const fechaString = new Date(anioActual, mesActual, dia).toISOString().split("T")[0];
     return markedDates.includes(fechaString);
   };
 
-  // Verificar si un día está seleccionado
   const esDiaSeleccionado = (dia: number): boolean => {
     const fechaString = new Date(anioActual, mesActual, dia).toISOString().split("T")[0];
     return fechasSeleccionadas.includes(fechaString);

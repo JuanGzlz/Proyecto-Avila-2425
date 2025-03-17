@@ -14,6 +14,7 @@ type Excursion = {
   nombre: string;
   guia: string;
   costo: string;
+  fechasDisponibles: string[]; // Agregar fechasDisponibles
 };
 
 const VentanaPago: React.FC = () => {
@@ -22,7 +23,8 @@ const VentanaPago: React.FC = () => {
   const profileContext = useContext(UserContext);
   const { logged, profile } = profileContext || {};
   const navigate = useNavigate();
-  const [fechaSeleccionada, setFechaSeleccionada] = useState<string>(""); // Estado para la fecha seleccionada
+  const [fechaSeleccionada, setFechaSeleccionada] = useState<string>("");
+  const [fechasDisponibles, setFechasDisponibles] = useState<string[]>([]); // Nuevo estado
 
   useEffect(() => {
     const fetchExcursion = async () => {
@@ -31,7 +33,9 @@ const VentanaPago: React.FC = () => {
         const docRef = doc(db, "actividades", id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          setExcursion({ id: docSnap.id, ...docSnap.data() } as Excursion);
+          const data = docSnap.data() as Excursion;
+          setExcursion({ ...data }); // Usar solo el spread operator
+          setFechasDisponibles(data.fechasDisponibles || []);
         } else {
           console.error("No se encontró la excursión");
         }
@@ -48,11 +52,7 @@ const VentanaPago: React.FC = () => {
 
     try {
       const actividadRef = doc(db, "actividades", id);
-      const disponibilidadRef = doc(
-        actividadRef,
-        "disponibilidad",
-        fechaSeleccionada
-      );
+      const disponibilidadRef = doc(actividadRef, "disponibilidad", fechaSeleccionada);
       const usuarioRef = doc(db, "users", profile.uid);
 
       await runTransaction(db, async (transaction) => {
@@ -97,10 +97,10 @@ const VentanaPago: React.FC = () => {
       });
 
       alert("Pago exitoso. Has sido registrado en la actividad.");
-      navigate(`/excursion/${id}`);
+      navigate(`/`);
     } catch (error) {
       console.error("Error al registrar usuario en la actividad:", error);
-      alert("error"); // Mostrar el mensaje de error al usuario
+      alert("error");
     }
   };
 
@@ -125,7 +125,8 @@ const VentanaPago: React.FC = () => {
             onSelectDate={(dates: string[]) => {
               setFechaSeleccionada(dates.length > 0 ? dates[0] : "");
             }}
-            markedDates={[]}
+            markedDates={fechasDisponibles} // Marcar las fechas disponibles
+            multipleDates={false} // Permitir seleccionar solo una fecha
           />
         </div>
 
