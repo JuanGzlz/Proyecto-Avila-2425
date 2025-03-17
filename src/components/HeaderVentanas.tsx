@@ -23,10 +23,10 @@ const HeaderVentanas: React.FC = () => {
         
     if (user) {
             // Si el usuario está autenticado, redirige al homepage
-      navigate("/");
+      navigate(-1);
     } else {
             // Si el usuario no está autenticado, redirige a la página anterior
-      navigate(-1);
+      navigate("/");
       }
   };
 
@@ -38,14 +38,14 @@ const HeaderVentanas: React.FC = () => {
         <div className="Contenedor Volver">
         <button
           onClick={handleGoBack}
-          className="login-button flex items-center gap-2 px-4 py-2 !bg-[#1d6363] !text-white rounded-full transition-all duration-200 transform hover:scale-105 hover:!bg-[#174f4f]"
+          className="login-button flex items-center font-bold gap-2 px-4 py-2 !bg-[#1d6363] !text-white rounded-full transition-all duration-200 transform hover:scale-105 hover:!bg-[#174f4f]"
         >
           ← Volver
         </button>
         </div>
 
         {/* Navegación */}
-        <nav className="flex space-x-4 bg-gray-300 bg-opacity-50 rounded-full px-4 py-2">
+        <nav className="flex space-x-4 bg-gray-300 bg-opacity-50 rounded-full px-4 py-2 font-semibold">
           <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/')}>Principal</button>
           <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/ventana-actividades')}>Actividades</button>
           <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/')}>Reservas</button>

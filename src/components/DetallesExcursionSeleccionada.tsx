@@ -5,6 +5,7 @@ import { app } from "../credentials";
 import HeaderVentanas from "./HeaderVentanas";
 import { ThumbsUp, ThumbsDown } from "lucide-react";
 import { UserContext } from "../Context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const db = getFirestore(app);
 
@@ -30,18 +31,14 @@ type Comentario = {
 };
 
 const ExcursionDetails: React.FC = () => {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [excursion, setExcursion] = useState<Excursion | null>(null);
   const [comments, setComments] = useState<Comentario[]>([]);
   const [newComment, setNewComment] = useState("");
   const [userVotes, setUserVotes] = useState<{ [commentId: string]: "up" | "down" | null }>({}); // Nuevo estado para los votos
   const profileContext = useContext(UserContext);
-
-  if (!profileContext) {
-    return <div>Cargando...</div>;
-  }
-
-  const { logged, profile } = profileContext;
+  const { logged, profile } = profileContext || {};
 
   useEffect(() => {
     const fetchExcursion = async () => {
@@ -76,6 +73,10 @@ const ExcursionDetails: React.FC = () => {
 
     fetchComments();
   }, [id]);
+
+  if (!profileContext) {
+    return <div>Cargando...</div>;
+  }
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -154,6 +155,7 @@ const ExcursionDetails: React.FC = () => {
       console.error("Error al votar:", error);
     }
   };
+  
 
   return (
     <div>
@@ -172,6 +174,12 @@ const ExcursionDetails: React.FC = () => {
         ) : (
           <p className="text-white">Cargando detalles...</p>
         )}
+
+        <button
+           // Volver a la página anterior
+          className="bg-white text-teal-900 px-4 py-2 rounded-lg mt-4 hover:bg-gray-200"
+          onClick={() => navigate(`/ventana-pago/${id}`)} 
+          >Paga</button>
 
         {logged && (
           <div className="max-w-7xl mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6">
@@ -192,12 +200,12 @@ const ExcursionDetails: React.FC = () => {
         )}
 
         <div className="max-w-7xl mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6">
-          <h2 className="text-3xl font-bold text-gray-800 border-b pb-3">Comentarios</h2>
+          <h2 className="text-3xl font-bold text-gray-800 border-b pb-3">Comentarios y Reseñas</h2>
           {comments.map((c) => (
             <div key={c.id} className="border-b py-4 flex justify-between items-start">
               <div>
-                <h3 className="font-semibold text-gray-800">{c.usuario}</h3>
-                <p className="text-gray-600">{c.contenido}</p>
+                <h3 className="font-semibold text-gray-800 text-left">{c.usuario}</h3>
+                <p className="text-gray-600 text-left">{c.contenido}</p>
               </div>
               <div className="flex space-x-2">
                 <ThumbsUp

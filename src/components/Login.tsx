@@ -23,9 +23,15 @@ const Login: React.FC = () => {
     e.preventDefault();
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
+      if (email === "admin123@correo.unimet.edu.ve" && password === "123admin" || email === "admin1234@correo.unimet.edu.ve" && password === "1234admin") {
+        // Redirigir a la página de administración si es el administrador
+        navigate("/admin");
+      } else {
+        // Redirigir a la página principal para otros usuarios
+        navigate("/");
+      }
       console.log(user.user.uid);
       console.log(user.user.email);
-      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -36,7 +42,7 @@ const Login: React.FC = () => {
       <div className="w-7/10 m-auto bg-white rounded-lg shadow-lg p-8 border border-gray-400 text-black">
         <button 
           onClick={() => navigate(-1)} 
-          className="absolute left-4 top-4 text-gray-100 !bg-gray-800 px-4 py-2 rounded-full hover:!bg-gray-900"
+          className="absolute left-4 top-4 text-gray-100 !bg-gray-800 font-semibold px-4 py-2 rounded-full hover:!bg-gray-900"
         >
           ← Volver
         </button>
@@ -58,7 +64,7 @@ const Login: React.FC = () => {
             <input value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="password" type="password" placeholder="Contraseña"/>
           </div>
           <div className="flex justify-center">
-            <button className="w-full text-gray-100 !bg-gray-800 px-4 py-2 rounded-full hover:!bg-gray-900" type="submit">
+            <button className="w-full text-gray-100 !bg-gray-800 font-semibold px-4 py-2 rounded-full hover:!bg-gray-900" type="submit">
               Log In
             </button>
           </div>

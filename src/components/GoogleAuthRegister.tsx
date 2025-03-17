@@ -41,11 +41,14 @@ const GoogleAuthRegister: React.FC<GoogleAuthRegisterProps> = ({ onLoginSuccess 
         return;
       }
 
+      const nombreCompleto = user.displayName || "";
+      const partesNombre = nombreCompleto.split(" ");
+      const nombre = partesNombre[0]; // Primer nombre
 
       await setDoc(userRef, {
         uid: user.uid,
         email: user.email,
-        nombre: user.displayName,
+        nombre: nombre,
         fechaCreacion: user.metadata.creationTime,
       });
 
