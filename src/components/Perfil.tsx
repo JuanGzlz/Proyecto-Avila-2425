@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import HeaderVentanas from "./HeaderVentanas";
 import { getUserData } from "../Context/getUserData";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirestore, doc, updateDoc } from "firebase/firestore";
 import { app } from "../credentials";
+import { uploadImage } from "../supabaseCredentials";
+import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
+import FotoPredeterminada from "../images/subir foto.png";
 
-const storage = getStorage(app);
+const auth = getAuth(app);
 const db = getFirestore(app);
-const DEFAULT_IMAGE = "/default-profile.png";
+const DEFAULT_IMAGE = FotoPredeterminada;
 
 interface UserData {
   nombre: string;
@@ -15,44 +18,124 @@ interface UserData {
   apellido: string;
   telefono: string;
   carnet: string;
-  padecimientos: string;
+  cedula: string;
   edad: string;
+  carrera: string;
   profileImage?: string;
 }
 
 const ProfileEdit: React.FC = () => {
+    const navigate = useNavigate();
+  const [uploading, setUploading] = useState(false);
   const [userData, setUserData] = useState<UserData>({
     nombre: "",
     email: "",
     apellido: "",
     telefono: "",
     carnet: "",
-    padecimientos: "",
+    cedula: "",
     edad: "",
-    profileImage: "",
+    carrera: "",
+    profileImage: DEFAULT_IMAGE,
   });
 
   useEffect(() => {
     const fetchUserData = async () => {
       const data = await getUserData();
-      console.log(data);
-
       if (data) {
-        setUserData(data as UserData);
+        setUserData({
+          nombre: data.nombre || "",
+          email: data.email || "",
+          apellido: data.apellido || "",
+          telefono: data.telefono || "",
+          carnet: data.carnet || "",
+          cedula: data.cedula || "",
+          edad: data.edad || "",
+          carrera: data.carrera || "",
+          profileImage: data.profileImage || DEFAULT_IMAGE,
+        });
       }
     };
     fetchUserData();
   }, []);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setUserData({
-      ...userData,
-      [name]: value,
-    });
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploading(true);
+      const user = auth.currentUser;
+      if (!user) return;
+
+      // Subir imagen a Supabase
+      const imageUrl = await uploadImage(file, "foto-perfil", user.uid);
+      if (!imageUrl) return;
+
+      // Guardar URL en Firestore
+      const userDocRef = doc(db, "users", user.uid);
+      await updateDoc(userDocRef, { profileImage: imageUrl });
+
+      // Actualizar el estado local
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        profileImage: imageUrl,
+      }));
+    } catch (error) {
+      console.error("Error al subir la imagen:", error);
+    } finally {
+      setUploading(false);
+    }
   };
+
+  const handleRemoveProfileImage = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      // Restaurar imagen predeterminada en Firestore
+      const userDocRef = doc(db, "users", user.uid);
+      await updateDoc(userDocRef, { profileImage: DEFAULT_IMAGE });
+
+      // Actualizar el estado local
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        profileImage: DEFAULT_IMAGE,
+      }));
+    } catch (error) {
+      console.error("Error al eliminar la foto de perfil:", error);
+    }
+  };
+
+  const handleSaveData = async () => {
+    try {
+      const user = auth.currentUser;
+      if (!user) return;
+  
+      const userDocRef = doc(db, "users", user.uid);
+      await updateDoc(userDocRef, {
+        apellido: userData.apellido,
+        telefono: userData.telefono,
+        carnet: userData.carnet,
+        cedula: userData.cedula,
+        edad: userData.edad,
+        carrera: userData.carrera,
+      });
+  
+      alert("Datos guardados exitosamente.");
+    } catch (error) {
+      console.error("Error al guardar los datos:", error);
+    }
+  };
+
+  const openFileSelector = () => {
+    document.getElementById("fileInput")?.click();
+  };
+
+  const handleLogout = async () => {
+      await signOut(auth);
+      navigate('/');
+    };
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center">
@@ -64,19 +147,43 @@ const ProfileEdit: React.FC = () => {
         <div className="w-full md:w-1/3 flex flex-col items-center p-4 border-r">
           <div className="w-54 h-54 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
             <img
-              src={userData.profileImage || "/default-profile.png"}
+              src={userData.profileImage}
               alt="Foto de perfil"
               className="w-full h-full object-cover"
             />
           </div>
-          <span className="mt-3 text-sm text-blue-600 hover:underline cursor-pointer">
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            id="fileInput"
+            disabled={uploading}
+            onChange={handleFileChange}
+          />
+
+          {/* Botón para editar foto */}
+          <span
+            className="mt-3 text-sm text-blue-600 hover:underline cursor-pointer"
+            onClick={openFileSelector}
+          >
             Editar foto
           </span>
+
+          {/* Botón para eliminar foto (solo aparece si el usuario tiene una personalizada) */}
+          {userData.profileImage !== DEFAULT_IMAGE && (
+            <button
+              className="mt-2 text-sm text-red-600 hover:underline cursor-pointer"
+              onClick={handleRemoveProfileImage}
+            >
+              Eliminar foto
+            </button>
+          )}
+
           <textarea
             className="w-full mt-3 p-2 border rounded-lg text-center resize-none"
             placeholder="Pequeña descripción..."
           />
-          <button className="mt-4 px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800">
+          <button className="mt-4 px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800" onClick={handleLogout}>
             Cerrar Sesión
           </button>
         </div>
@@ -87,18 +194,18 @@ const ProfileEdit: React.FC = () => {
             Edición de perfil de usuario
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <p
-              className="p-3 border rounded-lg !bg-gray-300 !bg-opacity-50 text-left"> {userData.nombre}
+            <p className="p-3 border rounded-lg bg-gray-300 bg-opacity-50 text-left">
+              {userData.nombre}
             </p>
-            <p
-              className="p-3 border rounded-lg !bg-gray-300 !bg-opacity-50 text-left"> {userData.email}
+            <p className="p-3 border rounded-lg bg-gray-300 bg-opacity-50 text-left">
+              {userData.email}
             </p>
             <input
               type="text"
               name="apellido"
               placeholder="Apellido"
               value={userData.apellido}
-              onChange={handleInputChange}
+              onChange={(e) => setUserData({ ...userData, apellido: e.target.value })}
               className="p-3 border rounded-lg"
             />
             <input
@@ -106,23 +213,23 @@ const ProfileEdit: React.FC = () => {
               name="telefono"
               placeholder="Número telefónico"
               value={userData.telefono}
-              onChange={handleInputChange}
+              onChange={(e) => setUserData({ ...userData, telefono: e.target.value })}
               className="p-3 border rounded-lg"
             />
             <input
               type="text"
               name="carnet"
-              placeholder="Carnet UNIMET / ID de Guía"
+              placeholder="Carnet UNIMET"
               value={userData.carnet}
-              onChange={handleInputChange}
+              onChange={(e) => setUserData({ ...userData, carnet: e.target.value })}
               className="p-3 border rounded-lg"
             />
             <input
               type="text"
-              name="padecimientos"
-              placeholder="Padecimientos/Afecciones"
-              value={userData.padecimientos}
-              onChange={handleInputChange}
+              name="cedula"
+              placeholder="Cédula de identidad"
+              value={userData.cedula}
+              onChange={(e) => setUserData({ ...userData, cedula: e.target.value })}
               className="p-3 border rounded-lg"
             />
             <input
@@ -130,12 +237,20 @@ const ProfileEdit: React.FC = () => {
               name="edad"
               placeholder="Edad"
               value={userData.edad}
-              onChange={handleInputChange}
-              className="p-3 border rounded-lg col-span-1 md:col-span-2"
+              onChange={(e) => setUserData({ ...userData, edad: e.target.value })}
+              className="p-3 border rounded-lg"
+            />
+            <input
+              type="text"
+              name="Carrera"
+              placeholder="Carrera"
+              value={userData.carrera}
+              onChange={(e) => setUserData({ ...userData, carrera: e.target.value })}
+              className="p-3 border rounded-lg"
             />
           </div>
 
-          <button className="mt-6 w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800">
+          <button className="mt-6 w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800" onClick={handleSaveData}>
             Guardar Datos
           </button>
         </div>
@@ -145,3 +260,4 @@ const ProfileEdit: React.FC = () => {
 };
 
 export default ProfileEdit;
+

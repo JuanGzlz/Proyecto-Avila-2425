@@ -82,7 +82,7 @@ const VentanaActividades: React.FC = () => {
           className="filter-button flex items-center cursor-pointer h-full p-4"
           onClick={() => navigate('/filtro-busqueda')}
         >
-          <FaFilter className="mr-2 text-4xl mt-6" />
+          <FaFilter className="mr-2 text-4xl mt-4" />
         </button>
       </motion.div>
 

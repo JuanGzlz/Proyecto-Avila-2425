@@ -16,12 +16,6 @@ const Foro: React.FC = () => {
     const [prompts, setPrompts] = useState<Prompt[]>([]);
     const profileContext = useContext(UserContext);
 
-    if (!profileContext) {
-        return <div>Cargando...</div>;
-    }
-
-    const { logged, profile } = profileContext;
-
     useEffect(() => {
         const fetchPrompts = async () => {
             try {
@@ -35,6 +29,12 @@ const Foro: React.FC = () => {
 
         fetchPrompts();
     }, []);
+
+    if (!profileContext) {
+        return <div>Cargando...</div>;
+    }
+
+    const { logged, profile } = profileContext;
 
     return (
         <div className="min-h-screen bg-gray-200">
