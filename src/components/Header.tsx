@@ -47,7 +47,7 @@ const Header: React.FC = () => {
           <>
             <button className="nav-link !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-4 py-2 rounded transition" onClick={() => navigate('/')}>Principal</button> 
             <button className="nav-link !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-4 py-2 rounded transition" onClick={() => navigate('/ventana-actividades')}>Actividades</button>
-            <button className="nav-link !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-4 py-2 rounded transition" onClick={goToAbout}>Reservas</button>
+            <button className="nav-link !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-4 py-2 rounded transition" onClick={() => navigate('/ventana-reserva')}>Reservas</button>
             <button className="nav-link !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-4 py-2 rounded transition" onClick={() => navigate('/foro')}>Foro</button>
           </>
         ) : (

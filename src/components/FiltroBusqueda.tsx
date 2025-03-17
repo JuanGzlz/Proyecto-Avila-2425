@@ -171,8 +171,10 @@ const FiltroBusqueda: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center">
+    <div>
       <HeaderVentanas />
+      <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center">
+      
       
       {/* Barra de búsqueda */}
       <div className="relative w-full max-w-3xl mt-6">
@@ -240,6 +242,7 @@ const FiltroBusqueda: React.FC = () => {
           <p className="text-gray-500 py-4 text-center">No hay actividades que coincidan con tu búsqueda.</p>
         )}
       </div>
+    </div>
     </div>
   );
 };
