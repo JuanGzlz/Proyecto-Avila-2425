@@ -1,0 +1,25 @@
+.contenedor-general{
+    padding: 0 !important;
+}
+.contenedor-general .seccion{
+    height: 350px;
+    padding: 150px 250px;
+    gap: 100px;
+}
+.contenedor-general .seccion h2{
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}   
+.contenedor-general .seccion img{
+    width: 230px;
+    height: 230px;
+    object-fit: cover;
+}
+.fondo-verde{
+    background: #1D6363;
+}
+/*
+.banner-inferior{
+    border-bottom: white 2px solid;
+}*/
