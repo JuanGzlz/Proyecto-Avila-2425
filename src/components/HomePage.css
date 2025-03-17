@@ -72,20 +72,38 @@
   
 .box-info-cards {
     display: flex;
-    justify-content: center; /* Centra los recuadros horizontalmente */
+    justify-content: center;
     align-items: center;
-    gap: 125px; /* Espacio entre recuadros */
+    gap: 125px;
+    flex-direction: row;
     position: relative;
-    width: 100%; /* Asegúrate de que ocupe todo el ancho disponible */
-    overflow: visible; /* Asegúrate de que no haya overflow */
+    width: 100%;
+    overflow: visible;
 }
   
 .info-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: left;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+
+}
+.info-card:hover{
+    scale: 1.05
+}
+.info-card-2 {
     background-color: white;
     border-radius: 25px;
     padding: 10px;
     width: 400px; /* Aumenta el ancho del recuadro */
-    height: 140px; /* Fija la altura del recuadro */
+    height: 220px; /* Fija la altura del recuadro */
     text-align: center;
     justify-content: center; /* Centra el contenido horizontalmente */
     align-items: center; /* Centra el contenido verticalmente */
@@ -95,18 +113,18 @@
 }
  
 
-.info-card p {
+.info-card p , .info-card-2 p {
     font-size: 0.9rem; /* Reduce el tamaño del texto del párrafo */
 }
   
-.info-card:not(:last-child)::after {
+.info-card-afuera:not(:last-child)::after {
     content: "";
-    width: 125px; /* Reduce el ancho de la línea */
-    height: 5px; /* Reduce la altura de la línea */
+    width: 30%;
+    height: 4px;
     background-color: white;
     position: absolute;
     top: 50%;
-    left: 100%; /* Ajusta según sea necesario */
+    /* left: calc(0px); */
     transform: translateY(-50%);
     z-index: 1;
 }
@@ -239,3 +257,92 @@
     background-color: rgba(255, 255, 255, 0.747);
     color: #1d6363;
 }
+
+.info-title-center {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  
+  .info-card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+
+  .card-title-outside {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .info-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: left;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    overflow: hidden;
+    max-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    z-index: 2 !important;
+  }
+
+  .info-card-2 {
+    background: linear-gradient(135deg, #ffffff, #f0f0f0);
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: left;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+  }
+  
+ 
+  .info-card-2.expanded {
+    max-height: 750px; /* Más grande */
+    min-height: 500px; /* Para asegurar que crezca */
+    width: 100%; /* Ocupar casi toda la pantalla */
+    max-width: 1000px; /* Límite de tamaño */
+    transition: all 0.3s ease-in-out;
+    padding: 30px;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .text-container {
+    overflow: visible;
+    max-height: none;
+    flex-grow: 1;
+  }
+
+  .text-container.expanded {
+    overflow-y: auto;
+    max-height: 700px;
+    padding-right: 10px;
+  }
+  
+
+  .card-image {
+    width: 100%;
+    min-height: 190px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
