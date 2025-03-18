@@ -139,7 +139,7 @@ const CrearActividad: React.FC = () => {
           <h2 className="text-center text-xl font-semibold mb-6">Crear actividad</h2>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input name="nombre" value={actividad.nombre} onChange={handleChange} className="border p-2 rounded-full w-full" placeholder="Nombre de la actividad" required />
-            <label className="text-gray-700 font-semibold">Guia</label>
+            <label className="text-gray-700 font-semibold">Guía:</label>
             <select
               name="guia"
               value={actividad.guia}

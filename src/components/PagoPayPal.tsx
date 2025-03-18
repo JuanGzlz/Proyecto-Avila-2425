@@ -3,9 +3,10 @@ import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 
 type PagoPaypalProps = {
   onPaymentSuccess: () => void;
+  amount: string;
 };
 
-const PayPalPayment: React.FC<PagoPaypalProps> = ({ onPaymentSuccess }) => {
+const PayPalPayment: React.FC<PagoPaypalProps> = ({ onPaymentSuccess, amount }) => {
   const paypalClientId = "AbuZpgwEz0_kOGjuxBrfl-fYxNFnoeBwqYv7yni_V0I1UtB-eXXOYJH2OcFL3DSj78MKrD1LVUuzkVy1";
 
   return (
@@ -16,7 +17,7 @@ const PayPalPayment: React.FC<PagoPaypalProps> = ({ onPaymentSuccess }) => {
             purchase_units: [
               {
                 amount: {
-                  value: "100.00", 
+                  value: amount, 
                   currency_code: "USD",
                 },
                 description: "Reserva de actividad",
