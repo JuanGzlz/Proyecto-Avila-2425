@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Calendario.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
@@ -14,6 +14,7 @@ interface CalendarioProps {
   markedDates: string[];
   multipleDates?: boolean;
   adminMode?: boolean; // Nueva propiedad
+  fechasConfirmadas?: boolean;
 }
 
 const obtenerDiasDelMes = (anio: number, mes: number): number => {
@@ -25,7 +26,7 @@ const obtenerDiaDeInicio = (anio: number, mes: number): number => {
   return dia === 0 ? 6 : dia - 1;
 };
 
-const Calendario: React.FC<CalendarioProps> = ({ onSelectDate, markedDates, multipleDates = false, adminMode = false }) => {
+const Calendario: React.FC<CalendarioProps> = ({ onSelectDate, markedDates, multipleDates = false, adminMode = false, fechasConfirmadas = false }) => {
   const fechaActual: Date = new Date();
   const [mesActual, setMesActual] = useState<number>(fechaActual.getMonth());
   const [anioActual, setAnioActual] = useState<number>(fechaActual.getFullYear());
@@ -85,6 +86,12 @@ const Calendario: React.FC<CalendarioProps> = ({ onSelectDate, markedDates, mult
   const totalDias: number = obtenerDiasDelMes(anioActual, mesActual);
   const diaInicio: number = obtenerDiaDeInicio(anioActual, mesActual);
   const dias: (number | null)[] = Array(diaInicio).fill(null).concat(Array.from({ length: totalDias }, (_, i) => i + 1));
+
+  useEffect(() => {
+    if (fechasConfirmadas) {
+      setFechasSeleccionadas([]);
+    }
+  }, [fechasConfirmadas]);
 
   return (
     <div className="contenedorCalendario border-1 border-black shadow-2xl rounded-xl mb-6">
