@@ -139,7 +139,7 @@ const CrearActividad: React.FC = () => {
           <h2 className="text-center text-xl font-semibold mb-6">Crear actividad</h2>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input name="nombre" value={actividad.nombre} onChange={handleChange} className="border p-2 rounded-full w-full" placeholder="Nombre de la actividad" required />
-            <label className="text-gray-700 font-semibold">Guía:</label>
+            <label className="text-gray-700 font-semibold">Guia</label>
             <select
               name="guia"
               value={actividad.guia}
@@ -157,7 +157,8 @@ const CrearActividad: React.FC = () => {
               <Calendario
                 onSelectDate={handleFechasDisponiblesChange}
                 markedDates={fechasDisponibles}
-                multipleDates={true} // Permitir selección múltiple
+                multipleDates={true}
+                adminMode={true}
               />
             </div>
             <label className="col-span-2 text-gray-700 font-semibold">Ingresa la hora de inicio:</label>
@@ -167,9 +168,9 @@ const CrearActividad: React.FC = () => {
             <label className="text-gray-700 font-semibold">Ingresa la cantidad máxima de participantes</label>
             <input name="cantMaxPersonas" type="number" value={actividad.cantMaxPersonas} onChange={handleChange} className="border p-2 rounded-full" placeholder="Cant Max Personas" required />
             <label className="text-gray-700 font-semibold">Ingresa el costo de la actividad</label>
-            <input name="costo" type="number" value={actividad.costo} onChange={handleChange} className="border p-2 rounded-full" placeholder="Costo" required />
+              <input name="costo" type="number" value={actividad.costo} onChange={handleChange} className="border p-2 rounded-full" placeholder="Costo" required />
             <label className="text-gray-700 font-semibold">Ingresa la dirección del punto de encuentro</label>
-            <input name="puntoEncuentro" value={actividad.puntoEncuentro} onChange={handleChange} className="border p-2 rounded-full" placeholder="Punto de encuentro" required />
+              <input name="puntoEncuentro" value={actividad.puntoEncuentro} onChange={handleChange} className="border p-2 rounded-full" placeholder="Punto de encuentro" required />
             <label className="text-gray-700 font-semibold">Dificultad</label>
               <select
                 name="dificultad"
