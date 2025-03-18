@@ -5,7 +5,6 @@ import './VentanaActividades.css';
 import { collection, getDocs } from 'firebase/firestore';
 import { app } from '../credentials';
 import { getFirestore } from 'firebase/firestore';
-import avilaImage8 from '../images/el avila 21.png';
 import { useNavigate } from 'react-router-dom';
 import VentanaPago from './VentanaPago'; 
 import { FaFilter } from 'react-icons/fa'; 
@@ -25,7 +24,7 @@ type Actividad = {
   cantMaxPersonas: number;
   campamento: string;
   costo: string;
-  imagen: string[];
+  imagenActividad: string;
   dificultad: number;
   distancia: string;
   duracion: string;
@@ -104,7 +103,7 @@ const VentanaActividades: React.FC = () => {
             <div className="flex gap-3 w-full justify-center">
             {/* Imagen Principal */}
             <img
-                src={avilaImage8}
+                src={excursion.imagenActividad}
                 alt="Excursión"
                 className="rounded-2xl object-cover w-[45%] h-40"
             />
@@ -112,7 +111,7 @@ const VentanaActividades: React.FC = () => {
             {/* Imagen Sombreada con "Ver más..." */}
             <div className="relative rounded-2xl w-[45%] h-40 bg-black flex items-center justify-center">
                 <img
-                src={avilaImage8}
+                src={excursion.imagenActividad}
                 alt="Excursión"
                 className="absolute w-full h-full object-cover rounded-2xl opacity-50"
                 />

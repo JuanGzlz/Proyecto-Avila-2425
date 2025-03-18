@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirestore, collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { app } from "../credentials";
 import HeaderVentanas from "./HeaderVentanas";
 import Calendario from "./Calendario/Calendario";
 import { useNavigate } from "react-router-dom";
+import { uploadImage } from "../supabaseCredentials";
+import { getAuth } from "firebase/auth";
+import FotoPredeterminada from "../images/subida.png";
 
 const db = getFirestore(app);
-const storage = getStorage(app);
+const auth = getAuth(app);
+const DEFAULT_IMAGE = FotoPredeterminada;
 
 const CrearActividad: React.FC = () => {
   const [actividad, setActividad] = useState({
@@ -20,14 +23,12 @@ const CrearActividad: React.FC = () => {
     puntoEncuentro: "",
     dificultad: "",
     distancia: "",
-    imagenPrincipal: "",
-    imagenesAdicionales: [],
     tipo: "",
   });
 
-  const [imagenPrincipal, setImagenPrincipal] = useState<File | null>(null);
-  const [imagenesAdicionales, setImagenesAdicionales] = useState<File[]>([]);
   const [fechasDisponibles, setFechasDisponibles] = useState<string[]>([]); // Estado para múltiples fechas
+  const [imagenActividad, setImagenActividad] = useState<string>(DEFAULT_IMAGE);
+  const [uploading, setUploading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setActividad({
@@ -36,60 +37,49 @@ const CrearActividad: React.FC = () => {
     });
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setImagenPrincipal(e.target.files[0]);
-    }
-  };
-
-  const handleMultipleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const files = Array.from(e.target.files);
-      setImagenesAdicionales((prev) => [...prev, ...files]);
-    }
-  };
-
-  const removeAdditionalImage = (index: number) => {
-    setImagenesAdicionales((prev) => prev.filter((_, i) => i !== index));
-  };
-
   const handleFechasDisponiblesChange = (dates: string[]) => {
     setFechasDisponibles(dates);
   };
 
   const navigate = useNavigate();
 
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+  
+    try {
+      setUploading(true);
+      const user = auth.currentUser;
+      if (!user) return;
+  
+      // Subir imagen a Supabase
+      const imageUrl = await uploadImage(file, "fotos-actividad", user.uid);
+      if (!imageUrl) return;
+  
+      // Guardar la URL en el estado
+      setImagenActividad(imageUrl);
+    } catch (error) {
+      console.error("Error al subir la imagen:", error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleRemoveImage = () => {
+    setImagenActividad(DEFAULT_IMAGE);
+  };
+  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      console.log("Subiendo imágenes y guardando datos...");
-
-      let imageUrl = "";
-      const additionalImageUrls: string[] = [];
-
-      if (imagenPrincipal) {
-        const storageRef = ref(
-          storage,
-          `actividades/principal_${imagenPrincipal.name}`
-        );
-        await uploadBytes(storageRef, imagenPrincipal);
-        imageUrl = await getDownloadURL(storageRef);
-      }
-
-      for (const image of imagenesAdicionales) {
-        const storageRef = ref(storage, `actividades/adicional_${image.name}`);
-        await uploadBytes(storageRef, image);
-        const downloadUrl = await getDownloadURL(storageRef);
-        additionalImageUrls.push(downloadUrl);
-      }
 
       const actividadData = {
         ...actividad,
-        imagenPrincipal: imageUrl,
-        imagenesAdicionales: additionalImageUrls,
         capacidadMaxima: parseInt(actividad.cantMaxPersonas, 10),
         fechasDisponibles: fechasDisponibles, // Guardar las fechas disponibles
+        imagenActividad: imagenActividad || DEFAULT_IMAGE, // Guardar la imagen de la actividad
       };
 
       const docRef = await addDoc(collection(db, "actividades"), actividadData);
@@ -116,18 +106,15 @@ const CrearActividad: React.FC = () => {
         puntoEncuentro: "",
         dificultad: "",
         distancia: "",
-        imagenPrincipal: "",
-        imagenesAdicionales: [],
         tipo: "",
       });
 
-      setImagenPrincipal(null);
-      setImagenesAdicionales([]);
+      setImagenActividad(DEFAULT_IMAGE);
       setFechasDisponibles([]); // Limpiar las fechas disponibles
 
       navigate(`/datos-sobre-actividad/${docRef.id}`);
     } catch (error) {
-      console.error("Error al subir imágenes o guardar datos:", error);
+      console.error("Error al guardar datos:", error);
     }
   };
 
@@ -139,7 +126,7 @@ const CrearActividad: React.FC = () => {
           <h2 className="text-center text-xl font-semibold mb-6">Crear actividad</h2>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input name="nombre" value={actividad.nombre} onChange={handleChange} className="border p-2 rounded-full w-full" placeholder="Nombre de la actividad" required />
-            <label className="text-gray-700 font-semibold">Guia</label>
+            <label className="text-gray-700 font-semibold">Guía: </label>
             <select
               name="guia"
               value={actividad.guia}
@@ -165,13 +152,13 @@ const CrearActividad: React.FC = () => {
             <input name="horaInicio" type="time" value={actividad.horaInicio} onChange={handleChange} className="border p-2 rounded-full" required />
             <label className="col-span-2 text-gray-700 font-semibold">Ingresa la hora de finalización:</label>
             <input name="horaFinal" type="time" value={actividad.horaFinal} onChange={handleChange} className="border p-2 rounded-full" required />
-            <label className="text-gray-700 font-semibold">Ingresa la cantidad máxima de participantes</label>
+            <label className="text-gray-700 font-semibold">Ingresa la cantidad máxima de participantes:</label>
             <input name="cantMaxPersonas" type="number" value={actividad.cantMaxPersonas} onChange={handleChange} className="border p-2 rounded-full" placeholder="Cant Max Personas" required />
-            <label className="text-gray-700 font-semibold">Ingresa el costo de la actividad</label>
+            <label className="text-gray-700 font-semibold">Ingresa el costo de la actividad:</label>
               <input name="costo" type="number" value={actividad.costo} onChange={handleChange} className="border p-2 rounded-full" placeholder="Costo" required />
-            <label className="text-gray-700 font-semibold">Ingresa la dirección del punto de encuentro</label>
+            <label className="text-gray-700 font-semibold">Ingresa la dirección del punto de encuentro:</label>
               <input name="puntoEncuentro" value={actividad.puntoEncuentro} onChange={handleChange} className="border p-2 rounded-full" placeholder="Punto de encuentro" required />
-            <label className="text-gray-700 font-semibold">Dificultad</label>
+            <label className="text-gray-700 font-semibold">Dificultad:</label>
               <select
                 name="dificultad"
                 value={actividad.dificultad}
@@ -200,22 +187,37 @@ const CrearActividad: React.FC = () => {
                 <option value="carrera">Carrera de montaña</option>
                 <option value="ciclismo">Ciclismo</option>
               </select>
-            {/* Imagen principal */}
-            <label className="col-span-2 text-gray-700 font-semibold">Imagen Principal:</label>
-            <input type="file" onChange={handleImageChange} className="border p-2 rounded-full col-span-2" />
-            {imagenPrincipal && <img src={URL.createObjectURL(imagenPrincipal)} alt="Imagen Principal" className="w-full h-40 object-cover rounded-lg shadow-md" />}
 
-            {/* Imágenes adicionales */}
-            <label className="col-span-2 text-gray-700 font-semibold">Imágenes Adicionales:</label>
-            <input type="file" multiple onChange={handleMultipleImagesChange} className="border p-2 rounded-full col-span-2" />
-            <div className="grid grid-cols-3 gap-2 col-span-2">
-              {imagenesAdicionales.map((img, index) => (
-                <div key={index} className="relative">
-                  <img src={URL.createObjectURL(img)} alt={`Extra ${index}`} className="w-20 h-20 object-cover rounded-lg shadow-md" />
-                  <button type="button" onClick={() => removeAdditionalImage(index)} className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full p-1">X</button>
+            <label className="text-gray-700 font-semibold">Vistas de la Actividad:</label>
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                id="fileInput"
+                disabled={uploading}
+                onChange={handleFileChange}
+              />
+              <button
+                type="button"
+                className="font-bold gap-2 px-6 py-3 bg-blue-600 text-white rounded-full transition-all duration-200 transform hover:scale-105 hover:bg-blue-700"
+                onClick={() => document.getElementById("fileInput")?.click()}
+              >
+                Subir Imagen
+              </button>
+
+              {/* Vista previa de la imagen */}
+              {imagenActividad && imagenActividad !== DEFAULT_IMAGE && (
+                <div className="mt-4 flex flex-col items-center">
+                  <img src={imagenActividad} alt="Vista previa" className="w-48 h-48 object-cover rounded-lg shadow-md" />
+                  <button
+                    type="button"
+                    className="mt-2 text-sm text-red-600 hover:underline cursor-pointer"
+                    onClick={handleRemoveImage}
+                  >
+                    Eliminar Imagen
+                  </button>
                 </div>
-              ))}
-            </div>
+              )}
 
             <button type="submit" className="col-span-2 font-bold gap-2 !px-6 !py-3 !bg-[#1d6363] !text-white rounded-full transition-all duration-200 transform hover:scale-105 hover:!bg-[#174f4f]">
               Crear Actividad

@@ -20,6 +20,7 @@ type Excursion = {
   distancia: string;
   duracion: string;
   puntuacion?: number;
+  imagenActividad: string;
 };
 
 type Comentario = {
@@ -262,7 +263,7 @@ const ExcursionDetails: React.FC = () => {
 
             <div className="w-1/3 flex justify-center items-center">
               <img
-                src="https://via.placeholder.com/300"
+                src={excursion.imagenActividad}
                 alt="Excursión"
                 className="rounded-xl shadow-md object-cover w-full h-48"
               />

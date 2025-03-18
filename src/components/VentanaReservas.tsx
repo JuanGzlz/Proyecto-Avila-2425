@@ -62,6 +62,9 @@ const VentanaReservas: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: index * 0.2 }}
           >
+            <div className="w-1/2 flex items-center justify-center">
+              <img src={excursion.imagenActividad} alt="Actividad" className="rounded-2xl object-cover w-[80%] h-40" /> 
+            </div>
             <div className="w-1/2 flex flex-col justify-between font-semibold ml-8">
               <div className="text-center">
                 <p><strong>Nombre:</strong> {excursion.nombre}</p>

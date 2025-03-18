@@ -142,7 +142,7 @@ const ProfileEdit: React.FC = () => {
       <HeaderVentanas />
 
       {/* Contenedor principal */}
-      <div className="w-full max-w-5xl bg-white border border-black rounded-lg shadow-lg p-4 md:p-8 mt-10 flex flex-col md:flex-row gap-6">
+      <div className="w-full max-w-5xl bg-white border border-black rounded-lg shadow-lg p-4 md:p-8 mt-10 flex flex-col md:flex-row gap-6 mb-10">
         {/* Sección Izquierda - Foto de Perfil */}
         <div className="w-full md:w-1/3 flex flex-col items-center p-4 border-r">
           <div className="w-54 h-54 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
@@ -161,23 +161,25 @@ const ProfileEdit: React.FC = () => {
             onChange={handleFileChange}
           />
 
-          {/* Botón para editar foto */}
-          <span
-            className="mt-3 text-sm text-blue-600 hover:underline cursor-pointer"
-            onClick={openFileSelector}
-          >
-            Editar foto
-          </span>
-
-          {/* Botón para eliminar foto (solo aparece si el usuario tiene una personalizada) */}
-          {userData.profileImage !== DEFAULT_IMAGE && (
-            <button
-              className="mt-2 text-sm text-red-600 hover:underline cursor-pointer"
-              onClick={handleRemoveProfileImage}
+          <div className="mt-3 flex items-center gap-4">
+            {/* Botón para editar foto */}
+            <span
+              className="mt-2 text-sm text-blue-600 hover:underline cursor-pointer"
+              onClick={openFileSelector}
             >
-              Eliminar foto
-            </button>
-          )}
+              Editar foto
+            </span>
+
+            {/* Botón para eliminar foto (solo aparece si el usuario tiene una personalizada) */}
+            {userData.profileImage !== DEFAULT_IMAGE && (
+              <button
+                className="mt-2 text-sm text-red-600 hover:underline cursor-pointer"
+                onClick={handleRemoveProfileImage}
+              >
+                Eliminar foto
+              </button>
+            )}
+          </div>
 
           <textarea
             className="w-full mt-3 p-2 border rounded-lg text-center resize-none"
