@@ -1,8 +1,8 @@
 import React from "react";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { app } from "../credentials";
-
+import googleLogo from '../images/google.png'; 
 
 const db = getFirestore(app);
 
@@ -33,18 +33,19 @@ const GoogleAuthLogin: React.FC<GoogleAuthLoginProps> = ({ onSuccess }) => {
         onSuccess(); // Llamar a la función de éxito (redirigir, cambiar estado, etc.)
       } else {
         alert("Este correo no está registrado. Por favor, regístrate primero.");
+        await signOut(auth); // Cerrar sesión si el usuario no está registrado
       }
     } catch (error) {
       console.error("Error durante la autenticación:", error);
+      await signOut(auth);
+      
     }
   };
 
 
   return (
-    <button
-      onClick={handleGoogleLogin}
-      className="w-full text-gray-100 !bg-red-500 px-3 py-1 rounded-full hover:!bg-red-600"
-    >
+    <button onClick={handleGoogleLogin} className="w-full flex items-center justify-center border border-gray-300 hover:bg-blue-500 px-4 py-2 rounded-full shadow-md hover:text-white bg-gray-100 text-gray-700 transition">
+      <img src={googleLogo} alt="Google Logo" className="w-5 h-5 mr-2" />
       Iniciar sesión con Google
     </button>
   );

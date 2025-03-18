@@ -23,6 +23,7 @@ const Register: React.FC = () => {
   };
 
   const [name, setName] = useState('');
+  const [lastname, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState(''); //Estado para confirmar contraseña
@@ -34,7 +35,7 @@ const Register: React.FC = () => {
   //Función para validar la contraseña
   const validarPassword = (password: string): boolean => {
     if (password.length < 6) {
-      setPasswordError("La contraseña debe tener al menos 6 caracteres.");
+      setPasswordError("*La contraseña debe tener al menos 6 caracteres.");
       return false;
     } else {
       setPasswordError(null); //Limpiar el mensaje de error si la contraseña es válida
@@ -45,7 +46,7 @@ const Register: React.FC = () => {
   //Función para validar la confirmación de contraseña
   const validarConfirmarPassword = (confirmPassword: string): boolean => {
     if (confirmPassword !== password) {
-      setConfirmPasswordError("Las contraseñas no coinciden.");
+      setConfirmPasswordError("*Las contraseñas no coinciden.");
       return false;
     } else {
       setConfirmPasswordError(null); //Limpiar el mensaje de error si las contraseñas coinciden
@@ -57,10 +58,10 @@ const Register: React.FC = () => {
   const validarEdad = (age: string): boolean => {
     const ageNumber = parseInt(age, 10);
     if (isNaN(ageNumber)) {
-      setAgeError("La edad debe ser un número válido!.");
+      setAgeError("*La edad debe ser un número válido.");
       return false;
     } else if (ageNumber < 18 || ageNumber > 100) {
-      setAgeError("La edad ingresada debe ser mayor que 18 y menor a 100.");
+      setAgeError("*La edad ingresada debe ser mayor a 18 y menor a 100.");
       return false;
     } else {
       setAgeError(null); //Limpiar el mensaje de error si la edad es válida
@@ -92,6 +93,7 @@ const Register: React.FC = () => {
 
       await setDoc(doc(db, 'users', nombreRegistrado.user.uid), {
         nombre: name,
+        apellido: lastname,
         email: email,
         edad: parseInt(age, 10), //Guardar la edad como número
         uid: nombreRegistrado.user.uid,
@@ -109,12 +111,25 @@ const Register: React.FC = () => {
     }
   };
 
+  const handleGoBack = () => {
+    const auth = getAuth(app);
+    const user = auth.currentUser;
+  
+    if (user) {
+      // Si el usuario está autenticado, redirige al homepage
+      navigate("/");
+    } else {
+      // Si el usuario no está autenticado, redirige a la página anterior
+      navigate(-1);
+    }
+  };
+
   return (
     <div className="w-full bg-gray-100 flex items-center justify-center min-h-screen">
       <div className="w-7/10 m-auto bg-white rounded-lg shadow-lg p-8 border border-gray-400 text-black">
         <button
-          onClick={() => navigate(-1)}
-          className="absolute left-4 top-4 text-gray-100 !bg-gray-800 px-3 py-1 rounded-full hover:!bg-gray-900"
+          onClick={handleGoBack}
+          className="absolute left-4 top-4 text-gray-100 font-semibold !bg-gray-800 px-4 py-2 rounded-full hover:!bg-gray-900"
         >
           ← Volver
         </button>
@@ -147,6 +162,8 @@ const Register: React.FC = () => {
           </div>
           <div className="mb-4">
             <input
+              value={lastname}
+              onChange={(e) => setLastName(e.target.value)}
               className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700"
               name="Apellido"
               type="text"
@@ -228,7 +245,7 @@ const Register: React.FC = () => {
           </div>
           <div className="flex justify-center">
             <button
-              className="w-full !bg-gray-800 text-gray-100 py-2 rounded-full hover:!bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700"
+              className="w-full !bg-gray-800 font-semibold text-gray-100 py-2 rounded-full hover:!bg-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-700"
               type="submit"
             >
               Registrarse
