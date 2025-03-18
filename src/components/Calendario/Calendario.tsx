@@ -134,7 +134,7 @@ const Calendario: React.FC<CalendarioProps> = ({ onSelectDate, markedDates, mult
       <div className="footer !bg-[#163f33] rounded-lg flex justify-center items-center shadow-lg border-2 border-gray-300">
         {fechasSeleccionadas.length > 0 && (
           <div className="seleccionTexto ml-3 !text-white text-center font-bold flex flex-col justify-center items-center">
-            <p className="text-lg">Fechas Seleccionadas</p>
+            <p className="text-lg">Fecha Seleccionada:</p>
             <div className="grid grid-cols-4 gap-2 mt-2 text-xs font-normal">
               {fechasSeleccionadas.map((fecha, index) => (
                 <div key={index} className="bg-white text-black p-2 rounded-lg text-center">

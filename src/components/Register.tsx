@@ -35,7 +35,7 @@ const Register: React.FC = () => {
   //Función para validar la contraseña
   const validarPassword = (password: string): boolean => {
     if (password.length < 6) {
-      setPasswordError("La contraseña debe tener al menos 6 caracteres.");
+      setPasswordError("*La contraseña debe tener al menos 6 caracteres.");
       return false;
     } else {
       setPasswordError(null); //Limpiar el mensaje de error si la contraseña es válida
@@ -46,7 +46,7 @@ const Register: React.FC = () => {
   //Función para validar la confirmación de contraseña
   const validarConfirmarPassword = (confirmPassword: string): boolean => {
     if (confirmPassword !== password) {
-      setConfirmPasswordError("Las contraseñas no coinciden.");
+      setConfirmPasswordError("*Las contraseñas no coinciden.");
       return false;
     } else {
       setConfirmPasswordError(null); //Limpiar el mensaje de error si las contraseñas coinciden
@@ -58,10 +58,10 @@ const Register: React.FC = () => {
   const validarEdad = (age: string): boolean => {
     const ageNumber = parseInt(age, 10);
     if (isNaN(ageNumber)) {
-      setAgeError("La edad debe ser un número válido!.");
+      setAgeError("*La edad debe ser un número válido.");
       return false;
     } else if (ageNumber < 18 || ageNumber > 100) {
-      setAgeError("La edad ingresada debe ser mayor que 18 y menor a 100.");
+      setAgeError("*La edad ingresada debe ser mayor a 18 y menor a 100.");
       return false;
     } else {
       setAgeError(null); //Limpiar el mensaje de error si la edad es válida

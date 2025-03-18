@@ -53,7 +53,7 @@ const HeaderVentanas: React.FC = () => {
         </nav>
 
         {/* Botón Perfil */}
-        <button className="login-button flex items-center gap-2 px-4 py-2 !bg-[#1d6363] !text-white rounded-full transition-all duration-200 transform hover:scale-105 hover:!bg-[#174f4f]">
+        <button className="login-button flex items-center gap-2 px-4 py-2 !bg-[#1d6363] !text-white rounded-full transition-all duration-200 transform hover:scale-105 hover:!bg-[#174f4f]" onClick={() => navigate('/perfil')}>
           <img src={avilaImage15} alt="Perfil" className="w-6 h-6 rounded-full" />
           {profile?.nombre}
         </button>

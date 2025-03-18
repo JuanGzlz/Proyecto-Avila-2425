@@ -19,6 +19,7 @@ type Excursion = {
   distancia: string;
   duracion: string;
   puntuacion?: number;
+  imagenActividad: string;
 };
 
 const VentanaPago: React.FC = () => {
@@ -159,13 +160,13 @@ const VentanaPago: React.FC = () => {
           {excursion && (
             <div className="flex items-center gap-4">
               <img
-                src="https://via"
+                src={excursion.imagenActividad}	
                 alt={excursion.nombre}
                 className="w-16 h-16 rounded-lg object-cover"
               />
-              <div>
-                <h2 className="text-lg font-bold">{excursion.nombre}</h2>
-                <p className="text-sm">Guía: {excursion.guia}</p>
+              <div className="ml-5">
+                <h2 className="text-lg font-bold text-left">{excursion.nombre}</h2>
+                <p className="text-sm text-left"><strong>Guía:</strong> {excursion.guia}</p>
               </div>
             </div>
           )}
