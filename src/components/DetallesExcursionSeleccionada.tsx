@@ -13,12 +13,12 @@ const db = getFirestore(app);
 type Excursion = {
   id: string;
   nombre: string;
-  guia: string;
-  fecha: string;
+  guiaRedactado: string;
+  horarioRedactado: string;
   costo: string;
-  dificultad: number;
-  distancia: string;
-  duracion: string;
+  dificultadRedactado: number;
+  distanciaRutaRedactado: string;
+  puntoEncuentroRedactado: string;
   puntuacion?: number;
   imagenActividad: string;
 };
@@ -48,6 +48,10 @@ const ExcursionDetails: React.FC = () => {
   const [userRegistered, setUserRegistered] = useState(false);
 
   useEffect(() => {
+          window.scrollTo(0, 0);
+        }, []);
+
+  useEffect(() => {
     const fetchExcursion = async () => {
       if (!id) return;
       try {
@@ -56,7 +60,7 @@ const ExcursionDetails: React.FC = () => {
         if (docSnap.exists()) {
           const excursionData = docSnap.data() as Excursion;
           setExcursion({ id: docSnap.id, ...docSnap.data() } as Excursion);
-          setAverageRating(excursionData.puntuacion || 3);
+          setAverageRating(excursionData.puntuacion || 0);
         } else {
           console.error("No se encontró la excursión");
         }
@@ -87,14 +91,11 @@ const ExcursionDetails: React.FC = () => {
     const updateExcursionRating = async () => {
       if (!id) return;
 
-      let calculatedRating = 3;
-      if (comments.length > 0) {
-        const validRatings = comments.map((c) => c.rating ?? 3);
-        const sum = validRatings.reduce((acc, rating) => acc + rating, 0);
-        calculatedRating = sum / validRatings.length;
-      }
+      const calculatedRating = comments.length > 0
+      ? comments.reduce((acc, c) => acc + (c.rating ?? 3), 0) / comments.length
+      : null; 
 
-      setAverageRating(calculatedRating);
+      setAverageRating(calculatedRating ?? 0);
 
       try {
         const excursionRef = doc(db, "actividades", id);
@@ -225,18 +226,18 @@ const ExcursionDetails: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaMountain className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Dificultad: </span> {excursion.dificultad}
+                  <span className="font-semibold">Dificultad: </span> {excursion.dificultadRedactado}
                 </div>
                 <div className="flex items-center">
                   <FaClock className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Duración: </span> {excursion.duracion}
+                  <span className="font-semibold">Duración: </span> {excursion.horarioRedactado}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaMapMarkerAlt className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Distancia: </span> {excursion.distancia} km
+                  <span className="font-semibold">Distancia: </span> {excursion.distanciaRutaRedactado}
                 </div>
                 <div className="flex items-center">
                   <FaDollarSign className="text-teal-900 text-xl mr-2" />
@@ -247,17 +248,17 @@ const ExcursionDetails: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaUser className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Guía: </span> {excursion.guia}
+                  <span className="font-semibold">Guía: </span> {excursion.guiaRedactado}
                 </div>
                 <div className="flex items-center">
                   <FaCalendarAlt className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Fecha: </span> {excursion.fecha}
+                  <span className="font-semibold">Pto Encuentro: </span> {excursion.puntoEncuentroRedactado}
                 </div>
               </div>
             </div>
 
               <p className="text-lg text-center mt-4 font-semibold text-yellow-500">
-                Puntuación Promedio: {averageRating.toFixed(1)} ★
+              {averageRating !== null ? `Puntuación Promedio: ${averageRating.toFixed(1)} ★` : "Sin Calificación"}
               </p>
             </div>
 

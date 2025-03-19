@@ -14,7 +14,6 @@ const db = getFirestore(app);
 type Actividad = {
   id: string;
   nombre: string;
-  diaSemana: string;
   guia: string;
   puntoEncuentro: string;
   horaInicio: string;
@@ -34,7 +33,7 @@ type Actividad = {
 const VentanaActividades: React.FC = () => {
   const navigate = useNavigate();
   const [actividades, setActividades] = useState<Actividad[]>([]);
-  const [selectedActividad, setSelectedActividad] = useState<Actividad | null>(null);
+  const [selectedActividad] = useState<Actividad | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,28 +52,15 @@ const VentanaActividades: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleAnotarse = (excursion: Actividad) => {
-    setSelectedActividad(excursion);
-  };
-
 
   return (
-    <div className="page-container min-h-screen">
+    <div className="page-container min-h-screen mb-10">
       <HeaderVentanas />
 
-      <motion.section
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-      >
-        <h2 className="info-title-white mt-10">¡Descubre todas las excursiones que tenemos disponibles!</h2>
-      </motion.section>
+        <h2 className="info-title-white mt-10 mb-0">¡Descubre todas las excursiones que tenemos disponibles!</h2>
 
-      <motion.div
+      <div
         className="info-buttons2 flex-row items-center justify-center gap-2 p-5 pt-0"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
       >
         <input className="relative w-full max-w-3xl mt-3 p-4 pl-12 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-#1d6363" placeholder="Buscar..." type="text" />
         <button
@@ -83,18 +69,19 @@ const VentanaActividades: React.FC = () => {
         >
           <FaFilter className="mr-2 text-4xl mt-4" />
         </button>
-      </motion.div>
+      </div>
 
     {actividades.map((excursion, index) => (
         <motion.div
         key={index}
-        className="relative bg-white rounded-2xl shadow-lg w-[90%] mx-auto mt-6 flex p-6 items-center"
+        className="relative bg-white rounded-2xl shadow-xl shadow-gray-300 border border-gray-300 w-[90%] mx-auto mt-6 flex p-6 items-center"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: index * 0.2 }}
+        viewport={{ once: true, amount: 0.5 }}
       >
 
-        <div className={`absolute top-2 right-4 font-semibold text-gray-600 
+        <div className={`absolute top-2 right-4 font-semibold text-gray-600 mt-3 mr-2
             ${typeof excursion.puntuacion === 'number' ? 'text-3xl' : 'text-xl'}`}>
             {typeof excursion.puntuacion === 'number' ? excursion.puntuacion.toFixed(1) : 'Sin calificación'} ⭐
         </div>
@@ -106,11 +93,11 @@ const VentanaActividades: React.FC = () => {
               <img
                   src={excursion.imagenActividad}
                   alt="Excursión"
-                  className="rounded-2xl object-cover w-[45%] h-40 border-black border-2 "
+                  className="rounded-2xl object-cover w-[50%] h-45"
               />
               
               {/* Imagen Sombreada con "Ver más..." */}
-              <div className="relative rounded-2xl w-[45%] h-40 bg-black flex items-center justify-center">
+              <div className="relative rounded-2xl w-[50%] h-45 bg-black flex items-center justify-center">
                   <img
                   src={excursion.imagenActividad}
                   alt="Excursión"
@@ -124,14 +111,14 @@ const VentanaActividades: React.FC = () => {
           {/* Sección Derecha - Información */}
           <div className="w-full lg:w-1/2 flex flex-col justify-between font-semibold lg:mr-8">
               <div className="text-left lg:text-center">
+                  <p><strong>Nombre:</strong> {excursion.nombre}</p>
                   <p><strong>Guía:</strong> {excursion.guia}</p>
                   <p><strong>Hora Inicio:</strong> {excursion.horaInicio}</p>
                   <p><strong>Hora Final:</strong> {excursion.horaFinal}</p>
-                  <p><strong>Fecha:</strong> {excursion.fecha}</p>
-                  <p><strong>Personas inscritas:</strong> {excursion.personasInscritas}</p>
                   <p><strong>Límite de personas:</strong> {excursion.cantMaxPersonas}</p>
-                  <p><strong>Campamento:</strong> {excursion.campamento}</p>
+                  <p><strong>Distancia:</strong> {excursion.distancia} km</p>
                   <p><strong>Costo:</strong> ${excursion.costo}</p>
+                  <p><strong>Dificultad:</strong> {excursion.dificultad}</p>
               </div>
       
               {/* Botones Centrados */}
@@ -141,7 +128,7 @@ const VentanaActividades: React.FC = () => {
                   excursion.personasInscritas >= excursion.cantMaxPersonas ? "bg-gray-400" : "bg-green-600"
                   }`}
                   disabled={excursion.personasInscritas >= excursion.cantMaxPersonas}
-                  onClick={() => handleAnotarse(excursion)}
+                  onClick={() => navigate(`/ventana-pago/${excursion.id}`)}
                   whileHover={{ scale: 1.05 }}
               >
                   {excursion.personasInscritas >= excursion.cantMaxPersonas ? "Agotado" : "Anotarse"}

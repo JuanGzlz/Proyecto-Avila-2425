@@ -11,6 +11,9 @@ const auth = getAuth(app);
 const Login: React.FC = () => {
 
   const navigate = useNavigate();
+  const [errorEmail, setErrorEmail] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
+  const [errorAuth, setErrorAuth] = useState("");
 
   const goToAbout = () => {
     navigate('/register');
@@ -21,6 +24,25 @@ const Login: React.FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setErrorEmail("");
+    setErrorPassword("");
+    setErrorAuth("");
+
+    let hasError = false;
+
+    if (!email.trim()) {
+      setErrorEmail("* El correo electrónico es obligatorio.");
+      hasError = true;
+    }
+
+    if (!password.trim()) {
+      setErrorPassword("* La contraseña es obligatoria.");
+      hasError = true;
+    }
+
+    if (hasError) return;
+
     try {
       const user = await signInWithEmailAndPassword(auth, email, password);
       if (email === "admin123@correo.unimet.edu.ve" && password === "123admin" || email === "admin1234@correo.unimet.edu.ve" && password === "1234admin") {
@@ -32,8 +54,13 @@ const Login: React.FC = () => {
       }
       console.log(user.user.uid);
       console.log(user.user.email);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.error(error);
+      if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+        setErrorAuth("* Correo o contraseña incorrectos.");
+      } else {
+        setErrorAuth("* Error al iniciar sesión. Inténtalo de nuevo.");
+      }
     }
   };
 
@@ -59,15 +86,18 @@ const Login: React.FC = () => {
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="mb-4">
             <input value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="email" type="email" placeholder="Correo electrónico"/>
+            {errorEmail && <p className="text-red-600 text-sm mt-1">{errorEmail}</p>}
           </div>
           <div className="mb-4">
             <input value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-700" name="password" type="password" placeholder="Contraseña"/>
+            {errorPassword && <p className="text-red-600 text-sm mt-1">{errorPassword}</p>}
           </div>
           <div className="flex justify-center">
             <button className="w-full text-gray-100 !bg-gray-800 font-semibold px-4 py-2 rounded-full hover:!bg-gray-900" type="submit">
               Log In
             </button>
           </div>
+          {errorAuth && <p className="text-red-600 text-sm text-center mt-2">{errorAuth}</p>}
         </form>
         <div className="flex justify-center mt-4 mb-4">
           <div className="w-full">

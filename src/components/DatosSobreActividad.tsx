@@ -4,12 +4,16 @@ import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 import { app } from "../credentials";
 import HeaderVentanas from "./HeaderVentanas";
 import { useNavigate } from "react-router-dom";
+import Modal from "./Modal";
 
 const db = getFirestore(app);
 
 const DatosSobreActividad: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [redirectOnClose, setRedirectOnClose] = useState(false);
 
   const [actividad, setActividad] = useState({
     limitePersonasRedactado: "",
@@ -80,11 +84,18 @@ const DatosSobreActividad: React.FC = () => {
 
       const actividadRef = doc(db, "actividades", id); // Referencia al documento existente
       await updateDoc(actividadRef, actividad);
-
-      alert("Actividad actualizada exitosamente");
-      navigate("/admin");
+      setModalMessage("Actividad creada exitosamente");
+      setRedirectOnClose(true); // Habilitar redirección solo en éxito
+      setIsModalOpen(true);
     } catch (error) {
       console.error("Error al guardar la actividad en Firestore:", error);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    if (redirectOnClose) {
+      navigate("/admin"); // Solo navegar si fue exitoso
     }
   };
 
@@ -102,6 +113,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.limitePersonasRedactado}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <input
               name="horarioRedactado"
@@ -110,6 +122,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.horarioRedactado}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <input
               name="guiaRedactado"
@@ -118,6 +131,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.guiaRedactado}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <input
               name="puntoEncuentroRedactado"
@@ -126,6 +140,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.puntoEncuentroRedactado}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <input
               name="dificultadRedactado"
@@ -134,6 +149,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.dificultadRedactado}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <input
               name="especificacionesRutaRedactado"
@@ -142,6 +158,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.especificacionesRutaRedactado}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <input
               name="datosExtra"
@@ -150,6 +167,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.datosExtra}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <input
               name="distanciaRutaRedactado"
@@ -158,6 +176,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.distanciaRutaRedactado}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <button type="submit" className="mt-6 w-full !bg-[#1d6363] text-white py-2 rounded-full text-lg col-span-2">
               Crear actividad
@@ -165,6 +184,7 @@ const DatosSobreActividad: React.FC = () => {
           </form>
         </div>
       </div>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} message={modalMessage} />
     </div>
   );
 };

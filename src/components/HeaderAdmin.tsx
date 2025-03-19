@@ -10,7 +10,7 @@ import { app } from '../credentials';
 
 const auth = getAuth(app);
 
-const Header: React.FC = () => {
+const HeaderAdmin: React.FC = () => {
   const navigate = useNavigate();
   const profileContext = useContext(UserContext);
 
@@ -33,7 +33,7 @@ const Header: React.FC = () => {
 
   return (
     <header className="w-full bg-white shadow-md">
-      <div className="hidden lg:flex justify-around pt-2.5 pb-2.5">
+      <div className="hidden hidden lg:flex h-[100px] w-full mx-auto px-6 justify-between items-center">
         <motion.button 
           className="login-button flex items-center gap-2 p-2 bg-green-600 text-white rounded-full hover:bg-green-700"
           whileHover={{ scale: 1.1 }}
@@ -44,17 +44,17 @@ const Header: React.FC = () => {
         </motion.button>
 
         <nav className="nav font-semibold">
-            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/')}>Principal</button> 
-            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/ventana-actividades')}>Actividades</button>
-            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={goToAbout}>Reservas</button>
-            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/foro')}>Foro</button>
+            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/admin')}>Funciones</button> 
+            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/ventana-reservas-admin')}>Actividades</button>
+            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/ventana-guias')}>Guías</button>
+            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/ventana-foros')}>Foros</button>
         </nav>
 
         {logged ? (
           <>
             <div className="flex gap-4">
               <motion.button 
-                className="login-button flex items-center gap-2 p-2 !bg-teal-700 !text-white rounded-full hover:!bg-[#174f4f]"
+                className="login-button flex items-center gap-2 px-4 py-2 !bg-teal-700 !text-white rounded-full hover:!bg-[#174f4f]"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -144,4 +144,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default HeaderAdmin;

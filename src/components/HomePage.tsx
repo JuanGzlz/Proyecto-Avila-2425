@@ -59,6 +59,7 @@ const formatList = (items: string[]) => (
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
+        viewport={{ once: true, amount: 0.5 }}
       >
       <h2 className = "text-4xl font-bold text-white pt-5 pb-10" style={{ fontFamily: "'Lucida Handwriting', cursive" }}>¡Conoce más sobre este patrimonio nacional!</h2>
         <div className="flex justify-center items-center gap-[15px] lg:gap-[125px] flex-col lg:flex-row relative w-full overflow-visible">

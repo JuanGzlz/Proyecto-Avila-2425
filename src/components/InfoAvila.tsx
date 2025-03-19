@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Header from './Header';
 import Footer from './Footer';
@@ -10,6 +10,11 @@ import './InfoAvila.css';
 
 
 const AvilaInfoPage: React.FC = () => {
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="bg-white min-h-screen font-sans w-full ">
       <Header />
@@ -21,7 +26,8 @@ const AvilaInfoPage: React.FC = () => {
         transition={{ duration: 1 }}
       >
         <h1 className="text-4xl font-semibold">Descubre El Ávila:</h1>
-        <p className="text-4xl font-semibold">¡Aventura, naturaleza y adrenalina en un solo lugar!</p>
+        <p className = "text-3xl pt-3 font-bold text-black" style={{ fontFamily: "'Lucida Handwriting', cursive" }}
+                > ¡🌿Aventura, naturaleza y adrenalina en un solo lugar🌿! </p>
       </motion.section>
       
       <section className="w-full px-20 grid p-0 contenedor-general">
@@ -112,7 +118,8 @@ const AvilaInfoPage: React.FC = () => {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        ¡Reserva tu aventura con nosotros y vive El Ávila de manera segura y emocionante!
+        <p className = "text-3xl pt-3 font-bold text-white" style={{ fontFamily: "'Lucida Handwriting', cursive" }}
+                > ¡🌿Aventura, naturaleza y adrenalina en un solo lugar🌿! </p>
       </motion.div>
       
       <Footer />
