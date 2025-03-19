@@ -37,7 +37,7 @@ const VentanaReservasAdmin: React.FC = () => {
             {actividades.length > 0 ? (
               actividades.map((actividad) => (
               <div key={actividad.id} className="bg-white p-4 rounded-lg shadow-xl shadow-gray-300 border border-gray-300">
-                  <img src={actividad.imagenPrincipal} alt={actividad.nombre} className="w-full h-40 object-cover rounded-md" />
+                  <img src={actividad.imagenActividad} alt={actividad.nombre} className="w-full h-40 object-cover rounded-md" />
                   <h3 className="text-lg font-semibold mt-2">{actividad.nombre}</h3>
                   <p className="text-gray-600">Guía: {actividad.guia}</p>
                   <p className="text-gray-600">Hora: {actividad.horaInicio} - {actividad.horaFinal}</p>
