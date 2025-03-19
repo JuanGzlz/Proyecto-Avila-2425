@@ -57,7 +57,7 @@ const VentanaReservas: React.FC = () => {
         reservas.map((excursion, index) => (
           <motion.div
             key={index}
-            className="relative bg-white rounded-2xl shadow-lg w-[90%] mx-auto mt-6 flex p-6 gap-6 items-center"
+            className="relative bg-white rounded-2xl shadow-lg w-[90%] mx-auto mt-6 flex flex-col lg:flex-row p-6 gap-6 items-center"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: index * 0.2 }}

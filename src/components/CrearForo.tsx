@@ -50,7 +50,7 @@ return (
     <div>
         <HeaderVentanas />
         <div className="flex items-center justify-center min-h-screen bg-gray-100 pt-10">
-            <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg">
+            <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg m-5 md:m-0">
                 <h2 className="text-center text-xl font-semibold mb-6">Escribe el prompt para el foro</h2>
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
                     <input

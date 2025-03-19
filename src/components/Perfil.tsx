@@ -142,9 +142,9 @@ const ProfileEdit: React.FC = () => {
       <HeaderVentanas />
 
       {/* Contenedor principal */}
-      <div className="w-full max-w-5xl bg-white border border-black rounded-lg shadow-lg p-4 md:p-8 mt-10 flex flex-col md:flex-row gap-6 mb-10">
+      <div className="w-95 md:w-full max-w-5xl bg-white border border-black rounded-lg shadow-lg p-4 md:p-8 flex flex-col md:flex-row gap-6 m-10">
         {/* Sección Izquierda - Foto de Perfil */}
-        <div className="w-full md:w-1/3 flex flex-col items-center p-4 border-r">
+        <div className="w-full md:w-1/3 flex flex-col items-center p-4 md:border-r">
           <div className="w-54 h-54 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
             <img
               src={userData.profileImage}
