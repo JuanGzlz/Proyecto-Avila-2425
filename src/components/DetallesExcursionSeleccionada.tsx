@@ -13,12 +13,12 @@ const db = getFirestore(app);
 type Excursion = {
   id: string;
   nombre: string;
-  guia: string;
-  fecha: string;
+  guiaRedactado: string;
+  horarioRedactado: string;
   costo: string;
-  dificultad: number;
-  distancia: string;
-  duracion: string;
+  dificultadRedactado: number;
+  distanciaRutaRedactado: string;
+  puntoEncuentroRedactado: string;
   puntuacion?: number;
   imagenActividad: string;
 };
@@ -226,18 +226,18 @@ const ExcursionDetails: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaMountain className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Dificultad: </span> {excursion.dificultad}
+                  <span className="font-semibold">Dificultad: </span> {excursion.dificultadRedactado}
                 </div>
                 <div className="flex items-center">
                   <FaClock className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Duración: </span> {excursion.duracion}
+                  <span className="font-semibold">Duración: </span> {excursion.horarioRedactado}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaMapMarkerAlt className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Distancia: </span> {excursion.distancia} km
+                  <span className="font-semibold">Distancia: </span> {excursion.distanciaRutaRedactado}
                 </div>
                 <div className="flex items-center">
                   <FaDollarSign className="text-teal-900 text-xl mr-2" />
@@ -248,11 +248,11 @@ const ExcursionDetails: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaUser className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Guía: </span> {excursion.guia}
+                  <span className="font-semibold">Guía: </span> {excursion.guiaRedactado}
                 </div>
                 <div className="flex items-center">
                   <FaCalendarAlt className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Fecha: </span> {excursion.fecha}
+                  <span className="font-semibold">Pto Encuentro: </span> {excursion.puntoEncuentroRedactado}
                 </div>
               </div>
             </div>

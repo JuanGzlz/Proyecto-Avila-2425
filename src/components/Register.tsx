@@ -6,15 +6,29 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { app } from '../credentials';
 import { useState } from 'react';
 import { getFirestore, setDoc, doc } from 'firebase/firestore';
+import Modal from './Modal';
 
 const db = getFirestore(app);
 const auth = getAuth(app);
 
 const Register: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
   const navigate = useNavigate();
 
   const goToAbout = () => {
     navigate('/login');
+  };
+
+  const validarCorreoUnimet = (email: string): boolean => {
+    const unimetDomain1 = "@correo.unimet.edu.ve";
+    const unimetDomain2 = "unimet.edu.ve";
+
+    if (email.endsWith(unimetDomain1) || email.endsWith(unimetDomain2)) {
+        return true;
+    } else {
+        return false;
+    }
   };
 
   const handleGoogleLoginSuccess = (response: any) => {
@@ -71,6 +85,12 @@ const Register: React.FC = () => {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validarCorreoUnimet(email)) {
+      setModalMessage("El correo electrónico debe ser @correo.unimet.edu.ve o unimet.edu.ve");
+      setIsModalOpen(true);
+      return; // Detener el proceso si el correo no es válido
+    }
 
     //Validar la contraseña antes de continuar
     if (!validarPassword(password)) {
@@ -264,6 +284,7 @@ const Register: React.FC = () => {
           </span>
         </p>
       </div>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} message={modalMessage} />
     </div>
   );
 };

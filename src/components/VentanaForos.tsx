@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from "react";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { collection, getDocs, getFirestore, doc, deleteDoc } from "firebase/firestore";
 import { app } from "../credentials";
-import { Link } from "react-router-dom";
 import { UserContext } from "../Context/UserContext";
 import HeaderAdmin from "./HeaderAdmin";
 
@@ -34,6 +33,15 @@ const VentanaForos: React.FC = () => {
         return <div>Cargando...</div>;
     }
 
+    const handleDelete = async (id: string) => {
+        try {
+            await deleteDoc(doc(db, "foro", id));
+            setPrompts(prompts.filter((prompt) => prompt.id !== id)); // Actualiza la lista de prompts
+        } catch (error) {
+            console.error("Error al eliminar el foro:", error);
+        }
+    };
+
     return (
         <div className="items-center justify-center min-h-screen bg-gray-200">
             <HeaderAdmin />
@@ -44,9 +52,12 @@ const VentanaForos: React.FC = () => {
                         {prompts.map((prompt) => (
                             <li key={prompt.id} className="p-4 bg-white rounded-xl shadow-md hover:bg-gray-50">
                                 <h3 className="text-xl font-semibold text-black text-left">{prompt.texto}</h3>
-                                <Link to={`/foro/${prompt.id}`} className="text-white hover:text-gray-800 mt-2 block bg-blue-600 hover:bg-blue-700 rounded p-2">
-                                    Participar en el foro
-                                </Link>
+                                <button
+                                    onClick={() => handleDelete(prompt.id)}
+                                    className="text-white hover:text-gray-800 mt-2 block bg-red-600 hover:bg-red-700 rounded p-2"
+                                >
+                                    Eliminar foro
+                                </button>
                             </li>
                         ))}
                     </ul>

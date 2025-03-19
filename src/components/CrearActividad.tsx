@@ -140,7 +140,6 @@ const CrearActividad: React.FC = () => {
       }
 
       console.log("Actividad guardada con ID:", docRef.id);
-      alert("Actividad creada exitosamente");
 
       setActividad({
         nombre: "",
@@ -295,7 +294,7 @@ const CrearActividad: React.FC = () => {
               )}
 
             <button type="submit" className="col-span-2 font-bold gap-2 !px-6 !py-3 !bg-[#1d6363] !text-white rounded-full transition-all duration-200 transform hover:scale-105 hover:!bg-[#174f4f]">
-              Crear Actividad
+              Guardar Actividad
             </button>
           </form>
         </div>

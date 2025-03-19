@@ -4,6 +4,7 @@ import { getFirestore, doc, getDoc, updateDoc, deleteDoc, collection, getDocs, s
 import { app } from "../credentials";
 import Calendario from "./Calendario/Calendario";
 import HeaderVentanas from "./HeaderVentanas";
+import Modal from "./Modal";
 
 const db = getFirestore(app);
 
@@ -24,6 +25,8 @@ interface Actividad {
 }
 
 const EditarActividad: React.FC = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const [actividad, setActividad] = useState<Actividad | null>(null);
@@ -72,7 +75,8 @@ const EditarActividad: React.FC = () => {
         await deleteDoc(doc(db, "actividades", id));
         navigate("/ventana-reservas-admin");
       } else {
-        alert("No se puede eliminar la actividad, tiene fechas disponibles.");
+        setModalMessage("No se puede eliminar la actividad, tiene fechas disponibles.");
+        setIsModalOpen(true);
       }
     }
   };
@@ -86,7 +90,8 @@ const EditarActividad: React.FC = () => {
         await deleteDoc(docRef);
         setDisponibilidades(disponibilidades.filter((disp) => disp !== fecha));
       } else {
-        alert("No se puede eliminar la fecha, hay usuarios registrados.");
+        setModalMessage("No se puede eliminar la fecha, hay usuarios registrados.");
+        setIsModalOpen(true);
       }
     }
   };
@@ -354,6 +359,7 @@ const EditarActividad: React.FC = () => {
           </div>
         )}
       </div>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} message={modalMessage} />
     </div>
   );
 };

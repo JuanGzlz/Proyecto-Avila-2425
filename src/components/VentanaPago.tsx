@@ -6,6 +6,7 @@ import { getAuth } from "firebase/auth";
 import PayPalPayment from "./PagoPayPal";
 import { UserContext } from "../Context/UserContext";
 import Calendario from "./Calendario/Calendario";
+import Modal from "./Modal";
 
 const db = getFirestore(app);
 
@@ -23,6 +24,8 @@ type Excursion = {
 };
 
 const VentanaPago: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
   const { id } = useParams<{ id: string }>();
   const [excursion, setExcursion] = useState<Excursion | null>(null);
   const profileContext = useContext(UserContext);
@@ -105,13 +108,15 @@ const VentanaPago: React.FC = () => {
       navigate("/pago-exitoso", { state: { costo: excursion?.costo } });
     } catch (error) {
       console.error("Error al registrar usuario en la actividad:", error);
-      alert("error");
+      setModalMessage("Error al registrar usuario en la actividad.");
+      setIsModalOpen(true);
     }
   };
 
   const handlePaymentSuccessWithValidation = async () => {
     if (!fechaSeleccionada) {
-      alert("Debes seleccionar una fecha antes de pagar.");
+      setModalMessage("Debes seleccionar una fecha antes de pagar.");
+      setIsModalOpen(true);
       return;
     }
     handlePaymentSuccess();
@@ -216,6 +221,7 @@ const VentanaPago: React.FC = () => {
           </div>
         </div>
       </div>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} message={modalMessage} />
     </div>
   );
   

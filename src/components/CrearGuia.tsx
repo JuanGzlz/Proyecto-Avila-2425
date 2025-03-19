@@ -5,12 +5,16 @@ import { app } from "../credentials";
 import { uploadImage } from "../supabaseCredentials";
 import { getAuth } from "firebase/auth";
 import fotoPredeterminada from "../images/imagen foto perfil.png";
+import Modal from "./Modal";
 
 const db = getFirestore(app);
 const auth = getAuth(app);
 const DEFAULT_IMAGE = fotoPredeterminada;
 
 const CrearGuia: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [redirectOnClose, setRedirectOnClose] = useState(false);
   const navigate = useNavigate();
   const [guia, setGuia] = useState({
     nombre: "",
@@ -62,6 +66,12 @@ const CrearGuia: React.FC = () => {
       setUploading(false);
     }
   };
+const handleCloseModal = () => {
+    setIsModalOpen(false);
+    if (redirectOnClose) {
+      navigate("/ventana-guias"); // Solo navegar si fue exitoso
+    }
+};
 
 const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,8 +93,10 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     try {
         await addDoc(collection(db, "guias"), guia);
-        alert("Guía creado exitosamente.");
-        navigate("/ventana-guias")
+        setModalMessage("Guía creado exitosamente.");
+        setRedirectOnClose(true); // Habilitar redirección solo en éxito
+        setIsModalOpen(true);
+
         setGuia({ nombre: "", edad: "", experiencia: "", especialidad: "", tipoActividad: "", fotoPerfil: DEFAULT_IMAGE });
     } catch (error) {
         console.error("Error al guardar datos:", error);
@@ -163,6 +175,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                     <button type="submit" className="bg-blue-600 text-white p-2 rounded">Crear Guía</button>
                 </form>
             </div>
+            <Modal isOpen={isModalOpen} onClose={handleCloseModal} message={modalMessage} />
     </div>
   );
 };

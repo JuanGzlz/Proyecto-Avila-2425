@@ -7,6 +7,7 @@ import { uploadImage } from "../supabaseCredentials";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import FotoPredeterminada from "../images/subir foto.png";
+import Modal from "./Modal";
 
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -25,7 +26,9 @@ interface UserData {
 }
 
 const ProfileEdit: React.FC = () => {
-    const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const navigate = useNavigate();
   const [uploading, setUploading] = useState(false);
   const [userData, setUserData] = useState<UserData>({
     nombre: "",
@@ -122,7 +125,8 @@ const ProfileEdit: React.FC = () => {
         carrera: userData.carrera,
       });
   
-      alert("Datos guardados exitosamente.");
+      setModalMessage("Datos guardados exitosamente.");// Habilitar redirección solo en éxito
+      setIsModalOpen(true);
     } catch (error) {
       console.error("Error al guardar los datos:", error);
     }
@@ -257,6 +261,7 @@ const ProfileEdit: React.FC = () => {
           </button>
         </div>
       </div>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} message={modalMessage} />
     </div>
   );
 };
