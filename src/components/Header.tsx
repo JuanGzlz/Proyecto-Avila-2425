@@ -32,7 +32,7 @@ const Header: React.FC = () => {
 
   return (
     <header className="header !shadow-md">
-      <div className="container hidden h-[100px] w-full mx-auto px-6 md:flex justify-between items-center">
+      <div className="container hidden h-[100px] w-full mx-auto px-6 lg:flex justify-between items-center">
         <motion.button 
           className="login-button flex items-center gap-2 p-2 bg-green-600 text-white rounded-full hover:bg-green-700"
           whileHover={{ scale: 1.1 }}

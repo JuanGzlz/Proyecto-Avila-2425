@@ -71,7 +71,7 @@ const VentanaActividades: React.FC = () => {
       </motion.section>
 
       <motion.div
-        className="info-buttons2 flex-row items-center justify-center gap-2"
+        className="info-buttons2 flex-row items-center justify-center gap-2 p-5 pt-0"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.2 }}
@@ -88,7 +88,7 @@ const VentanaActividades: React.FC = () => {
     {actividades.map((excursion, index) => (
         <motion.div
         key={index}
-        className="relative bg-white rounded-2xl shadow-lg w-[90%] mx-auto mt-6 flex p-6 gap-6 items-center"
+        className="relative bg-white rounded-2xl shadow-lg w-[90%] mx-auto mt-6 flex p-6 items-center"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: index * 0.2 }}
@@ -98,61 +98,63 @@ const VentanaActividades: React.FC = () => {
             ${typeof excursion.puntuacion === 'number' ? 'text-3xl' : 'text-xl'}`}>
             {typeof excursion.puntuacion === 'number' ? excursion.puntuacion.toFixed(1) : 'Sin calificación'} ⭐
         </div>
-        {/* Sección Izquierda - Imágenes */}
-        <div className="w-1/2 flex flex-col items-center ml-20">
-            <div className="flex gap-3 w-full justify-center">
-            {/* Imagen Principal */}
-            <img
-                src={excursion.imagenActividad}
-                alt="Excursión"
-                className="rounded-2xl object-cover w-[45%] h-40"
-            />
-            
-            {/* Imagen Sombreada con "Ver más..." */}
-            <div className="relative rounded-2xl w-[45%] h-40 bg-black flex items-center justify-center">
-                <img
-                src={excursion.imagenActividad}
-                alt="Excursión"
-                className="absolute w-full h-full object-cover rounded-2xl opacity-50"
-                />
-                <span className="absolute text-lg font-semibold text-white">Ver más...</span>
-            </div>
-            </div>
-        </div>
-    
-        {/* Sección Derecha - Información */}
-        <div className="w-1/2 flex flex-col justify-between font-semibold mr-8">
-            <div className="text-center">
-                <p><strong>Guía:</strong> {excursion.guia}</p>
-                <p><strong>Hora Inicio:</strong> {excursion.horaInicio}</p>
-                <p><strong>Hora Final:</strong> {excursion.horaFinal}</p>
-                <p><strong>Fecha:</strong> {excursion.fecha}</p>
-                <p><strong>Personas inscritas:</strong> {excursion.personasInscritas}</p>
-                <p><strong>Límite de personas:</strong> {excursion.cantMaxPersonas}</p>
-                <p><strong>Campamento:</strong> {excursion.campamento}</p>
-                <p><strong>Costo:</strong> ${excursion.costo}</p>
-            </div>
-    
-            {/* Botones Centrados */}
-            <div className="flex gap-3 justify-center mt-4">
-            <motion.button
-                className={`login-button flex items-center gap-2 px-4 py-2 !bg-[#1d6363] !text-white !rounded-lg transition-all duration-200 transform hover:scale-105 hover:!bg-[#174f4f] ${
-                excursion.personasInscritas >= excursion.cantMaxPersonas ? "bg-gray-400" : "bg-green-600"
-                }`}
-                disabled={excursion.personasInscritas >= excursion.cantMaxPersonas}
-                onClick={() => handleAnotarse(excursion)}
-                whileHover={{ scale: 1.05 }}
-            >
-                {excursion.personasInscritas >= excursion.cantMaxPersonas ? "Agotado" : "Anotarse"}
-            </motion.button>
-            <motion.button
-                className="px-4 py-2 rounded-lg border border-gray-400 text-gray-600 font-semibold"
-                onClick={() => navigate(`/detalles-excursion-seleccionada/${excursion.id}`)}
-                whileHover={{ scale: 1.05 }}
-            >
-                Ver más detalles
-            </motion.button>
-            </div>
+        <div className='flex flex-col lg:flex-row lg:gap-6 w-full items-center'>
+          {/* Sección Izquierda - Imágenes */}
+          <div className="w-full lg:w-1/2 mt-10 mb-8 lg:mb-0 lg:mt-0 lg:ml-20">
+              <div className="flex gap-3 w-full justify-center">
+              {/* Imagen Principal */}
+              <img
+                  src={excursion.imagenActividad}
+                  alt="Excursión"
+                  className="rounded-2xl object-cover w-[45%] h-40 border-black border-2 "
+              />
+              
+              {/* Imagen Sombreada con "Ver más..." */}
+              <div className="relative rounded-2xl w-[45%] h-40 bg-black flex items-center justify-center">
+                  <img
+                  src={excursion.imagenActividad}
+                  alt="Excursión"
+                  className="absolute w-full h-full object-cover rounded-2xl opacity-50"
+                  />
+                  <span className="absolute text-lg font-semibold text-white">Ver más...</span>
+              </div>
+              </div>
+          </div>
+      
+          {/* Sección Derecha - Información */}
+          <div className="w-full lg:w-1/2 flex flex-col justify-between font-semibold lg:mr-8">
+              <div className="text-center">
+                  <p><strong>Guía:</strong> {excursion.guia}</p>
+                  <p><strong>Hora Inicio:</strong> {excursion.horaInicio}</p>
+                  <p><strong>Hora Final:</strong> {excursion.horaFinal}</p>
+                  <p><strong>Fecha:</strong> {excursion.fecha}</p>
+                  <p><strong>Personas inscritas:</strong> {excursion.personasInscritas}</p>
+                  <p><strong>Límite de personas:</strong> {excursion.cantMaxPersonas}</p>
+                  <p><strong>Campamento:</strong> {excursion.campamento}</p>
+                  <p><strong>Costo:</strong> ${excursion.costo}</p>
+              </div>
+      
+              {/* Botones Centrados */}
+              <div className="flex gap-3 justify-center mt-4">
+              <motion.button
+                  className={`login-button flex items-center gap-2 px-4 py-2 !bg-[#1d6363] !text-white !rounded-lg transition-all duration-200 transform hover:scale-105 hover:!bg-[#174f4f] ${
+                  excursion.personasInscritas >= excursion.cantMaxPersonas ? "bg-gray-400" : "bg-green-600"
+                  }`}
+                  disabled={excursion.personasInscritas >= excursion.cantMaxPersonas}
+                  onClick={() => handleAnotarse(excursion)}
+                  whileHover={{ scale: 1.05 }}
+              >
+                  {excursion.personasInscritas >= excursion.cantMaxPersonas ? "Agotado" : "Anotarse"}
+              </motion.button>
+              <motion.button
+                  className="px-4 py-2 rounded-lg border border-gray-400 text-gray-600 font-semibold"
+                  onClick={() => navigate(`/detalles-excursion-seleccionada/${excursion.id}`)}
+                  whileHover={{ scale: 1.05 }}
+              >
+                  Ver más detalles
+              </motion.button>
+              </div>
+          </div>
         </div>
         </motion.div>
     ))}

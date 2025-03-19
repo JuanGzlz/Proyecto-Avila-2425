@@ -31,8 +31,8 @@ const HeaderVentanas: React.FC = () => {
   };
 
   return (
-    <header className="w-full bg-white shadow-md py-4">
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+    <header className="w-full bg-white shadow-md py-4" >
+      <div className="max-w-7xl mx-auto px-6 hidden lg:flex justify-between items-center">
         
         {/* Logo */}
         <div className="Contenedor Volver">
