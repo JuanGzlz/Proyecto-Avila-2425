@@ -137,12 +137,15 @@ const ForoDetallado: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen mb-10">
         <HeaderVentanas />
-        <h1 className="text-3xl font-bold text-black mb-6 text-center">{prompt ? prompt.texto : "Cargando..."}</h1>  
+        <div>
+            <h1 className="font-bold text-black mb-6 text-center p-5 mt-5 lg:m-10 break-words">{prompt ? prompt.texto : "Cargando..."}</h1>  
+        
+        </div>
         
         {logged && (
-            <div className="max-w-7xl mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6">
+            <div className="max-w-7xl mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6 ml-5 mr-5 lg:m-auto mb-6">
             <h2 className="text-2xl font-bold text-gray-800">Agregar Comentario</h2>
             <form onSubmit={handleCommentSubmit} className="mt-4 space-y-4">
                 <textarea
@@ -159,7 +162,7 @@ const ForoDetallado: React.FC = () => {
             </div>
         )}
 
-        <div className="max-w-7xl mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6">
+        <div className="max-w-7xl mx-auto lg:mt-6 bg-white rounded-2xl shadow-lg p-6 ml-5 mr-5 lg:m-auto">
             <h2 className="text-3xl font-bold text-gray-800 border-b pb-3">Comentarios</h2>
             {comments.map((c) => (
             <div key={c.id} className="border-b py-4 flex justify-between items-start">
@@ -167,17 +170,21 @@ const ForoDetallado: React.FC = () => {
                 <h3 className="font-semibold text-gray-800 text-left">{c.usuario}</h3>
                 <p className="text-gray-600 text-left">{c.contenido}</p>
                 </div>
-                <div className="flex space-x-2">
-                <ThumbsUp
-                    className={`cursor-pointer ${userVotes[c.id] === "up" ? "text-green-500" : "text-gray-500"}`}
-                    onClick={() => handleVote(c.id, "up")}
-                />
-                {c.thumbsUp}
-                <ThumbsDown
-                    className={`cursor-pointer ${userVotes[c.id] === "down" ? "text-red-500" : "text-gray-500"}`}
-                    onClick={() => handleVote(c.id, "down")}
-                />
+                <div className="flex space-x-2 gap-1">
+                <div>
+                    <ThumbsUp
+                        className={`cursor-pointer ${userVotes[c.id] === "up" ? "text-green-500" : "text-gray-500"}`}
+                        onClick={() => handleVote(c.id, "up")}
+                    />
+                    {c.thumbsUp}
+                </div>
+                <div>
+                    <ThumbsDown
+                        className={`cursor-pointer ${userVotes[c.id] === "down" ? "text-red-500" : "text-gray-500"}`}
+                        onClick={() => handleVote(c.id, "down")}
+                    />
                 {c.thumbsDown}
+                </div>
                 </div>
             </div>
             ))}

@@ -101,8 +101,8 @@ const VentanaPago: React.FC = () => {
         });
       });
 
-      alert("Pago exitoso. Has sido registrado en la actividad.");
-      navigate(`/`);
+      console.log("Pago exitoso. Has sido registrado en la actividad.");
+      navigate("/pago-exitoso", { state: { costo: excursion?.costo } });
     } catch (error) {
       console.error("Error al registrar usuario en la actividad:", error);
       alert("error");
@@ -139,9 +139,9 @@ const VentanaPago: React.FC = () => {
       </button>
   
       {/* Contenedor con calendario a la izquierda y detalles + pago a la derecha */}
-      <div className="flex flex-col md:flex-row items-start justify-center gap-6 mt-12">
+      <div className="flex flex-col md:flex-row items-start justify-center mt-12 gap-6">
         {/* Calendario a la izquierda */}
-        <div>
+        <div className="w-full calendario-pago">
           <Calendario
             onSelectDate={(dates: string[]) => setFechaSeleccionada(dates.length > 0 ? dates[0] : "")}
             markedDates={fechasDisponibles}

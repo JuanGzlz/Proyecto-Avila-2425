@@ -1,9 +1,15 @@
 import { FaPlus, FaClipboardList, FaUsers, FaComments } from "react-icons/fa";
+import { useEffect } from "react";
 import HeaderAdmin from "./HeaderAdmin";
 import { useNavigate } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+  
   
   const options = [
     {
@@ -16,16 +22,16 @@ const AdminDashboard = () => {
     {
       title: "¿No sabes cuáles actividades han sido creadas?",
       boton: "Ver Actividades Reservadas",
-      description: "Consulta las actividades que los usuarios han reservado.",
+      description: "Consulta las actividades que los usuarios han reservado y edita la información.",
       icon: <FaClipboardList size={80} className="text-white" />,
-      action: () => navigate('/perfil')
+      action: () => navigate('/ventana-reservas-admin')
     },
     {
       title: "¿Falta personal y necesitas más guías?",
-      boton: "Ver Solicitudes de Guía",
-      description: "Revisa y aprueba solicitudes de usuarios que quieren ser guías.",
+      boton: "Generar Perfiles de Guía",
+      description: "Contacta con usuarios expertos en un tipo de excursión y genera sus perfiles.",
       icon: <FaUsers size={80} className="text-white" />,
-      action: () => navigate('/perfil')
+      action: () => navigate('/crear-guia')
     },
     {
       title: "¿Quieres interactuar con los usuarios sobre qué mejorar?",

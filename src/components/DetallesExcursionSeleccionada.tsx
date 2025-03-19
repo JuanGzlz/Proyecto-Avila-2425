@@ -48,6 +48,10 @@ const ExcursionDetails: React.FC = () => {
   const [userRegistered, setUserRegistered] = useState(false);
 
   useEffect(() => {
+          window.scrollTo(0, 0);
+        }, []);
+
+  useEffect(() => {
     const fetchExcursion = async () => {
       if (!id) return;
       try {
@@ -56,7 +60,7 @@ const ExcursionDetails: React.FC = () => {
         if (docSnap.exists()) {
           const excursionData = docSnap.data() as Excursion;
           setExcursion({ id: docSnap.id, ...docSnap.data() } as Excursion);
-          setAverageRating(excursionData.puntuacion || 3);
+          setAverageRating(excursionData.puntuacion || 0);
         } else {
           console.error("No se encontró la excursión");
         }
@@ -87,14 +91,11 @@ const ExcursionDetails: React.FC = () => {
     const updateExcursionRating = async () => {
       if (!id) return;
 
-      let calculatedRating = 3;
-      if (comments.length > 0) {
-        const validRatings = comments.map((c) => c.rating ?? 3);
-        const sum = validRatings.reduce((acc, rating) => acc + rating, 0);
-        calculatedRating = sum / validRatings.length;
-      }
+      const calculatedRating = comments.length > 0
+      ? comments.reduce((acc, c) => acc + (c.rating ?? 3), 0) / comments.length
+      : null; 
 
-      setAverageRating(calculatedRating);
+      setAverageRating(calculatedRating ?? 0);
 
       try {
         const excursionRef = doc(db, "actividades", id);
@@ -217,12 +218,12 @@ const ExcursionDetails: React.FC = () => {
       <HeaderVentanas />
       <div className="min-h-screen bg-teal-900 flex-col justify-center items-center p-4 ">
         {excursion ? (
-        <div className="bg-white p-6 rounded-2xl shadow-lg mt-6 flex max-w-7xl mx-auto">
+        <div className="bg-white p-6 rounded-2xl shadow-lg mt-6 flex flex-col md:flex-row max-w-7xl mx-auto items-center">
           {/* Sección Izquierda - Información de la Excursión */}
-          <div className="w-2/3 pr-6">
+          <div className=" w-full lg:w-2/3 pr-6 items-center">
             <h1 className="text-3xl font-bold text-teal-900 text-center mb-4 pb-6">{excursion.nombre}</h1>
-            <div className="divide-y divide-gray-300">
-              <div className="grid grid-cols-2 gap-4 py-3">
+            <div className="lg:divide-y divide-gray-300">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaMountain className="text-teal-900 text-xl mr-2" />
                   <span className="font-semibold">Dificultad: </span> {excursion.dificultad}
@@ -233,7 +234,7 @@ const ExcursionDetails: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 py-3">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaMapMarkerAlt className="text-teal-900 text-xl mr-2" />
                   <span className="font-semibold">Distancia: </span> {excursion.distancia} km
@@ -244,7 +245,7 @@ const ExcursionDetails: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 py-3">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaUser className="text-teal-900 text-xl mr-2" />
                   <span className="font-semibold">Guía: </span> {excursion.guia}
@@ -257,15 +258,15 @@ const ExcursionDetails: React.FC = () => {
             </div>
 
               <p className="text-lg text-center mt-4 font-semibold text-yellow-500">
-                Puntuación Promedio: {averageRating.toFixed(1)} ★
+              {averageRating !== null ? `Puntuación Promedio: ${averageRating.toFixed(1)} ★` : "Sin Calificación"}
               </p>
             </div>
 
-            <div className="w-1/3 flex justify-center items-center">
+            <div className="w-full lg:w-1/3 flex justify-center items-center mt-5 lg:mt-0 ">
               <img
                 src={excursion.imagenActividad}
                 alt="Excursión"
-                className="rounded-xl shadow-md object-cover w-full h-48"
+                className="rounded-xl shadow-md object-cover w-full"
               />
             </div>
 

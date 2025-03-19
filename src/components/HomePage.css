@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
 /* Estilos para la sección de la imagen con texto superpuesto */
 .page-container {
     /*max-width: 1800px;
@@ -8,17 +11,17 @@
     
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 .font-pacifico {
   font-family: 'Pacifico', cursive;
 }
 
+/*
 .hero-section {
-    position: relative; /* Contenedor relativo para que los elementos dentro puedan tener posicionamiento absoluto */
+    position: relative; /* Contenedor relativo para que los elementos dentro puedan tener posicionamiento absoluto 
     width: 100%;
-    height: fit-content; /* Asegura que ocupe toda la altura de la ventana */
-}
+    height: fit-content; /* Asegura que ocupe toda la altura de la ventana 
+}*/
 
 .hero-image {
     width: 100%;
@@ -42,6 +45,17 @@
     z-index: 2; /* Asegura que el texto esté por encima de la imagen */
     border-radius: 20px; /* Bordes redondeados */
     word-wrap: break-word; /* Divide el texto en varias líneas si es necesario */
+}
+@media (max-width: 768px){
+    .hero-title{
+        width: 80%;
+        left: 0px;
+        margin: auto;
+        position: absolute;
+        top: 15%;
+        left: 5%;
+        transform: translate(-50%, -50%);
+    }
 }
 
 /* Estilos para la sección entre la imagen y la siguiente seccion */
@@ -69,7 +83,8 @@
     align-items: center;
     flex-direction: column;
   }
-  
+
+/*
 .box-info-cards {
     display: flex;
     justify-content: center;
@@ -79,7 +94,7 @@
     position: relative;
     width: 100%;
     overflow: visible;
-}
+}*/
   
 .info-card {
     background: white;
@@ -154,39 +169,21 @@
 }
   
 
-
+/*
 .box-welcome {
     max-width: 1200px;
     margin: 0 auto;
     background-color: white;
     text-align: center;
     color: black;
-    display: flex; /* Utiliza flexbox para alinear los elementos */
-    justify-content: space-between; /* Espacio entre los elementos */
-    align-items: center; /* Alinea los elementos horizontalmente */
-    gap: 1rem; /* Espacio entre los elementos */
-}
-
-
-.info-welcome{
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: white;
-    text-align: left;
-    color: black;
-
-}
-
-.text-welcome{
-    font-size: 1rem;
-    font-weight: regular;
-    color: #000000;
-    width: 500px;
-}
+    display: flex;
+    justify-content: space-between; /* Espacio entre los elementos
+    align-items: center; /* Alinea los elementos horizontalmente
+    gap: 1rem; /* Espacio entre los elementos
+}*/
 
 .info-container {
     width: 90%;
-    max-width: 1200px; /* Ancho máximo del contenido */
     margin: 0 auto; /* Centrar el contenido */
     text-align: center;
     padding: 0 1rem; /* Padding horizontal */
@@ -212,12 +209,7 @@
     height: 300px;
 }
 
-.image-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 35px; /* Espacio entre elementos */
-}
+
 
 .image-box img {
     display: block;

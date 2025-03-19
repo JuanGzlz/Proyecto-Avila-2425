@@ -1,5 +1,5 @@
 .header {
-    height: 100px; /* Aumentar la altura del header */
+    min-height: 100px; /* Aumentar la altura del header */
     width: 100%;
     background-color: #1d6363; 
     color: white; 
@@ -10,17 +10,17 @@
     padding: 0;
 }
   
-
+/*
 .container {
     height: 100px;
     width: 100%;
-    /*max-width: 1200px;*/
+    /*max-width: 1200px;
     margin: 0 auto;
     padding: 0 1.5rem;
     display: flex;
     justify-content: space-between; 
     align-items: center;
-}
+}*/
   
 .logo-text {
     font-family: 'KyivType Sans', sans-serif; 

@@ -44,23 +44,18 @@ const VentanaReservas: React.FC = () => {
   };
 
   return (
-    <div className="page-container min-h-screen">
+    <div className="page-container min-h-screen mb-10">
       <HeaderVentanas />
-      <motion.section
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-      >
-        <h2 className="info-title-white mt-10">Mis Reservas</h2>
-      </motion.section>
+      <h2 className="info-title-white mt-10">Mis Reservas</h2>
       {reservas.length > 0 ? (
         reservas.map((excursion, index) => (
           <motion.div
             key={index}
-            className="relative bg-white rounded-2xl shadow-lg w-[90%] mx-auto mt-6 flex p-6 gap-6 items-center"
+            className="relative bg-white rounded-2xl shadow-xl shadow-gray-300 border border-gray-300 w-[90%] mx-auto mt-6 flex p-6 items-center"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: index * 0.2 }}
+            viewport={{ once: true, amount: 0.5 }}
           >
             <div className="w-1/2 flex items-center justify-center">
               <img src={excursion.imagenActividad} alt="Actividad" className="rounded-2xl object-cover w-[80%] h-40" /> 
