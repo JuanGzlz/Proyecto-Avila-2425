@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import EmblaCarousel from './Carousels/EmblaCarousel';
 import { EmblaOptionsType } from 'embla-carousel';
 import './Carousels/embla.css';
@@ -37,6 +37,11 @@ const SLIDES_FLORA = [flora1, flora2, flora3, flora4, flora5, flora6, flora7];
 const SLIDES_MONTAÑA = [montaña1, montaña2, montaña3, montaña4, montaña5, montaña6, montaña7];
 
 const Fauna: React.FC = () => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, []);
+
     return (
         <div className="fauna-container">
             <Header />

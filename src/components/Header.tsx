@@ -32,7 +32,7 @@ const Header: React.FC = () => {
 
   return (
     <header className="header !shadow-md">
-      <div className="container">
+      <div className="container hidden lg:flex h-[100px] w-full mx-auto px-6 justify-between items-center">
         <motion.button 
           className="login-button flex items-center gap-2 p-2 bg-green-600 text-white rounded-full hover:bg-green-700"
           whileHover={{ scale: 1.1 }}
@@ -99,6 +99,79 @@ const Header: React.FC = () => {
             </motion.button>
           </>
         )}
+      </div>
+      <div className="container flex lg:hidden flex-col w-full mx-auto px-6 justify-between items-center">
+        <div className='flex gap-2 my-2'>
+          <motion.button 
+            className="login-button flex items-center gap-2 p-1 bg-green-600 text-white rounded-full hover:bg-green-700"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <img src={avilaImage12} alt="Perfil" className="w-6 h-8" />
+            <strong className="text-sm"> AVILA EXS </strong>
+          </motion.button>
+
+          
+          {logged ? (
+            <>
+              <div className="flex gap-2">
+                <motion.button 
+                  className="login-button flex items-center gap-2 p-2 bg-green-600 text-white rounded-full hover:bg-green-700"
+                  onClick={() => navigate('/perfil')} 
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <img src={avilaImage11} alt="Perfil" className="w-6 h-6 rounded-full" />
+                  {profile?.nombre}
+                </motion.button>
+
+                <motion.button 
+                  className="login-button" 
+                  onClick={handleLogout}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  Log Out
+                </motion.button>
+              </div>
+            </>
+          ) : (
+            <>
+              <motion.button 
+                className="login-button" 
+                onClick={goToAbout}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                Log In
+              </motion.button>
+            </>
+          )}
+
+        </div>
+
+        <nav className="nav flex m-2">
+          {logged ? (
+          <>
+            <button className="text-white no-underline mx-2 font-medium !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-2 py-2 rounded transition" onClick={() => navigate('/')}>Principal</button> 
+            <button className="text-white no-underline mx-2 font-medium !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-2 py-2 rounded transition" onClick={() => navigate('/ventana-actividades')}>Actividades</button>
+            <button className="text-white no-underline mx-2 font-medium !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-2 py-2 rounded transition" onClick={() => navigate('/ventana-reserva')}>Reservas</button>
+            <button className="text-white no-underline mx-2 font-medium !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-2 py-2 rounded transition" onClick={() => navigate('/foro')}>Foro</button>
+          </>
+        ) : (
+          <>
+            <button className="text-white no-underline mx-2 font-medium !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-2 py-2 rounded transition" onClick={() => navigate('/')}>Principal</button> 
+            <button className="text-white no-underline mx-2 font-medium !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-2 py-2 rounded transition" onClick={goToAbout}>Actividades</button>
+            <button className="text-white no-underline mx-2 font-medium !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-2 py-2 rounded transition" onClick={goToAbout}>Reservas</button>
+            <button className="text-white no-underline mx-2 font-medium !bg-transparent hover:!bg-white hover:!text-#1d6363 text-#1d6363 px-2 py-2 rounded transition" onClick={goToAbout}>Foro</button>
+          </>
+        )}
+        </nav>
+
+        <div className="search-section m-2">
+            <input className="search-input" placeholder="Buscar..." type="text" />
+        </div>
+
       </div>
     </header>
   );

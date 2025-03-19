@@ -2,14 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 import { app } from "../credentials";
-import HeaderVentanas from "./HeaderVentanas";
+import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import Modal from "./Modal";
 
 const db = getFirestore(app);
 
 const DatosSobreActividad: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [redirectOnClose, setRedirectOnClose] = useState(false);
 
   const [actividad, setActividad] = useState({
     limitePersonasRedactado: "",
@@ -22,6 +26,10 @@ const DatosSobreActividad: React.FC = () => {
     distanciaRutaRedactado: "",
     usuariosRegistrados: [],
   });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     if (id) {
@@ -80,18 +88,43 @@ const DatosSobreActividad: React.FC = () => {
 
       const actividadRef = doc(db, "actividades", id); // Referencia al documento existente
       await updateDoc(actividadRef, actividad);
-
-      alert("Actividad actualizada exitosamente");
-      navigate("/admin");
+      setModalMessage("Actividad creada exitosamente");
+      setRedirectOnClose(true); // Habilitar redirección solo en éxito
+      setIsModalOpen(true);
     } catch (error) {
       console.error("Error al guardar la actividad en Firestore:", error);
     }
   };
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    if (redirectOnClose) {
+      navigate("/admin"); // Solo navegar si fue exitoso
+    }
+  };
+
+  const handleGoBack = () => {
+        const auth = getAuth(app);
+        const user = auth.currentUser;
+            
+        if (user) {
+                // Si el usuario está autenticado, redirige al homepage
+          navigate(-1);
+        } else {
+                // Si el usuario no está autenticado, redirige a la página anterior
+          navigate("/");
+          }
+    };
+
   return (
     <div>
-      <HeaderVentanas />
-      <div className="flex items-center justify-center min-h-screen bg-gray-100 pt-10 p-px">
+      <button
+        onClick={handleGoBack}
+        className="absolute top-4 left-4 font-bold gap-2 px-4 py-2 bg-[#1d6363] text-white rounded-full transition-all duration-200 transform hover:scale-105 hover:bg-[#174f4f]"
+        >
+        ← Volver
+      </button>
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 pt-10 p-px mb-10">
         <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl h-full">
           <h2 className="text-center text-xl font-semibold mb-6">Datos sobre la actividad</h2>
           <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
@@ -102,6 +135,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.limitePersonasRedactado}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <input
               name="horarioRedactado"
@@ -110,6 +144,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.horarioRedactado}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <input
               name="guiaRedactado"
@@ -118,6 +153,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.guiaRedactado}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <input
               name="puntoEncuentroRedactado"
@@ -126,6 +162,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.puntoEncuentroRedactado}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <input
               name="dificultadRedactado"
@@ -134,6 +171,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.dificultadRedactado}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <input
               name="especificacionesRutaRedactado"
@@ -142,6 +180,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.especificacionesRutaRedactado}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <input
               name="datosExtra"
@@ -150,6 +189,7 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.datosExtra}
               onChange={handleChange}
               maxLength={250}
+              required
             />
             <input
               name="distanciaRutaRedactado"
@@ -158,13 +198,15 @@ const DatosSobreActividad: React.FC = () => {
               value={actividad.distanciaRutaRedactado}
               onChange={handleChange}
               maxLength={250}
+              required
             />
-            <button type="submit" className="mt-6 w-full !bg-[#1d6363] text-white py-2 rounded-full text-lg col-span-2">
+            <button type="submit" className="font-semibold mt-6 w-full !bg-[#1d6363] text-white py-2 rounded-full text-lg col-span-2">
               Crear actividad
             </button>
           </form>
         </div>
       </div>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} message={modalMessage} />
     </div>
   );
 };

@@ -12,6 +12,18 @@ interface GoogleAuthRegisterProps {
 
 
 const GoogleAuthRegister: React.FC<GoogleAuthRegisterProps> = ({ onLoginSuccess }) => {
+
+  const validarCorreoUnimet = (email: string): boolean => {
+    const unimetDomain1 = "@correo.unimet.edu.ve";
+    const unimetDomain2 = "unimet.edu.ve";
+
+    if (email.endsWith(unimetDomain1) || email.endsWith(unimetDomain2)) {
+        return true;
+    } else {
+        return false;
+    }
+};
+
   const handleGoogleRegister = async () => {
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
@@ -24,6 +36,12 @@ const GoogleAuthRegister: React.FC<GoogleAuthRegisterProps> = ({ onLoginSuccess 
 
       if (!user) {
         alert("Error al obtener los datos del usuario.");
+        return;
+      }
+
+      if (!validarCorreoUnimet(user.email || "")) {
+        alert("El correo electrónico debe ser @correo.unimet.edu.ve o unimet.edu.ve");
+        await signOut(auth); // Cerrar la sesión de Google si el correo no es válido
         return;
       }
 

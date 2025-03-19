@@ -32,7 +32,7 @@ const formatList = (items: string[]) => (
     <div className='page-container'>
       <Header />
       <motion.section 
-        className="hero-section"
+        className="hero-section relative w-full h-[300px] lg:h-[450px]"
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
@@ -59,9 +59,10 @@ const formatList = (items: string[]) => (
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
+        viewport={{ once: true, amount: 0.5 }}
       >
       <h2 className = "text-4xl font-bold text-white pt-5 pb-10" style={{ fontFamily: "'Lucida Handwriting', cursive" }}>¡Conoce más sobre este patrimonio nacional!</h2>
-        <div className="box-info-cards">
+        <div className="flex justify-center items-center gap-[15px] lg:gap-[125px] flex-col lg:flex-row relative w-full overflow-visible">
           <motion.div className="info-card-afuera">
             <div className='info-card'>
               <div className="flex flex-col items-center">
@@ -100,10 +101,10 @@ const formatList = (items: string[]) => (
         </div>
       </motion.section>
 
-      <motion.section className="box-welcome" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}>
-        <div className='info-welcome'>
-          <h2 className="info-title-black">Bienvenido a la experiencia definitiva...</h2>
-          <p className="text-welcome text-justify">
+      <motion.section className="max-w-[1000px] mx-auto bg-white text-center text-black flex justify-between items-center gap-10 mt-10 mb-10 flex-col lg:flex-row" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}>
+        <div className='font-normal text-black p-5'>
+          <h2 className="text-[30px] lg:text-[40px] font-bold mb-6 text-left">Bienvenido a la experiencia definitiva...</h2>
+          <p className="text-left">
             Aquí, la naturaleza y la aventura se encuentran con la comodidad y la seguridad. Nuestras actividades están
             diseñadas para explorar los alrededores de Caracas y descubrir los tesoros naturales que este parque ofrece.
             Desde caminatas hasta paseos en teleférico, siempre encontrarás algo que hacer. ¡Te esperamos con los brazos
@@ -117,7 +118,7 @@ const formatList = (items: string[]) => (
 
       <h2 className="info-title-white">¡Visita nuestras mejores actividades!</h2>
 
-      <motion.section className="image-box" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}>
+      <motion.section className="image-box flex flex-col lg:flex-row justify-center items-center gap-[35px]" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}>
         <motion.div className="image-container" whileHover={{ scale: 1.05, rotate: 3 }}>
           <img alt="Acampar" src={avilaImage3} />
           <h3 className="image-text">Acampar</h3>
@@ -132,16 +133,10 @@ const formatList = (items: string[]) => (
         </motion.div>
       </motion.section>
 
-      <div className="info-buttons">
-        <motion.button className="verMas-button" whileHover={{ scale: 1.1 }}>
-          Ver más
-        </motion.button>
-      </div>
-
-      <h2 className="info-title-white">¿Tienes experiencia siendo guía? ¡Únete y sé uno!</h2>
+      <h2 className="info-title-white">¿Tienes experiencia siendo guía? ¡Contáctanos abajo!</h2>
       
 
-      <motion.section className="image-box" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}>
+      <motion.section className="image-box flex flex-col lg:flex-row justify-center items-center gap-[35px]" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}>
         <motion.div className="image-container" whileHover={{ scale: 1.05, rotate: 3 }}>
           <img alt="¿Tienes los equipos necesarios?" src={avilaImage6} />
           <h3 className="image-text">¿Tienes los equipos necesarios?</h3>
@@ -156,12 +151,7 @@ const formatList = (items: string[]) => (
         </motion.div>
       </motion.section>
 
-      
-      <div className="info-buttons">
-        <motion.button className="verMas-button" whileHover={{ scale: 1.1 }}>
-          Enviar solicitud
-        </motion.button>
-      </div>
+    
       <motion.section 
   className="info-cards-section"
   initial={{ opacity: 0, y: 30 }}
@@ -169,9 +159,9 @@ const formatList = (items: string[]) => (
   transition={{ duration: 1 }}
 >
 
-  <h2 className="info-title-center">Nuestra Esencia</h2>
+  <h2 className="info-title-center !text-5xl !text-#1d6363" style={{ fontFamily: "'Brush Script MT', cursive" }}>Nuestra Esencia</h2>
 
-  <div className="box-info-cards">
+  <div className="box-info-cards flex flex-col lg:flex-row justify-center items-center gap-[35px]">
     {['mision', 'vision', 'objetivo'].map((card, index) => (
       <div key={index} className="info-card-container">
         <h3 className="card-title-outside">

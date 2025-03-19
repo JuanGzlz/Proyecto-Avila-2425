@@ -31,8 +31,8 @@ const HeaderVentanas: React.FC = () => {
   };
 
   return (
-    <header className="w-full bg-white shadow-md py-4">
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+    <header className="w-full bg-white shadow-md py-4" >
+      <div className="max-w-7xl mx-auto px-6 hidden lg:flex  flex-col lg:flex-row justify-between lg:items-center">
         
         {/* Logo */}
         <div className="Contenedor Volver">
@@ -57,7 +57,40 @@ const HeaderVentanas: React.FC = () => {
           <img src={avilaImage15} alt="Perfil" className="w-6 h-6 rounded-full" />
           {profile?.nombre}
         </button>
+
+        
+        
       </div>
+      <div className='lg:hidden max-w-7xl mx-auto px-6 lg:items-center'>
+          <div className='flex justify-between mb-5'>
+            <div className="Contenedor Volver">
+            <button
+              onClick={handleGoBack}
+              className="login-button flex items-center font-bold gap-2 px-4 py-2 !bg-[#1d6363] !text-white rounded-full transition-all duration-200 transform hover:scale-105 hover:!bg-[#174f4f]"
+            >
+              ← Volver
+            </button>
+            </div>
+
+            {/* Botón Perfil */}
+            <button className="login-button flex items-center gap-2 px-4 py-2 !bg-[#1d6363] !text-white rounded-full transition-all duration-200 transform hover:scale-105 hover:!bg-[#174f4f]" onClick={() => navigate('/perfil')}>
+              <img src={avilaImage15} alt="Perfil" className="w-6 h-6 rounded-full" />
+              {profile?.nombre}
+            </button>
+
+          </div>
+          
+
+          {/* Navegación */}
+          <nav className=" bg-gray-300 bg-opacity-50 rounded-full font-semibold">
+            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/')}>Principal</button>
+            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/ventana-actividades')}>Actividades</button>
+            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/ventana-reserva')}>Reservas</button>
+            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/foro')}>Foro</button>
+          </nav>
+
+          
+        </div>
     </header>
   );
 };

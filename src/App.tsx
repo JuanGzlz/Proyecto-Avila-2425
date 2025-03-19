@@ -17,6 +17,12 @@ import Fauna from './components/Fauna';
 import VentanaPago from './components/VentanaPago';
 import VentanaReservas from './components/VentanaReservas';
 import InfoAvila from './components/InfoAvila';
+import VentanaReservasAdmin from './components/VentanaReservasAdmin';
+import EditarActividad from './components/EditarActividad';
+import CrearGuia from './components/CrearGuia';
+import PagoExitoso from './components/PagoExitoso';
+import VentanaGuias from './components/VentanaGuias';
+import VentanaForos from './components/VentanaForos';
 
 function App() {
   return (
@@ -41,7 +47,12 @@ function App() {
           <Route path="/ventana-pago/:id" element={<VentanaPago />} />
           <Route path="/ventana-reserva" element={<VentanaReservas />} />
           <Route path="/info-avila" element={<InfoAvila />} />
-
+          <Route path="/ventana-reservas-admin" element={<VentanaReservasAdmin />} />
+          <Route path="/editar-actividad/:id" element={<EditarActividad />} />
+          <Route path="/crear-guia" element={<CrearGuia />} />
+          <Route path="/pago-exitoso" element={<PagoExitoso />} />
+          <Route path="/ventana-guias" element={<VentanaGuias />} />
+          <Route path="/ventana-foros" element={<VentanaForos />} />
           
         </Routes>
       </div>
