@@ -123,7 +123,7 @@ const VentanaActividades: React.FC = () => {
       
           {/* Sección Derecha - Información */}
           <div className="w-full lg:w-1/2 flex flex-col justify-between font-semibold lg:mr-8">
-              <div className="text-center">
+              <div className="text-left lg:text-center">
                   <p><strong>Guía:</strong> {excursion.guia}</p>
                   <p><strong>Hora Inicio:</strong> {excursion.horaInicio}</p>
                   <p><strong>Hora Final:</strong> {excursion.horaFinal}</p>
