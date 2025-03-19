@@ -41,7 +41,7 @@ const Foro: React.FC = () => {
             <HeaderVentanas />
             <h1 className="text-3xl font-bold text-black mb-6 text-center">  </h1>
             {logged && profile && (
-                <div className="max-w-7xl mx-auto bg-teal-900 rounded-2xl shadow-lg p-6">
+                <div className="bg-teal-900 rounded-2xl shadow-lg p-6 m-5 md:m-30 md:mt-10">
                     <h2 className="text-2xl font-bold text-white mb-4">Explorar Prompts de Foros</h2>
                     <ul className="space-y-4">
                         {prompts.map((prompt) => (
