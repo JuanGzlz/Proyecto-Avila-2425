@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
       <div className="footer-container">
         <h2 className="info-title">¡Para más información contáctanos!</h2>
 
-        <div className="footer-content">
+        <div className="flex justify-center items-center gap-[50px] mb-5 flex-col lg:flex-row">
           <div className="logo-section">
             <img
               alt="Logo El Ávila Excursions"
@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="contact-section">
+        <div className="flex justify-center gap-[30px] text-[20px] flex-col lg:flex-row">
           <p>Caracas, Venezuela</p>
           <p>+58 414 329 3323</p>
           <p>avilaexsunimet@gmail.com</p>

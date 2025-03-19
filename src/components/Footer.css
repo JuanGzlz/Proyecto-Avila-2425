@@ -16,14 +16,14 @@
     margin-bottom: 1.5rem; /* Margen inferior */
     color: white;
 }
-
+/*
 .footer-content {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 50px;
     margin-bottom: 20px;
-}
+}*/
 
 .logo-section img {
     width: 400px; /* Ajusta el tamaño del logo */
@@ -48,12 +48,13 @@
     border-radius: 10px;
 }
 
+/*
 .contact-section {
     display: flex;
     justify-content: center;
     gap: 30px;
     font-size: 20px;
-}
+}*/
 
 
 .footer-text {
