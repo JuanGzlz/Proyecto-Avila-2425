@@ -145,7 +145,7 @@ const ForoDetallado: React.FC = () => {
         </div>
         
         {logged && (
-            <div className="max-w-7xl mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6 ml-5 mr-5 lg:m-auto">
+            <div className="max-w-7xl mx-auto mt-6 bg-white rounded-2xl shadow-lg p-6 ml-5 mr-5 lg:m-auto mb-6">
             <h2 className="text-2xl font-bold text-gray-800">Agregar Comentario</h2>
             <form onSubmit={handleCommentSubmit} className="mt-4 space-y-4">
                 <textarea
