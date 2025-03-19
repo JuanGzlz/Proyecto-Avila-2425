@@ -133,13 +133,7 @@ const formatList = (items: string[]) => (
         </motion.div>
       </motion.section>
 
-      <div className="info-buttons">
-        <motion.button className="verMas-button" whileHover={{ scale: 1.1 }}>
-          Ver más
-        </motion.button>
-      </div>
-
-      <h2 className="info-title-white">¿Tienes experiencia siendo guía? ¡Únete y sé uno!</h2>
+      <h2 className="info-title-white">¿Tienes experiencia siendo guía? ¡Contáctanos abajo!</h2>
       
 
       <motion.section className="image-box flex flex-col lg:flex-row justify-center items-center gap-[35px]" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}>
@@ -157,12 +151,7 @@ const formatList = (items: string[]) => (
         </motion.div>
       </motion.section>
 
-      
-      <div className="info-buttons">
-        <motion.button className="verMas-button" whileHover={{ scale: 1.1 }}>
-          Enviar solicitud
-        </motion.button>
-      </div>
+    
       <motion.section 
   className="info-cards-section"
   initial={{ opacity: 0, y: 30 }}
@@ -170,7 +159,7 @@ const formatList = (items: string[]) => (
   transition={{ duration: 1 }}
 >
 
-  <h2 className="info-title-center">Nuestra Esencia</h2>
+  <h2 className="info-title-center !text-5xl !text-#1d6363" style={{ fontFamily: "'Brush Script MT', cursive" }}>Nuestra Esencia</h2>
 
   <div className="box-info-cards flex flex-col lg:flex-row justify-center items-center gap-[35px]">
     {['mision', 'vision', 'objetivo'].map((card, index) => (
