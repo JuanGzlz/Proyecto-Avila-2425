@@ -119,7 +119,7 @@ const AvilaInfoPage: React.FC = () => {
         transition={{ duration: 1 }}
       >
         <p className = "text-2xl lg:text-3xl pt-3 font-bold text-white" style={{ fontFamily: "'Lucida Handwriting', cursive" }}
-                > ¡🌿Aventura, naturaleza y adrenalina en un solo lugar🌿! </p>
+                > ¡🌿Reserva tu aventura con nosotros y vive el Ávila de manera emocionante🌿! </p>
       </motion.div>
       
       <Footer />
