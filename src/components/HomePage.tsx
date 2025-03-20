@@ -102,7 +102,7 @@ const formatList = (items: string[]) => (
       </motion.section>
 
       <motion.section className="max-w-[1000px] mx-auto bg-white text-center text-black flex justify-between items-center gap-10 mt-10 mb-10 flex-col lg:flex-row" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 1 }}>
-        <div className='font-normal text-black p-5'>
+        <div className='font-normal text-black p-5 lg:w-[60%]'>
           <h2 className="text-[30px] lg:text-[40px] font-bold mb-6 text-left">Bienvenido a la experiencia definitiva...</h2>
           <p className="text-left">
             Aquí, la naturaleza y la aventura se encuentran con la comodidad y la seguridad. Nuestras actividades están
