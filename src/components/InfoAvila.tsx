@@ -25,14 +25,14 @@ const AvilaInfoPage: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-        <h1 className="text-4xl font-semibold">Descubre El Ávila:</h1>
-        <p className = "text-3xl pt-3 font-bold text-black" style={{ fontFamily: "'Lucida Handwriting', cursive" }}
+        <h1 className="lg:text-4xl font-semibold">Descubre El Ávila:</h1>
+        <p className = "text-2xl lg:text-3xl pt-3 font-bold text-black" style={{ fontFamily: "'Lucida Handwriting', cursive" }}
                 > ¡🌿Aventura, naturaleza y adrenalina en un solo lugar🌿! </p>
       </motion.section>
       
       <section className="w-full px-20 grid p-0 contenedor-general">
         <motion.div 
-          className="flex flex-row items-center gap-10 w-full fondo-verde seccion"
+          className="flex flex-col-reverse lg:flex-row items-center gap-10 w-full fondo-verde seccion"
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}  
           transition={{ duration: 0.8 }}
@@ -49,7 +49,7 @@ const AvilaInfoPage: React.FC = () => {
           </div>
         </motion.div>
         <motion.div 
-          className="flex items-center gap-10 bg-white p-6 w-full seccion "
+          className="flex flex-col lg:flex-row items-center gap-10 bg-white p-6 w-full seccion "
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
@@ -71,7 +71,7 @@ const AvilaInfoPage: React.FC = () => {
         </motion.div>
 
         <motion.div 
-          className="flex flex-row items-center gap-10 fondo-verde text-white p-6 w-full seccion "
+          className="flex flex-col-reverse lg:flex-row items-center gap-10 fondo-verde text-white p-6 w-full seccion "
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
@@ -94,7 +94,7 @@ const AvilaInfoPage: React.FC = () => {
         </motion.div>
 
         <motion.div 
-          className="flex flex-row items-center gap-10 w-full seccion"
+          className="flex flex-col lg:flex-row items-center gap-10 w-full seccion"
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
@@ -118,7 +118,7 @@ const AvilaInfoPage: React.FC = () => {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <p className = "text-3xl pt-3 font-bold text-white" style={{ fontFamily: "'Lucida Handwriting', cursive" }}
+        <p className = "text-2xl lg:text-3xl pt-3 font-bold text-white" style={{ fontFamily: "'Lucida Handwriting', cursive" }}
                 > ¡🌿Aventura, naturaleza y adrenalina en un solo lugar🌿! </p>
       </motion.div>
       
