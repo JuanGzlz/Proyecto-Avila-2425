@@ -22,6 +22,7 @@ interface UserData {
   cedula: string;
   edad: string;
   carrera: string;
+  descripcion: string;
   profileImage?: string;
 }
 
@@ -39,6 +40,7 @@ const ProfileEdit: React.FC = () => {
     cedula: "",
     edad: "",
     carrera: "",
+    descripcion: "",
     profileImage: DEFAULT_IMAGE,
   });
 
@@ -55,6 +57,7 @@ const ProfileEdit: React.FC = () => {
           cedula: data.cedula || "",
           edad: data.edad || "",
           carrera: data.carrera || "",
+          descripcion: data.descripcion || "",
           profileImage: data.profileImage || DEFAULT_IMAGE,
         });
       }
@@ -123,6 +126,7 @@ const ProfileEdit: React.FC = () => {
         cedula: userData.cedula,
         edad: userData.edad,
         carrera: userData.carrera,
+        descripcion: userData.descripcion,
       });
   
       setModalMessage("Datos guardados exitosamente.");// Habilitar redirección solo en éxito
@@ -185,9 +189,13 @@ const ProfileEdit: React.FC = () => {
             )}
           </div>
 
-          <textarea
-            className="w-full mt-3 p-2 border rounded-lg text-center resize-none"
+          <input
+            type="text"
+            name="descripcion"
             placeholder="Pequeña descripción..."
+            value={userData.descripcion}
+            onChange={(e) => setUserData({ ...userData, descripcion: e.target.value })}
+            className="w-full mt-3 p-2 border rounded-lg text-center"
           />
           <button className="mt-4 px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800" onClick={handleLogout}>
             Cerrar Sesión

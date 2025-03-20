@@ -31,14 +31,12 @@ const PayPalPayment: React.FC<PagoPaypalProps> = ({ onPaymentSuccess, amount }) 
             throw new Error("No se pudo capturar la orden.");
           }
           return actions.order.capture().then((details) => {
-            alert(`Pago completado por ${details.payer?.name?.given_name}`);
             console.log("Detalles del pago:", details);
             onPaymentSuccess();
           });
         }}
         onError={(error) => {
           console.error("Error en el pago:", error);
-          alert("Ocurrió un error al procesar el pago. Inténtalo de nuevo.");
         }}
       />
     </PayPalScriptProvider>

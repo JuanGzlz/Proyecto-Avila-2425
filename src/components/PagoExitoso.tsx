@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const PagoExitoso: React.FC = () => {
-    const location = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
   const costo = location.state?.costo ? parseFloat(location.state.costo).toFixed(2) : "0.00";
 
@@ -41,7 +41,7 @@ const PagoExitoso: React.FC = () => {
         </div>
         <h2 className="text-lg font-semibold mt-4">¡Gracias por su compra!</h2>
         <p className="text-gray-600 text-sm mt-1">Ha pagado <strong>USD$ {costo}</strong></p>
-        <button className="mt-4 bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition" onClick={() => navigate("/")}>
+        <button className="mt-4 bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition" onClick={() => navigate("/ventana-reserva")}>
           Finalizar
         </button>
       </motion.div>
