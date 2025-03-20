@@ -145,7 +145,7 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="w-full bg-gray-100 flex items-center justify-center min-h-screen">
+    <div className="w-full bg-gray-100 flex items-center justify-center min-h-screen mb-10">
       <div className="w-7/10 m-auto bg-white rounded-lg shadow-lg p-8 border border-gray-400 text-black">
         <button
           onClick={handleGoBack}
@@ -259,8 +259,8 @@ const Register: React.FC = () => {
           <div className="mb-4">
             <textarea
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-700"
-              name="Habla sobre tus habilidades, experiencias y el por qué deberías ser un guía aquí..."
-              placeholder="Habla sobre tus habilidades, experiencias y el por qué deberías ser un guía aquí..."
+              name="Habla sobre ti, tus experiencias con el Ávila y el por qué estás usando esta plataforma..."
+              placeholder="Habla sobre ti, tus experiencias con el Ávila y el por qué estás usando esta plataforma..."
             ></textarea>
           </div>
           <div className="flex justify-center">
