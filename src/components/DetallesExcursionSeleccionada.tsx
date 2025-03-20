@@ -226,33 +226,33 @@ const ExcursionDetails: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaMountain className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Dificultad: </span> {excursion.dificultadRedactado}
+                  <span className="font-semibold"><strong>Dificultad: </strong> {excursion.dificultadRedactado} </span>
                 </div>
                 <div className="flex items-center">
                   <FaClock className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Duración: </span> {excursion.horarioRedactado}
+                  <span className="font-semibold"><strong>Duración:</strong> {excursion.horarioRedactado} </span>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaMapMarkerAlt className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Distancia: </span> {excursion.distanciaRutaRedactado}
+                  <span className="font-semibold"><strong>Distancia: </strong> {excursion.distanciaRutaRedactado} </span>
                 </div>
                 <div className="flex items-center">
                   <FaDollarSign className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Costo: </span> ${excursion.costo}
+                  <span className="font-semibold"><strong>Costo:</strong> ${excursion.costo} </span> 
                 </div>
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 py-3">
                 <div className="flex items-center">
                   <FaUser className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Guía: </span> {excursion.guiaRedactado}
+                  <span className="font-semibold"><strong>Guía:</strong> {excursion.guiaRedactado} </span>
                 </div>
                 <div className="flex items-center">
                   <FaCalendarAlt className="text-teal-900 text-xl mr-2" />
-                  <span className="font-semibold">Pto Encuentro: </span> {excursion.puntoEncuentroRedactado}
+                  <span className="font-semibold"><strong>Pto. de Encuentro: </strong> {excursion.puntoEncuentroRedactado} </span>
                 </div>
               </div>
             </div>
