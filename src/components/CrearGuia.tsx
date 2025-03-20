@@ -150,13 +150,13 @@ const handleSubmit = async (e: React.FormEvent) => {
                     />
                     {errorEdad && <p className="text-red-600 text-sm mt-1">* La edad debe ser 18 años o más.</p>}
                     <input name="experiencia" value={guia.experiencia} onChange={handleChange} className="border p-2 rounded" placeholder="Experiencia" required />
-                    <input name="especialidad" value={guia.especialidad} onChange={handleChange} className="border p-2 rounded" placeholder="Especialidad" required />
+                    <input name="especialidad" value={guia.especialidad} onChange={handleChange} className="border p-2 rounded" placeholder="Ruta favorita" required />
                     <select name="tipoActividad" value={guia.tipoActividad} onChange={handleChange} className="border p-2 rounded" required>
                     <option value="">Selecciona un tipo de actividad</option>
-                    <option value="acampar">Acampar</option>
-                    <option value="excursion">Excursión de un día</option>
-                    <option value="carrera">Carrera de montaña</option>
-                    <option value="ciclismo">Ciclismo</option>
+                    <option value="Acampar">Acampar</option>
+                    <option value="Excursion">Excursión de un día</option>
+                    <option value="Carrera">Carrera de montaña</option>
+                    <option value="Ciclismo">Ciclismo</option>
                     </select>
                     <input type="file" accept="image/*" onChange={handleFileChange} className="border p-2 rounded" />
                     {errorImagen && <p className="text-red-600 text-sm mt-1">* Debes subir una imagen.</p>}

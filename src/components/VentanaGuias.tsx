@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { app } from "../credentials";
-import { useNavigate } from "react-router-dom";
 import HeaderAdmin from "./HeaderAdmin";
 
 const db = getFirestore(app);
 
 const VentanaGuias: React.FC = () => {
   const [guidesList, setGuidesList] = useState<any[]>([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
       const fetchGuides = async () => {
@@ -44,12 +42,6 @@ const VentanaGuias: React.FC = () => {
                     <p className="text-gray-600 text-center">Edad: {guia.edad}</p>
                     <p className="text-gray-600 text-center">Especialidad: {guia.especialidad}</p>
                     <p className="text-gray-600 text-center">Tipo: {guia.tipoActividad}</p>
-                    <button 
-                    className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg"
-                    onClick={() => navigate(`/`)}
-                    >
-                    Eliminar
-                    </button>
                 </div>
                 ))
             ) : (
