@@ -132,10 +132,10 @@ const HeaderAdmin: React.FC = () => {
           )}
         </div>
         <nav className="flex justify-around space-x-4 bg-gray-300 bg-opacity-50 rounded-full px-4 py-2 font-semibold mx-2 mb-2">
-            <button className="!bg-transparent px-2 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/')}>Principal</button> 
-            <button className="!bg-transparent px-2 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/ventana-actividades')}>Actividades</button>
-            <button className="!bg-transparent px-2 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={goToAbout}>Reservas</button>
-            <button className="!bg-transparent px-2 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/foro')}>Foro</button>
+        <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/admin')}>Funciones</button> 
+            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/ventana-reservas-admin')}>Actividades</button>
+            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/ventana-guias')}>Guías</button>
+            <button className="!bg-transparent px-4 py-2 !rounded-full hover:!bg-[#1d6363] hover:!text-white" onClick={() => navigate('/ventana-foros')}>Foros</button>
         </nav>
 
         
