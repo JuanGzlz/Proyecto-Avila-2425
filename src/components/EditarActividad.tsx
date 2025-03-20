@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getFirestore, doc, getDoc, updateDoc, deleteDoc, collection, getDocs, setDoc } from "firebase/firestore";
 import { app } from "../credentials";
 import Calendario from "./Calendario/Calendario";
-import HeaderVentanas from "./HeaderVentanas";
+import HeaderAdmin from "./HeaderAdmin";
 import Modal from "./Modal";
 
 const db = getFirestore(app);
@@ -22,6 +22,7 @@ interface Actividad {
   dificultadRedactado: string;
   datosExtra: string;
   dificultad: string; // Añadimos dificultad
+  rutaAvila: string;
 }
 
 const EditarActividad: React.FC = () => {
@@ -119,7 +120,7 @@ const EditarActividad: React.FC = () => {
 
   return (
     <div>
-      <HeaderVentanas />
+      <HeaderAdmin />
       <div className="flex items-center justify-center min-h-screen bg-gray-100 pt-10 pb-10">
         {actividad && (
           <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg">
@@ -165,7 +166,7 @@ const EditarActividad: React.FC = () => {
                 className="border p-2 rounded-full w-full"
                 required
               />
-              <label className="text-gray-700 font-semibold">Tipo de actividad:</label>
+              <label className="text-gray-700 font-semibold">Tipo de Actividad</label>
               <select
                 value={actividad.tipo}
                 onChange={(e) => setActividad({ ...actividad, tipo: e.target.value })}
@@ -173,10 +174,24 @@ const EditarActividad: React.FC = () => {
                 required
               >
                 <option value="">Selecciona un tipo</option>
-                <option value="acampar">Acampar</option>
-                <option value="excursion">Excursión de un día</option>
-                <option value="carrera">Carrera de montaña</option>
-                <option value="ciclismo">Ciclismo</option>
+                <option value="Acampar">Acampar</option>
+                <option value="Excursión">Excursión de un día</option>
+                <option value="Carrera">Carrera de montaña</option>
+                <option value="Ciclismo">Ciclismo</option>
+              </select>
+              <label className="text-gray-700 font-semibold">Ruta para subir El Ávila</label>
+              <select
+                  value={actividad.rutaAvila}
+                  onChange={(e) => setActividad({ ...actividad, rutaAvila: e.target.value })}
+                  className="border p-2 rounded-full"
+                  required
+                >
+                  <option value="">Selecciona una ruta</option>
+                  <option value="Sabás Nieves">Sabás Nieves</option>
+                  <option value="No Te Apures">No Te Apures</option>
+                  <option value="Puerta de Caracas">Puerta de Caracas</option>
+                  <option value="Los Venados">Los Venados</option>
+                  <option value="Pico Naiguatá">Pico Naiguatá</option>
               </select>
               <label className="text-gray-700 font-semibold">Punto de Encuentro</label>
                         <input
@@ -310,9 +325,9 @@ const EditarActividad: React.FC = () => {
                             required
                         >
                             <option value="">Selecciona un tipo</option>
-                            <option value="alta">Alta</option>
-                            <option value="media">Media</option>
-                            <option value="baja">Baja</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Media</option>
+                            <option value="Baja">Baja</option>
                         </select>
               <label className="col-span-2 text-gray-700 font-semibold">Agregar Fechas Disponibles</label>
               <div className="col-span-2 flex justify-center">

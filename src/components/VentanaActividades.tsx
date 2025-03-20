@@ -28,6 +28,7 @@ type Actividad = {
   distancia: string;
   duracion: string;
   puntuacion?: number;
+  rutaAvila: string;
 };
 
 const VentanaActividades: React.FC = () => {
@@ -93,11 +94,11 @@ const VentanaActividades: React.FC = () => {
               <img
                   src={excursion.imagenActividad}
                   alt="Excursión"
-                  className="rounded-2xl object-cover w-[50%] h-45"
+                  className="rounded-2xl object-cover w-[50%] h-50"
               />
               
               {/* Imagen Sombreada con "Ver más..." */}
-              <div className="relative rounded-2xl w-[50%] h-45 bg-black flex items-center justify-center">
+              <div className="relative rounded-2xl w-[50%] h-50 bg-black flex items-center justify-center">
                   <img
                   src={excursion.imagenActividad}
                   alt="Excursión"
@@ -109,8 +110,8 @@ const VentanaActividades: React.FC = () => {
           </div>
       
           {/* Sección Derecha - Información */}
-          <div className="w-full lg:w-1/2 flex flex-col justify-between font-semibold lg:mr-8">
-              <div className="text-left lg:text-center">
+          <div className="w-full lg:w-1/2 flex flex-col justify-between font-semibold lg:mr-8 text-left">
+              <div className="ml-8 text-left">
                   <p><strong>Nombre:</strong> {excursion.nombre}</p>
                   <p><strong>Guía:</strong> {excursion.guia}</p>
                   <p><strong>Hora Inicio:</strong> {excursion.horaInicio}</p>
@@ -119,6 +120,7 @@ const VentanaActividades: React.FC = () => {
                   <p><strong>Distancia:</strong> {excursion.distancia} km</p>
                   <p><strong>Costo:</strong> ${excursion.costo}</p>
                   <p><strong>Dificultad:</strong> {excursion.dificultad}</p>
+                  <p><strong>Ruta:</strong> {excursion.rutaAvila}</p>
               </div>
       
               {/* Botones Centrados */}

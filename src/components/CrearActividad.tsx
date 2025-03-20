@@ -23,6 +23,7 @@ const CrearActividad: React.FC = () => {
     dificultad: "",
     distancia: "",
     tipo: "",
+    rutaAvila: "",
   });
 
   const [guias, setGuias] = useState<any[]>([]);
@@ -152,6 +153,7 @@ const CrearActividad: React.FC = () => {
         dificultad: "",
         distancia: "",
         tipo: "",
+        rutaAvila: "",
       });
 
       setImagenActividad(DEFAULT_IMAGE);
@@ -238,13 +240,28 @@ const CrearActividad: React.FC = () => {
                 required
               >
                 <option value="">Selecciona un tipo</option>
-                <option value="alta">Alta</option>
-                <option value="media">Media</option>
-                <option value="baja">Baja</option>
+                <option value="Alta">Alta</option>
+                <option value="Media">Media</option>
+                <option value="Baja">Baja</option>
               </select>
             <label className="text-gray-700 font-semibold">Ingresa los km de distancia del recorrido</label>
               <input name="distancia" type="number" value={actividad.distancia} onChange={handleChange} className="border p-2 rounded-full" placeholder="Distancia" required />
               {errorDistancia && <p className="text-red-600 text-sm mt-1">* La distancia debe ser mayor a 0.</p>}
+              <label className="text-gray-700 font-semibold">Ruta para subir El Ávila:</label>
+                <select
+                  name="rutaAvila"
+                  value={actividad.rutaAvila}
+                  onChange={(e) => setActividad({ ...actividad, rutaAvila: e.target.value })}
+                  className="border p-2 rounded-full"
+                  required
+                >
+                  <option value="">Selecciona una ruta</option>
+                  <option value="Sabás Nieves">Sabás Nieves</option>
+                  <option value="No Te Apures">No Te Apures</option>
+                  <option value="Puerta de Caracas">Puerta de Caracas</option>
+                  <option value="Los Venados">Los Venados</option>
+                  <option value="Pico Naiguatá">Pico Naiguatá</option>
+                </select>
             <label className="col-span-2 text-gray-700 font-semibold">Tipo de actividad:</label>
               <select
                 name="tipo"
@@ -254,10 +271,10 @@ const CrearActividad: React.FC = () => {
                 required
               >
                 <option value="">Selecciona un tipo</option>
-                <option value="acampar">Acampar</option>
-                <option value="excursion">Excursión de un día</option>
-                <option value="carrera">Carrera de montaña</option>
-                <option value="ciclismo">Ciclismo</option>
+                <option value="Acampar">Acampar</option>
+                <option value="Excursión">Excursión de un día</option>
+                <option value="Carrera">Carrera de montaña</option>
+                <option value="Ciclismo">Ciclismo</option>
               </select>
 
             <label className="text-gray-700 font-semibold">Vistas de la Actividad:</label>
